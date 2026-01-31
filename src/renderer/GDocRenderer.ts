@@ -2,26 +2,107 @@ import React from 'react';
 import { Cursor } from './Cursor';
 import { RequestBuilder } from './RequestBuilder';
 import type { VirtualNode, FormatInfo, VirtualNodeType } from './VirtualNode';
-import type { Request } from '../google/types';
+import type { Request, Document } from '../google/types';
 import { docs_v1 } from 'googleapis';
+
+type BatchUpdateFn = (requests: Request[]) => Promise<void>;
+type GetDocumentFn = () => Promise<Document>;
+
+interface QueuedTable {
+  id: string;
+  node: VirtualNode;
+  startIndex: number;
+}
 
 export class GDocRenderer {
   private cursor: Cursor;
   private requestBuilder: RequestBuilder;
   private formatInfos: FormatInfo[] = [];
-
-  constructor() {
+  private tableQueue: QueuedTable[] = [];
+  
+  constructor(
+    private batchUpdate: BatchUpdateFn,
+    private getDocument: GetDocumentFn
+  ) {
     this.cursor = new Cursor(1);
     this.requestBuilder = new RequestBuilder(this.cursor);
   }
 
-  render(element: React.ReactElement): Request[] {
+  async render(element: React.ReactElement): Promise<void> {
     this.cursor.reset();
     this.formatInfos = [];
+    this.tableQueue = [];
+    
     const virtualNode = this.jsxToVirtualNode(element);
+    if (!virtualNode) return;
+
+    console.log("--- Fázis 1: Táblázatokon kívüli tartalom beszúrása ---");
     this.renderInsertPhase(virtualNode);
+    
+    const beforeTableFormatInfos = this.formatInfos.filter(fi => {
+      return this.tableQueue.every(tq => fi.endIndex <= tq.startIndex);
+    });
+    
+    const afterTableFormatInfos = this.formatInfos.filter(fi => {
+      return this.tableQueue.some(tq => fi.startIndex > tq.startIndex);
+    });
+    
+    const initialRequests = this.requestBuilder.getAllRequests();
+    if (initialRequests.length > 0) {
+      await this.batchUpdate(initialRequests);
+    }
+
+    if (this.tableQueue.length === 0) {
+      this.renderFormatPhase();
+      const formatRequests = this.requestBuilder.getAllRequests();
+      if (formatRequests.length > 0) {
+        await this.batchUpdate(formatRequests);
+      }
+      return;
+    }
+
+    console.log("--- Fázis 2: Táblázatok ELŐTTI formázás alkalmazása ---");
+    const beforeTableFormatBuilder = new RequestBuilder(new Cursor(0));
+    this.formatInfos = beforeTableFormatInfos;
+    this.requestBuilder = beforeTableFormatBuilder;
     this.renderFormatPhase();
-    return this.requestBuilder.getAllRequests();
+    const beforeTableFormatRequests = beforeTableFormatBuilder.getAllRequests();
+    if (beforeTableFormatRequests.length > 0) {
+      await this.batchUpdate(beforeTableFormatRequests);
+    }
+
+    console.log("--- Fázis 3: Táblázatok beszúrása visszafelé sorrendben ---");
+    const tableInsertRequests = this.generateTableInsertRequests();
+    if (tableInsertRequests.length > 0) {
+      await this.batchUpdate(tableInsertRequests);
+    }
+
+    console.log("--- Fázis 4: Dokumentum struktúra lekérése ---");
+    const updatedDoc = await this.getDocument();
+    
+    console.log("--- Fázis 5: Táblázatok UTÁNI formázás alkalmazása (indexek frissítése után) ---");
+    this.formatInfos = afterTableFormatInfos;
+    this.updateFormatIndexes(updatedDoc);
+    const afterTableFormatBuilder = new RequestBuilder(new Cursor(0));
+    this.requestBuilder = afterTableFormatBuilder;
+    this.renderFormatPhase();
+    const afterTableFormatRequests = afterTableFormatBuilder.getAllRequests();
+    if (afterTableFormatRequests.length > 0) {
+      await this.batchUpdate(afterTableFormatRequests);
+    }
+    
+    console.log("--- Fázis 6: Táblázat cellák formázása ---");
+    const cellFormatRequests = this.applyCellFormatting(updatedDoc);
+    if (cellFormatRequests.length > 0) {
+      await this.batchUpdate(cellFormatRequests);
+    }
+    
+    console.log("--- Fázis 7: Táblázat tartalom feltöltése ---");
+    const secondPhaseRequests = this.generateSecondPhaseRequests(updatedDoc);
+    
+    if (secondPhaseRequests.length > 0) {
+      await this.batchUpdate(secondPhaseRequests);
+    }
   }
 
   private jsxToVirtualNode(element: React.ReactElement | React.ReactNode): VirtualNode | null {
@@ -48,8 +129,6 @@ export class GDocRenderer {
     if (React.isValidElement(element)) {
       const type = element.type as any;
       
-      // Ha a komponens Fragment-et ad vissza (pl. React.Fragment vagy <>), 
-      // akkor közvetlenül rendereljük a children-eket
       if (type === React.Fragment || (type && type.$$typeof && type.$$typeof.toString().includes('Fragment'))) {
         const props = element.props || {};
         const children = React.Children.toArray(props.children || []);
@@ -62,27 +141,21 @@ export class GDocRenderer {
       
       const typeName = this.getComponentTypeName(type);
       
-      // Ha a komponens egy függvény (React komponens) és nem egy ismert primitív típus, 
-      // akkor meghívjuk és a visszatérési értéket rendereljük
       if (typeof type === 'function' && typeName === 'Fragment') {
         const props = element.props || {};
         try {
           const result = type(props);
-          // Ha a komponens Fragment-et vagy tömböt ad vissza, rendereljük
           if (React.isValidElement(result) || Array.isArray(result)) {
             return this.jsxToVirtualNode(result);
           }
-          // Ha null vagy undefined, akkor nincs mit renderelni
           if (result === null || result === undefined) {
             return null;
           }
         } catch (e) {
-          // Ha a komponens meghívása hibát dob, akkor Fragment-ként kezeljük
           console.warn(`Warning: Component ${type.name || 'Unknown'} threw an error, treating as Fragment:`, e);
         }
       }
       
-      // Ha a komponens GHeading típusú, akkor meghívjuk és a visszatérési értékből kinyerjük a style-t
       if (typeof type === 'function' && typeName.startsWith('GHeading')) {
         const props = element.props || {};
         try {
@@ -90,8 +163,6 @@ export class GDocRenderer {
           if (React.isValidElement(result)) {
             const resultNode = this.jsxToVirtualNode(result);
             if (resultNode && resultNode.type === 'GParagraph' && resultNode.props.style) {
-              // A GHeading komponens GParagraph-ként van implementálva namedStyleType-tel
-              // Átmásoljuk a style-t a heading node-ba
               return {
                 ...resultNode,
                 type: typeName,
@@ -103,7 +174,6 @@ export class GDocRenderer {
             }
           }
         } catch (e) {
-          // Ha a komponens meghívása hibát dob, folytatjuk normál módon
         }
       }
       
@@ -127,7 +197,6 @@ export class GDocRenderer {
 
     if (type && type.name) {
       const name = type.name;
-      // Csak az ismert primitív típusokat kezeljük közvetlenül
       const knownTypes: VirtualNodeType[] = [
         'GTextRun', 'GParagraph', 'GPageBreak', 'GColumnBreak', 'GHorizontalRule',
         'GFootnoteReference', 'GEquation', 'GInlineObject', 'GTable', 'GTableRow',
@@ -138,9 +207,7 @@ export class GDocRenderer {
         return name as VirtualNodeType;
       }
       
-      // HTML-szerű shortcut komponensek (P, B, I, BI) Fragment-ként kezeljük
-      // hogy meghívódjanak és renderelődjenek
-      if (name === 'P' || name === 'B' || name === 'I' || name === 'BI') {
+      if (name === 'P' || name === 'B' || name === 'I' || name === 'BI' || name === 'S') {
         return 'Fragment';
       }
     }
@@ -157,8 +224,7 @@ export class GDocRenderer {
         return displayName as VirtualNodeType;
       }
       
-      // HTML-szerű shortcut komponensek
-      if (displayName === 'P' || displayName === 'B' || displayName === 'I' || displayName === 'BI') {
+      if (displayName === 'P' || displayName === 'B' || displayName === 'I' || displayName === 'BI' || displayName === 'S') {
         return 'Fragment';
       }
     }
@@ -194,13 +260,11 @@ export class GDocRenderer {
         this.handleImage(node, startIndex);
         break;
       case 'GTable':
-        this.handleTable(node, startIndex);
+        this.handleTableSkeleton(node, startIndex);
         break;
       case 'GTableRow':
-        this.handleTableRow(node);
         break;
       case 'GTableCell':
-        this.handleTableCell(node);
         break;
       case 'GSectionBreak':
         this.handleSectionBreak(node, startIndex);
@@ -220,8 +284,6 @@ export class GDocRenderer {
         node.children?.forEach(child => this.renderInsertPhase(child));
         break;
       default:
-        // Ismeretlen komponensek esetén is rendereljük a children-eket
-        // Ez lehetővé teszi, hogy a custom komponensek (pl. GContractHeader) működjenek
         if (node.children && node.children.length > 0) {
           node.children.forEach(child => this.renderInsertPhase(child));
         }
@@ -247,8 +309,6 @@ export class GDocRenderer {
         paragraphStyle: node.props.style || node.props.paragraphStyle,
       });
     } else if (node.type.startsWith('GHeading')) {
-      // A GHeading komponensek stílusát külön kezeljük a handleHeading metódusban
-      // Itt nem kell hozzáadni, mert a handleHeading már hozzáadja
     }
   }
 
@@ -261,6 +321,10 @@ export class GDocRenderer {
   }
 
   private handleParagraph(node: VirtualNode, startIndex: number): void {
+    const paragraphStartIndex = this.cursor.getPosition();
+    this.requestBuilder.addInsertText('\n', paragraphStartIndex);
+    this.cursor.advance(1);
+    
     node.children?.forEach(child => this.renderInsertPhase(child));
     this.requestBuilder.addInsertText('\n', this.cursor.getPosition());
     this.cursor.advance(1);
@@ -305,33 +369,17 @@ export class GDocRenderer {
     }
   }
 
-  private handleTable(node: VirtualNode, startIndex: number): void {
-    const rows = node.props.rows || 1;
-    const columns = node.props.columns || 1;
+  private handleTableSkeleton(node: VirtualNode, startIndex: number): void {
+    const rows = node.children?.length || 1;
+    const cols = node.children?.[0]?.children?.length || 1;
 
-    if (node.children && node.children.length > 0) {
-      const actualRows = node.children.length;
-      const firstRow = node.children[0];
-      const actualColumns = firstRow.children?.length || 1;
-      this.requestBuilder.addInsertTable(actualRows, actualColumns, startIndex);
-      this.cursor.advance(1);
-      node.children.forEach(row => this.renderInsertPhase(row));
-    } else {
-      this.requestBuilder.addInsertTable(rows, columns, startIndex);
-      this.cursor.advance(1);
-    }
+    console.log(`[Skeleton] Táblázat pozíció elmentve: ${rows}x${cols} itt: ${startIndex}`);
     
-    const afterTableIndex = this.cursor.getPosition();
-    this.requestBuilder.addInsertText('\n', afterTableIndex);
-    this.cursor.advance(1);
-  }
-
-  private handleTableRow(node: VirtualNode): void {
-    node.children?.forEach(cell => this.renderInsertPhase(cell));
-  }
-
-  private handleTableCell(node: VirtualNode): void {
-    node.children?.forEach(child => this.renderInsertPhase(child));
+    this.tableQueue.push({
+      id: `table_${this.tableQueue.length}`,
+      node: node,
+      startIndex: startIndex
+    });
   }
 
   private handleSectionBreak(node: VirtualNode, startIndex: number): void {
@@ -361,31 +409,31 @@ export class GDocRenderer {
   }
 
   private handleHeading(node: VirtualNode, startIndex: number): void {
-    // Rendereljük a children-eket (pl. GTextRun-okat)
+    const paragraphStartIndex = this.cursor.getPosition();
+    this.requestBuilder.addInsertText('\n', paragraphStartIndex);
+    this.cursor.advance(1);
+    
+    const textStartIndex = this.cursor.getPosition();
     node.children?.forEach(child => this.renderInsertPhase(child));
     
-    // Beszúrunk egy newline-t a heading végére
     const beforeNewlineIndex = this.cursor.getPosition();
     this.requestBuilder.addInsertText('\n', beforeNewlineIndex);
     this.cursor.advance(1);
     const endIndex = this.cursor.getPosition();
     
-    // A GHeading komponensek GParagraph-ként vannak implementálva namedStyleType-tel
-    // Alkalmazzuk a heading stílust a teljes tartalomra (startIndex-től endIndex-ig, de a newline nélkül)
     if (node.props.style && node.props.style.namedStyleType) {
       this.formatInfos.push({
         node,
-        startIndex,
+        startIndex: textStartIndex,
         endIndex: beforeNewlineIndex,
         paragraphStyle: node.props.style,
       });
     } else {
-      // Ha nincs style prop, akkor a GHeading típus alapján állítjuk be
       const headingLevel = node.type.replace('GHeading', '');
       const namedStyleType = `HEADING_${headingLevel}` as const;
       this.formatInfos.push({
         node,
-        startIndex,
+        startIndex: textStartIndex,
         endIndex: beforeNewlineIndex,
         paragraphStyle: { namedStyleType },
       });
@@ -427,5 +475,166 @@ export class GDocRenderer {
       }
     }
   }
-}
 
+  private generateTableInsertRequests(): Request[] {
+    const tableRequestBuilder = new RequestBuilder(new Cursor(0));
+    
+    for (let i = this.tableQueue.length - 1; i >= 0; i--) {
+      const queuedTable = this.tableQueue[i];
+      const rows = queuedTable.node.children?.length || 1;
+      const cols = queuedTable.node.children?.[0]?.children?.length || 1;
+      
+      console.log(`[Fázis 2] Táblázat beszúrása visszafelé: ${rows}x${cols} index ${queuedTable.startIndex}`);
+      tableRequestBuilder.addInsertTable(rows, cols, queuedTable.startIndex);
+    }
+    
+    return tableRequestBuilder.getAllRequests();
+  }
+
+  private generateSecondPhaseRequests(doc: Document): Request[] {
+    const secondPhaseRequestBuilder = new RequestBuilder(new Cursor(0));
+    const tablesInDoc = this.findAllTablesInDoc(doc);
+
+    console.log(`[Fázis 4] Táblázatok száma: queue=${this.tableQueue.length}, doc=${tablesInDoc.length}`);
+
+    for (let tableIndex = this.tableQueue.length - 1; tableIndex >= 0; tableIndex--) {
+      const queuedTable = this.tableQueue[tableIndex];
+      const realTable = tablesInDoc[tableIndex];
+      if (!realTable) {
+        console.warn(`[Fázis 4] Táblázat ${tableIndex} nem található a dokumentumban`);
+        continue;
+      }
+
+      console.log(`[Fázis 4] Táblázat ${tableIndex} feldolgozása visszafelé: ${queuedTable.node.children?.length || 0} sor`);
+
+      const rows = queuedTable.node.children || [];
+      for (let rowIdx = rows.length - 1; rowIdx >= 0; rowIdx--) {
+        const row = rows[rowIdx];
+        const cells = row.children || [];
+        for (let colIdx = cells.length - 1; colIdx >= 0; colIdx--) {
+          const cell = cells[colIdx];
+          const cellData = realTable.tableRows?.[rowIdx]?.tableCells?.[colIdx];
+          if (!cellData || !cellData.content || cellData.content.length === 0) {
+            console.warn(`[Fázis 4] Táblázat ${tableIndex}, Cella [${rowIdx}, ${colIdx}] nem található vagy üres`);
+            continue;
+          }
+          
+          const firstParagraph = cellData.content.find((elem: any) => elem.paragraph);
+          const cellStartIndex = firstParagraph?.startIndex || 'unknown';
+          console.log(`[Fázis 4] Táblázat ${tableIndex}, Cella [${rowIdx}, ${colIdx}] feldolgozása visszafelé, startIndex=${cellStartIndex}`);
+          this.renderCellContent(cell, cellData, secondPhaseRequestBuilder);
+        }
+      }
+    }
+
+    return secondPhaseRequestBuilder.getAllRequests();
+  }
+
+  private renderCellContent(cellNode: VirtualNode, cellData: any, rb: RequestBuilder): void {
+    console.log(`[renderCellContent] cellNode children count=${cellNode.children?.length || 0}, cellData content count=${cellData.content?.length || 0}`);
+    
+    const paragraphs = cellData.content?.filter((elem: any) => elem.paragraph) || [];
+    
+    cellNode.children?.forEach((pNode, pIdx) => {
+      if (pNode.type === 'GParagraph') {
+        const paragraphData = paragraphs[pIdx];
+        if (!paragraphData || !paragraphData.paragraph) {
+          console.warn(`[renderCellContent] Bekezdés ${pIdx} nem található a cellában`);
+          return;
+        }
+        
+        const paragraphStartIndex = paragraphData.startIndex;
+        let textOffset = 0;
+        
+        pNode.children?.forEach((textNode, textIdx) => {
+          if (textNode.type === 'GTextRun') {
+            const text = textNode.props.content || '';
+            if (text) {
+              const insertIndex = paragraphStartIndex + textOffset;
+              console.log(`[renderCellContent] Beszúrás: "${text}" index ${insertIndex} (paragraphStartIndex=${paragraphStartIndex}, textOffset=${textOffset})`);
+              rb.addInsertText(text, insertIndex);
+              textOffset += text.length;
+            }
+          }
+        });
+      }
+    });
+  }
+
+  private updateFormatIndexes(doc: Document): void {
+    const tablesInDoc = this.findAllTablesInDoc(doc);
+    
+    for (const formatInfo of this.formatInfos) {
+      let offset = 0;
+      
+      for (let i = 0; i < this.tableQueue.length; i++) {
+        const queuedTable = this.tableQueue[i];
+        if (queuedTable.startIndex < formatInfo.startIndex) {
+          const realTable = tablesInDoc[i];
+          if (realTable && realTable.startIndex !== undefined && realTable.endIndex !== undefined) {
+            const tableSize = realTable.endIndex - realTable.startIndex;
+            offset += tableSize;
+          }
+        }
+      }
+      
+      if (offset > 0) {
+        formatInfo.startIndex += offset;
+        formatInfo.endIndex += offset;
+      }
+    }
+  }
+
+  private findAllTablesInDoc(doc: Document): any[] {
+    const tables: any[] = [];
+    doc.body?.content?.forEach((element: any) => {
+      if (element.table) {
+        tables.push({
+          ...element.table,
+          startIndex: element.startIndex,
+          endIndex: element.endIndex
+        });
+      }
+    });
+    return tables;
+  }
+
+  private applyCellFormatting(doc: Document): Request[] {
+    const formatRequestBuilder = new RequestBuilder(new Cursor(0));
+    const tablesInDoc = this.findAllTablesInDoc(doc);
+
+    let tableElementIndex = 0;
+    doc.body?.content?.forEach((element: any, elementIndex: number) => {
+      if (element.table) {
+        const tableIndex = tableElementIndex;
+        const queuedTable = this.tableQueue[tableIndex];
+        if (!queuedTable) {
+          tableElementIndex++;
+          return;
+        }
+
+        const rows = queuedTable.node.children || [];
+        rows.forEach((row: VirtualNode, rowIdx: number) => {
+          const cells = row.children || [];
+          cells.forEach((cell: VirtualNode, colIdx: number) => {
+            if (cell.props.style) {
+              const styleCopy = { ...cell.props.style };
+              const tableCellLocation: any = {
+                tableStartLocation: {
+                  index: element.startIndex
+                },
+                rowIndex: rowIdx,
+                columnIndex: colIdx
+              };
+              formatRequestBuilder.addUpdateTableCellStyle(tableCellLocation, styleCopy);
+            }
+          });
+        });
+
+        tableElementIndex++;
+      }
+    });
+
+    return formatRequestBuilder.getAllRequests();
+  }
+}

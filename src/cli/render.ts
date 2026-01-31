@@ -191,13 +191,6 @@ async function main() {
       throw new Error('Default export must be a React component or element');
     }
 
-    const renderer = new GDocRenderer();
-    let requests = renderer.render(element);
-    
-    if (requests.length === 0) {
-      console.warn('Warning: No requests generated. The document might be empty or the JSX structure is not being parsed correctly.');
-    }
-
     let finalDocumentId: string;
     
     if (args.documentId) {
@@ -206,24 +199,6 @@ async function main() {
       if (args.range) {
         console.log(`Deleting range ${args.range.start}:${args.range.end}...`);
         await client.deleteRange(args.documentId, args.range.start, args.range.end);
-        
-        const doc = await client.getDocument(args.documentId);
-        const insertIndex = args.range.start;
-        
-        requests = requests.map(req => {
-          if (req.insertText) {
-            return {
-              ...req,
-              insertText: {
-                ...req.insertText,
-                location: {
-                  index: insertIndex + (req.insertText.location?.index || 0) - 1
-                }
-              }
-            };
-          }
-          return req;
-        });
       } else {
         console.log('Clearing document content...');
         await client.clearDocument(args.documentId);
@@ -237,8 +212,16 @@ async function main() {
       console.log(`Document created with ID: ${finalDocumentId}`);
     }
 
-    console.log(`Applying ${requests.length} requests...`);
-    await client.batchUpdate(finalDocumentId, requests);
+    const renderer = new GDocRenderer(
+      async (requests) => {
+        await client.batchUpdate(finalDocumentId, requests);
+      },
+      async () => {
+        return await client.getDocument(finalDocumentId);
+      }
+    );
+
+    await renderer.render(element);
 
     const documentUrl = `https://docs.google.com/document/d/${finalDocumentId}/edit`;
     console.log(`Document ${args.documentId ? 'updated' : 'created'} successfully!`);

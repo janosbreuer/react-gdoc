@@ -13,6 +13,7 @@ export class RequestBuilder {
   }
 
   addInsertText(text: string, startIndex: number): void {
+    console.log(`[DEBUG RequestBuilder.addInsertText] text="${text}", index=${startIndex}, current cursor=${this.cursor.getPosition()}`);
     this.insertRequests.push({
       insertText: {
         location: {
@@ -54,6 +55,7 @@ export class RequestBuilder {
   }
 
   addInsertTable(rows: number, columns: number, startIndex: number): void {
+    console.log(`[DEBUG RequestBuilder.addInsertTable] rows=${rows}, columns=${columns}, index=${startIndex}, current cursor=${this.cursor.getPosition()}`);
     this.insertRequests.push({
       insertTable: {
         location: {
@@ -165,7 +167,7 @@ export class RequestBuilder {
         tableCellStyle: style,
         fields: this.getTableCellStyleFields(style),
       },
-    });
+    } as any);
   }
 
   addMergeTableCells(tableStart: docs_v1.Schema$TableRange, tableEnd: docs_v1.Schema$TableRange): void {
