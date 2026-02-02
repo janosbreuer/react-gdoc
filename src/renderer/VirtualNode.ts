@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Request } from '../google/types';
+import type { Request } from '../components/primitives/types';
 import type {
   GTextRunProps,
   GPageBreakProps,
@@ -48,7 +48,7 @@ export interface VirtualNode {
   endIndex?: number;
 }
 
-import type { TextStyle, ParagraphStyle, TableCellStyle, TableRowStyle } from '../google/types';
+import type { TextStyle, ParagraphStyle, TableCellStyle, TableRowStyle } from '../components/primitives/types';
 
 export interface FormatInfo {
   node: VirtualNode;

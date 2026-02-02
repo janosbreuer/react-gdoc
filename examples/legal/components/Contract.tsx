@@ -1,5 +1,5 @@
 import React from 'react';
-import { GParagraph, GTextRun, GPageBreak } from '../../../src/components/primitives';
+import { GParagraph, GTextRun, GPageBreak } from '@react-gdoc/primitives';
 import { ContractHeader } from './ContractHeader';
 import { Section } from './Section';
 import { SignatureBlock } from './SignatureBlock';

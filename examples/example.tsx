@@ -9,7 +9,7 @@ import {
   GPageBreak,
   GHeading1,
   GHeading2,
-} from '@components/primitives';
+} from '@react-gdoc/primitives';
 
 export default function ExampleDocument() {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { GParagraph, GTextRun, GHeading3 } from '../../../src/components/primitives';
+import { GParagraph, GTextRun, GHeading3 } from '@react-gdoc/primitives';
 
 export interface ClauseProps {
   number?: number;

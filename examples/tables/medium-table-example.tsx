@@ -7,7 +7,7 @@ import {
   GTableCell,
   GHeading1,
   GHeading2,
-} from '../../src/components/primitives';
+} from '@react-gdoc/primitives';
 
 export default function MediumTableExample() {
   return (
@@ -16,7 +16,7 @@ export default function MediumTableExample() {
         <GTextRun content="Közepes táblázat példa" />
       </GHeading1>
 
-      <GParagraph>
+      {/* <GParagraph>
         <GTextRun content="Ez a dokumentum két táblázatot tartalmaz." />
       </GParagraph>
 
@@ -104,7 +104,7 @@ export default function MediumTableExample() {
             </GParagraph>
           </GTableCell>
         </GTableRow>
-      </GTable>
+      </GTable> */}
     </>
   );
 }

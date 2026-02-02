@@ -1,5 +1,5 @@
 import React from 'react';
-import { GParagraph, GTextRun } from '../src/components/primitives';
+import { GParagraph, GTextRun } from '@react-gdoc/primitives';
 
 export default function HelloWorld() {
   return (

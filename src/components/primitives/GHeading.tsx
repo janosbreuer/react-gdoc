@@ -1,6 +1,6 @@
 import React from 'react';
 import { GParagraph, GParagraphProps } from './GParagraph';
-import type { ParagraphStyle } from '../../google/types';
+import type { ParagraphStyle } from './types';
 
 export interface GHeadingProps extends Omit<GParagraphProps, 'style'> {
   level?: 1 | 2 | 3 | 4 | 5 | 6;

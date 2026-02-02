@@ -1,5 +1,5 @@
 import { google, Auth } from 'googleapis';
-import type { BatchUpdateRequest, Request, Document } from './types';
+import type { BatchUpdateRequest, Request, Document } from '../components/primitives/types';
 
 export class GoogleDocsClient {
   private docs: ReturnType<typeof google.docs>;

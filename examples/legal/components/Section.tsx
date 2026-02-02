@@ -1,5 +1,5 @@
 import React from 'react';
-import { GHeading2, GTextRun } from '../../../src/components/primitives';
+import { GHeading2, GTextRun } from '@react-gdoc/primitives';
 
 export interface SectionProps {
   title: string;

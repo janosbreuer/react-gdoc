@@ -7,7 +7,7 @@ import {
   GHeading3,
   GListItem,
   GPageBreak,
-} from '../src/components/primitives';
+} from '@react-gdoc/primitives';
 
 export default function AdvancedExample() {
   return (

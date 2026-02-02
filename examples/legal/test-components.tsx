@@ -1,5 +1,5 @@
 import React from 'react';
-import { GParagraph, GTextRun, GHeading1, GHeading2 } from '../../src/components/primitives';
+import { GParagraph, GTextRun, GHeading1, GHeading2 } from '@react-gdoc/primitives';
 import { ContractHeader, Section, Clause } from './components';
 
 /**

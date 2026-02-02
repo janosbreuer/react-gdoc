@@ -1,4 +1,4 @@
-import type { Request, TextStyle, ParagraphStyle, TableCellStyle } from '../google/types';
+import type { Request, TextStyle, ParagraphStyle, TableCellStyle } from '../components/primitives/types';
 import type { FormatInfo } from './VirtualNode';
 import { Cursor } from './Cursor';
 import { docs_v1 } from 'googleapis';

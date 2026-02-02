@@ -1,6 +1,6 @@
 import React from 'react';
-import { GParagraph, GTextRun } from '../../primitives';
-import type { ParagraphStyle, TextStyle } from '../../google/types';
+import { GParagraph, GTextRun } from './primitives';
+import type { ParagraphStyle, TextStyle } from './primitives/types';
 
 /**
  * HTML-szerű shortcut komponensek az egyszerűbb szintaxisért.

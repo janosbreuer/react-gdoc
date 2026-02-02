@@ -1,6 +1,6 @@
 import React from 'react';
-import { GParagraph, GTextRun } from '../../primitives';
-import type { ParagraphStyle } from '../../google/types';
+import { GParagraph, GTextRun } from './primitives';
+import type { ParagraphStyle } from './primitives/types';
 
 export interface PProps {
   style?: ParagraphStyle;

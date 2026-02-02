@@ -8,7 +8,7 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"]
+      "@react-gdoc/*": ["src/components/*"]
     },
     "strict": true,
     "esModuleInterop": true,

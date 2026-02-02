@@ -7,7 +7,7 @@ import {
   GTableCell,
   GHeading1,
   GHeading2,
-} from '../../src/components/primitives';
+} from '@react-gdoc/primitives';
 
 export default function TableExample() {
   return (

@@ -5,7 +5,7 @@ import {
   GTable,
   GTableRow,
   GTableCell,
-} from '../../src/components/primitives';
+} from '@react-gdoc/primitives';
 
 export default function MinimalTableExample() {
   return (

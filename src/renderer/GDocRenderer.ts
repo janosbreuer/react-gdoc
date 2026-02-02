@@ -2,7 +2,7 @@ import React from 'react';
 import { Cursor } from './Cursor';
 import { RequestBuilder } from './RequestBuilder';
 import type { VirtualNode, FormatInfo, VirtualNodeType } from './VirtualNode';
-import type { Request, Document } from '../google/types';
+import type { Request, Document } from '../components/primitives/types';
 import { docs_v1 } from 'googleapis';
 
 type BatchUpdateFn = (requests: Request[]) => Promise<void>;
@@ -13,6 +13,12 @@ interface QueuedTable {
   node: VirtualNode;
   startIndex: number;
 }
+
+const KNOWN_VIRTUAL_NODE_TYPES: VirtualNodeType[] = [
+  'GTextRun', 'GParagraph', 'GPageBreak', 'GColumnBreak', 'GHorizontalRule',
+  'GFootnoteReference', 'GEquation', 'GInlineObject', 'GTable', 'GTableRow',
+  'GTableCell', 'GSectionBreak', 'GListItem', 'GImage'
+];
 
 export class GDocRenderer {
   private cursor: Cursor;
@@ -156,27 +162,6 @@ export class GDocRenderer {
         }
       }
       
-      if (typeof type === 'function' && typeName.startsWith('GHeading')) {
-        const props = element.props || {};
-        try {
-          const result = type(props);
-          if (React.isValidElement(result)) {
-            const resultNode = this.jsxToVirtualNode(result);
-            if (resultNode && resultNode.type === 'GParagraph' && resultNode.props.style) {
-              return {
-                ...resultNode,
-                type: typeName,
-                props: {
-                  ...resultNode.props,
-                  style: resultNode.props.style,
-                },
-              };
-            }
-          }
-        } catch (e) {
-        }
-      }
-      
       const props = element.props || {};
       const children = React.Children.toArray(props.children || []);
 
@@ -196,36 +181,16 @@ export class GDocRenderer {
     }
 
     if (type && type.name) {
-      const name = type.name;
-      const knownTypes: VirtualNodeType[] = [
-        'GTextRun', 'GParagraph', 'GPageBreak', 'GColumnBreak', 'GHorizontalRule',
-        'GFootnoteReference', 'GEquation', 'GInlineObject', 'GTable', 'GTableRow',
-        'GTableCell', 'GSectionBreak', 'GListItem', 'GImage',
-        'GHeading1', 'GHeading2', 'GHeading3', 'GHeading4', 'GHeading5', 'GHeading6'
-      ];
-      if (name.startsWith('G') && knownTypes.includes(name as VirtualNodeType)) {
-        return name as VirtualNodeType;
-      }
-      
-      if (name === 'P' || name === 'B' || name === 'I' || name === 'BI' || name === 'S') {
-        return 'Fragment';
+      const name = type.name as VirtualNodeType;
+      if (KNOWN_VIRTUAL_NODE_TYPES.includes(name)) {
+        return name;
       }
     }
 
     if (type && type.displayName) {
-      const displayName = type.displayName;
-      const knownTypes: VirtualNodeType[] = [
-        'GTextRun', 'GParagraph', 'GPageBreak', 'GColumnBreak', 'GHorizontalRule',
-        'GFootnoteReference', 'GEquation', 'GInlineObject', 'GTable', 'GTableRow',
-        'GTableCell', 'GSectionBreak', 'GListItem', 'GImage',
-        'GHeading1', 'GHeading2', 'GHeading3', 'GHeading4', 'GHeading5', 'GHeading6'
-      ];
-      if (displayName.startsWith('G') && knownTypes.includes(displayName as VirtualNodeType)) {
-        return displayName as VirtualNodeType;
-      }
-      
-      if (displayName === 'P' || displayName === 'B' || displayName === 'I' || displayName === 'BI' || displayName === 'S') {
-        return 'Fragment';
+      const displayName = type.displayName as VirtualNodeType;
+      if (KNOWN_VIRTUAL_NODE_TYPES.includes(displayName)) {
+        return displayName;
       }
     }
 
@@ -272,21 +237,11 @@ export class GDocRenderer {
       case 'GListItem':
         this.handleListItem(node, startIndex);
         break;
-      case 'GHeading1':
-      case 'GHeading2':
-      case 'GHeading3':
-      case 'GHeading4':
-      case 'GHeading5':
-      case 'GHeading6':
-        this.handleHeading(node, startIndex);
-        break;
       case 'Fragment':
         node.children?.forEach(child => this.renderInsertPhase(child));
         break;
       default:
-        if (node.children && node.children.length > 0) {
-          node.children.forEach(child => this.renderInsertPhase(child));
-        }
+        node.children?.forEach(child => this.renderInsertPhase(child));
         break;
     }
 
@@ -308,7 +263,6 @@ export class GDocRenderer {
         endIndex,
         paragraphStyle: node.props.style || node.props.paragraphStyle,
       });
-    } else if (node.type.startsWith('GHeading')) {
     }
   }
 
@@ -406,38 +360,6 @@ export class GDocRenderer {
         } as any,
       } as any,
     });
-  }
-
-  private handleHeading(node: VirtualNode, startIndex: number): void {
-    const paragraphStartIndex = this.cursor.getPosition();
-    this.requestBuilder.addInsertText('\n', paragraphStartIndex);
-    this.cursor.advance(1);
-    
-    const textStartIndex = this.cursor.getPosition();
-    node.children?.forEach(child => this.renderInsertPhase(child));
-    
-    const beforeNewlineIndex = this.cursor.getPosition();
-    this.requestBuilder.addInsertText('\n', beforeNewlineIndex);
-    this.cursor.advance(1);
-    const endIndex = this.cursor.getPosition();
-    
-    if (node.props.style && node.props.style.namedStyleType) {
-      this.formatInfos.push({
-        node,
-        startIndex: textStartIndex,
-        endIndex: beforeNewlineIndex,
-        paragraphStyle: node.props.style,
-      });
-    } else {
-      const headingLevel = node.type.replace('GHeading', '');
-      const namedStyleType = `HEADING_${headingLevel}` as const;
-      this.formatInfos.push({
-        node,
-        startIndex: textStartIndex,
-        endIndex: beforeNewlineIndex,
-        paragraphStyle: { namedStyleType },
-      });
-    }
   }
 
   private renderFormatPhase(): void {
