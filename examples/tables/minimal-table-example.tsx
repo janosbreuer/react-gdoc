@@ -5,7 +5,7 @@ import {
   GTable,
   GTableRow,
   GTableCell,
-} from '../src/primitives';
+} from '../../src/components/primitives';
 
 export default function MinimalTableExample() {
   return (

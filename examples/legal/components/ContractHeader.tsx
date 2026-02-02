@@ -1,7 +1,7 @@
 import React from 'react';
-import { GParagraph, GTextRun, GHeading1 } from '../../primitives';
+import { GParagraph, GTextRun, GHeading1 } from '../../../src/components/primitives';
 
-export interface GContractHeaderProps {
+export interface ContractHeaderProps {
   title: string;
   parties?: string[];
   date?: string;
@@ -12,7 +12,7 @@ export interface GContractHeaderProps {
  * Szerződés fejléc komponens.
  * A primitívek felhasználásával épül fel.
  */
-export const GContractHeader: React.FC<GContractHeaderProps> = ({ 
+export const ContractHeader: React.FC<ContractHeaderProps> = ({ 
   title, 
   parties, 
   date, 

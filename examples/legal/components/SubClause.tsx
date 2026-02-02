@@ -1,7 +1,7 @@
 import React from 'react';
-import { GParagraph, GTextRun } from '../../primitives';
+import { GParagraph, GTextRun } from '../../../src/components/primitives';
 
-export interface GSubClauseProps {
+export interface SubClauseProps {
   letter?: string;
   title?: string;
   children?: React.ReactNode;
@@ -11,7 +11,7 @@ export interface GSubClauseProps {
  * Egy alzáradék komponens.
  * A primitívek felhasználásával épül fel.
  */
-export const GSubClause: React.FC<GSubClauseProps> = ({ letter, title, children }) => {
+export const SubClause: React.FC<SubClauseProps> = ({ letter, title, children }) => {
   return (
     <>
       <GParagraph style={{ 

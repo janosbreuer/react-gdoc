@@ -15,7 +15,7 @@ import type {
   GSectionBreakProps,
   GListItemProps,
   GImageProps,
-} from '../primitives';
+} from '../components/primitives';
 
 export type VirtualNodeType =
   | 'GTextRun'

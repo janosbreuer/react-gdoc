@@ -1,7 +1,7 @@
 import React from 'react';
-import { GParagraph, GTextRun, GHeading3 } from '../../primitives';
+import { GParagraph, GTextRun, GHeading3 } from '../../../src/components/primitives';
 
-export interface GClauseProps {
+export interface ClauseProps {
   number?: number;
   title?: string;
   children?: React.ReactNode;
@@ -11,7 +11,7 @@ export interface GClauseProps {
  * Egy szerződési záradék komponens.
  * A primitívek (GParagraph, GTextRun) felhasználásával épül fel.
  */
-export const GClause: React.FC<GClauseProps> = ({ number, title, children }) => {
+export const Clause: React.FC<ClauseProps> = ({ number, title, children }) => {
   return (
     <>
       <GHeading3>

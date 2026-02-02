@@ -1,6 +1,6 @@
 import React from 'react';
-import { GParagraph, GTextRun, GHeading1, GHeading2 } from '../primitives';
-import { GContractHeader, GSection, GClause } from './components';
+import { GParagraph, GTextRun, GHeading1, GHeading2 } from '../../src/components/primitives';
+import { ContractHeader, Section, Clause } from './components';
 
 /**
  * Teszt fájl a komponensek összeállításának ellenőrzéséhez.
@@ -25,7 +25,7 @@ export default function TestComponents() {
         <GTextRun content="Ez egy másik bekezdés a section után." />
       </GParagraph>
 
-      <GContractHeader 
+      <ContractHeader 
         title="Teszt Szerződés Címe"
         parties={["Teszt Fél 1", "Teszt Fél 2"]}
         date="2026. január 30."
@@ -36,17 +36,17 @@ export default function TestComponents() {
         <GTextRun content="Ez egy bekezdés a ContractHeader után." />
       </GParagraph>
 
-      <GSection title="Teszt Szakasz">
+      <Section title="Teszt Szakasz">
         <GParagraph>
           <GTextRun content="Ez egy bekezdés a Section-ben." />
         </GParagraph>
-      </GSection>
+      </Section>
 
-      <GClause number={1} title="Teszt Záradék">
+      <Clause number={1} title="Teszt Záradék">
         <GParagraph>
           <GTextRun content="Ez egy bekezdés a Clause-ben." />
         </GParagraph>
-      </GClause>
+      </Clause>
     </>
   );
 }

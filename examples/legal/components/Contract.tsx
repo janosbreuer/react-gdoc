@@ -1,10 +1,10 @@
 import React from 'react';
-import { GParagraph, GTextRun, GPageBreak } from '../../primitives';
-import { GContractHeader } from './GContractHeader';
-import { GSection } from './GSection';
-import { GSignatureBlock } from './GSignatureBlock';
+import { GParagraph, GTextRun, GPageBreak } from '../../../src/components/primitives';
+import { ContractHeader } from './ContractHeader';
+import { Section } from './Section';
+import { SignatureBlock } from './SignatureBlock';
 
-export interface GContractProps {
+export interface ContractProps {
   title: string;
   parties?: string[];
   date?: string;
@@ -17,11 +17,11 @@ export interface GContractProps {
 
 /**
  * Fő szerződés komponens - a legmagasabb absztrakciós szint.
- * A GSection, GContractHeader, GSignatureBlock komponensekből épül fel,
- * amelyek viszont a GClause komponensekből épülnek,
+ * A Section, ContractHeader, SignatureBlock komponensekből épül fel,
+ * amelyek viszont a Clause komponensekből épülnek,
  * amelyek végül a primitívekből épülnek fel.
  */
-export const GContract: React.FC<GContractProps> = ({
+export const Contract: React.FC<ContractProps> = ({
   title,
   parties,
   date,
@@ -33,7 +33,7 @@ export const GContract: React.FC<GContractProps> = ({
 }) => {
   return (
     <>
-      <GContractHeader 
+      <ContractHeader 
         title={title}
         parties={parties}
         date={date}
@@ -60,7 +60,7 @@ export const GContract: React.FC<GContractProps> = ({
             <GTextRun content="Aláírások:" style={{ bold: true }} />
           </GParagraph>
           {signatures.map((sig, index) => (
-            <GSignatureBlock 
+            <SignatureBlock 
               key={index}
               partyName={sig.name}
               role={sig.role}

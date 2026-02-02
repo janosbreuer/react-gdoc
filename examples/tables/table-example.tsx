@@ -7,7 +7,7 @@ import {
   GTableCell,
   GHeading1,
   GHeading2,
-} from '../src/primitives';
+} from '../../src/components/primitives';
 
 export default function TableExample() {
   return (

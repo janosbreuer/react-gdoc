@@ -1,5 +1,5 @@
 import React from 'react';
-import type { TableRowStyle } from '../google/types';
+import type { TableRowStyle } from '../../google/types';
 
 export interface GTableRowProps {
   style?: TableRowStyle;

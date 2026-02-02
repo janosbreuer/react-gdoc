@@ -1,17 +1,17 @@
 import React from 'react';
-import { GHeading2, GTextRun } from '../../primitives';
+import { GHeading2, GTextRun } from '../../../src/components/primitives';
 
-export interface GSectionProps {
+export interface SectionProps {
   title: string;
   children?: React.ReactNode;
 }
 
 /**
  * Egy szerződési szakasz komponens.
- * GClause komponensekből épül fel, amelyek viszont primitívekből épülnek.
+ * Clause komponensekből épül fel, amelyek viszont primitívekből épülnek.
  * A beépített GHeading2 komponenst használja.
  */
-export const GSection: React.FC<GSectionProps> = ({ title, children }) => {
+export const Section: React.FC<SectionProps> = ({ title, children }) => {
   return (
     <>
       <GHeading2>

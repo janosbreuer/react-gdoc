@@ -1,7 +1,7 @@
 import React from 'react';
-import { GParagraph, GTextRun } from '../../primitives';
+import { GParagraph, GTextRun } from '../../../src/components/primitives';
 
-export interface GSignatureBlockProps {
+export interface SignatureBlockProps {
   partyName: string;
   role?: string;
 }
@@ -10,7 +10,7 @@ export interface GSignatureBlockProps {
  * Aláírási blokk komponens.
  * A primitívek felhasználásával épül fel.
  */
-export const GSignatureBlock: React.FC<GSignatureBlockProps> = ({ partyName, role }) => {
+export const SignatureBlock: React.FC<SignatureBlockProps> = ({ partyName, role }) => {
   return (
     <GParagraph style={{ 
       spaceAbove: { magnitude: 36, unit: 'PT' },

@@ -7,7 +7,7 @@ import {
   GHeading3,
   GListItem,
   GPageBreak,
-} from '../src/primitives';
+} from '../src/components/primitives';
 
 export default function AdvancedExample() {
   return (

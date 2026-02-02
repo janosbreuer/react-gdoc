@@ -1,5 +1,5 @@
 import React from 'react';
-import type { TableCellStyle } from '../google/types';
+import type { TableCellStyle } from '../../google/types';
 
 export interface GTableCellProps {
   rowSpan?: number;

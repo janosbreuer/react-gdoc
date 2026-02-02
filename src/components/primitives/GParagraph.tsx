@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ParagraphStyle } from '../google/types';
+import type { ParagraphStyle } from '../../google/types';
 
 export interface GParagraphProps {
   style?: ParagraphStyle;
