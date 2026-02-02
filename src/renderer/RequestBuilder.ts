@@ -1,20 +1,15 @@
 import type { Request, TextStyle, ParagraphStyle, TableCellStyle } from '../components/primitives/types';
 import type { FormatInfo } from './VirtualNode';
-import { Cursor } from './Cursor';
 import { docs_v1 } from 'googleapis';
 
 export class RequestBuilder {
-  private insertRequests: Request[] = [];
-  private formatRequests: Request[] = [];
-  private cursor: Cursor;
+  private requests: Request[] = [];
 
-  constructor(cursor: Cursor) {
-    this.cursor = cursor;
+  constructor() {
   }
 
   addInsertText(text: string, startIndex: number): void {
-    console.log(`[DEBUG RequestBuilder.addInsertText] text="${text}", index=${startIndex}, current cursor=${this.cursor.getPosition()}`);
-    this.insertRequests.push({
+    this.requests.push({
       insertText: {
         location: {
           index: startIndex,
@@ -25,7 +20,7 @@ export class RequestBuilder {
   }
 
   addInsertPageBreak(startIndex: number): void {
-    this.insertRequests.push({
+    this.requests.push({
       insertPageBreak: {
         location: {
           index: startIndex,
@@ -35,28 +30,38 @@ export class RequestBuilder {
   }
 
   addInsertColumnBreak(startIndex: number): void {
-    this.insertRequests.push({
+    this.requests.push({
       insertColumnBreak: {
         location: {
           index: startIndex,
         },
       },
-    });
+    } as any);
   }
 
   addInsertHorizontalRule(startIndex: number): void {
-    this.insertRequests.push({
+    this.requests.push({
       insertHorizontalRule: {
         location: {
           index: startIndex,
         },
       },
-    });
+    } as any);
+  }
+
+  addInsertSectionBreak(startIndex: number, sectionType?: string): void {
+    this.requests.push({
+      insertSectionBreak: {
+        location: {
+          index: startIndex,
+        },
+        sectionType: sectionType,
+      },
+    } as any);
   }
 
   addInsertTable(rows: number, columns: number, startIndex: number): void {
-    console.log(`[DEBUG RequestBuilder.addInsertTable] rows=${rows}, columns=${columns}, index=${startIndex}, current cursor=${this.cursor.getPosition()}`);
-    this.insertRequests.push({
+    this.requests.push({
       insertTable: {
         location: {
           index: startIndex,
@@ -76,7 +81,7 @@ export class RequestBuilder {
       objectSize.height = { magnitude: height, unit: 'PT' };
     }
 
-    this.insertRequests.push({
+    this.requests.push({
       insertInlineImage: {
         location: {
           index: startIndex,
@@ -88,7 +93,7 @@ export class RequestBuilder {
   }
 
   addUpdateTextStyle(startIndex: number, endIndex: number, style: TextStyle): void {
-    this.formatRequests.push({
+    this.requests.push({
       updateTextStyle: {
         range: {
           startIndex: startIndex,
@@ -101,7 +106,7 @@ export class RequestBuilder {
   }
 
   addUpdateParagraphStyle(startIndex: number, endIndex: number, style: ParagraphStyle): void {
-    this.formatRequests.push({
+    this.requests.push({
       updateParagraphStyle: {
         range: {
           startIndex: startIndex,
@@ -115,7 +120,7 @@ export class RequestBuilder {
 
   addCreateParagraphBullets(startIndex: number, endIndex: number, nestingLevel: number = 0, ordered: boolean = false): void {
     if (ordered) {
-      this.formatRequests.push({
+      this.requests.push({
         createParagraphBullets: {
           range: {
             startIndex: startIndex,
@@ -125,7 +130,7 @@ export class RequestBuilder {
         } as any,
       });
     } else {
-      this.formatRequests.push({
+      this.requests.push({
         createParagraphBullets: {
           range: {
             startIndex: startIndex,
@@ -138,7 +143,7 @@ export class RequestBuilder {
 
     if (nestingLevel > 0) {
       const indentMagnitude = nestingLevel * 36;
-      this.formatRequests.push({
+      this.requests.push({
         updateParagraphStyle: {
           range: {
             startIndex: startIndex,
@@ -161,7 +166,7 @@ export class RequestBuilder {
   }
 
   addUpdateTableCellStyle(tableCellLocation: docs_v1.Schema$TableCellLocation, style: TableCellStyle): void {
-    this.formatRequests.push({
+    this.requests.push({
       updateTableCellStyle: {
         tableCellLocation: tableCellLocation,
         tableCellStyle: style,
@@ -171,7 +176,7 @@ export class RequestBuilder {
   }
 
   addMergeTableCells(tableStart: docs_v1.Schema$TableRange, tableEnd: docs_v1.Schema$TableRange): void {
-    this.formatRequests.push({
+    this.requests.push({
       mergeTableCells: {
         tableRange: {
           tableCellLocation: tableStart.tableCellLocation,
@@ -183,15 +188,7 @@ export class RequestBuilder {
   }
 
   getAllRequests(): Request[] {
-    return [...this.insertRequests, ...this.formatRequests];
-  }
-
-  getInsertRequests(): Request[] {
-    return this.insertRequests;
-  }
-
-  getFormatRequests(): Request[] {
-    return this.formatRequests;
+    return this.requests;
   }
 
   private getTextStyleFields(style: TextStyle): string {
@@ -216,13 +213,12 @@ export class RequestBuilder {
     if (style.spaceAbove !== undefined) fields.push('spaceAbove');
     if (style.spaceBelow !== undefined) fields.push('spaceBelow');
     if (style.keepWithNext !== undefined) fields.push('keepWithNext');
-    if (style.keepTogether !== undefined) fields.push('keepTogether');
+    if (style.keepLinesTogether !== undefined) fields.push('keepLinesTogether');
     if (style.avoidWidowAndOrphan !== undefined) fields.push('avoidWidowAndOrphan');
     if (style.direction !== undefined) fields.push('direction');
     if (style.indentFirstLine !== undefined) fields.push('indentFirstLine');
     if (style.indentStart !== undefined) fields.push('indentStart');
     if (style.indentEnd !== undefined) fields.push('indentEnd');
-    if (style.bullet !== undefined) fields.push('bullet');
     return fields.join(',');
   }
 

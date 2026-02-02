@@ -7,14 +7,25 @@ import {
   GTableCell,
   GHeading1,
   GHeading2,
+  GHeading4,
 } from '@react-gdoc/primitives';
+import { P } from '@react-gdoc/P';
+import { S } from '@react-gdoc/shortcuts';
 
 export default function MediumTableExample() {
   return (
     <>
-      <GHeading1>
+      <GHeading4>
         <GTextRun content="Közepes táblázat példa" />
-      </GHeading1>
+      </GHeading4>
+
+    <P>Hello world <S style={['bold']}>bold</S></P>
+    <P>Hello world <S style={['italic']}>italic</S></P>
+    <P>Hello world <S style={['underline']}>underline</S></P>
+    <P>Hello world <S style={['strikethrough']}>strikethrough</S></P>
+    <P>Hello world <S style={['bold', 'italic']}>bold italic</S></P>
+    <P>Hello world <S style={['bold', 'italic', 'underline']}>bold italic underline</S></P>
+    <P>Hello world <S style={['bold', 'italic', 'underline', 'strikethrough']}>bold italic underline strikethrough</S></P>
 
       {/* <GParagraph>
         <GTextRun content="Ez a dokumentum két táblázatot tartalmaz." />

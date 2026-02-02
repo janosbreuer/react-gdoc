@@ -12,9 +12,16 @@ export interface PProps {
  * A GParagraph primitívet használja.
  */
 export const P: React.FC<PProps> = ({ style, children }) => {
+  const processedChildren = React.Children.map(children, (child) => {
+    if (typeof child === 'string') {
+      return <GTextRun content={child} />;
+    }
+    return child;
+  });
+
   return (
     <GParagraph style={style}>
-      {typeof children === 'string' ? <GTextRun content={children} /> : children}
+      {processedChildren}
     </GParagraph>
   );
 };
