@@ -19,15 +19,17 @@ export default function MediumTableExample() {
         <GTextRun content="Közepes táblázat példa" />
       </GHeading4>
 
-    <P>Hello world <S style={['bold']}>bold</S></P>
-    <P>Hello world <S style={['italic']}>italic</S></P>
-    <P>Hello world <S style={['underline']}>underline</S></P>
-    <P>Hello world <S style={['strikethrough']}>strikethrough</S></P>
-    <P>Hello world <S style={['bold', 'italic']}>bold italic</S></P>
-    <P>Hello world <S style={['bold', 'italic', 'underline']}>bold italic underline</S></P>
-    <P>Hello world <S style={['bold', 'italic', 'underline', 'strikethrough']}>bold italic underline strikethrough</S></P>
+    <P>Hello world <S style={['bold']}>bold</S>
+    Hello world <S style={['italic']}>italic</S>
+    {/* Hello world <S style={['underline']}>underline</S>
+    Hello world <S style={['strikethrough']}>strikethrough</S>
+    Hello world <S style={['bold', 'italic']}>bold italic</S>
+    Hello world <S style={['bold', 'italic', 'underline']}>bold italic underline</S>
+    Hello world <S style={['bold', 'italic', 'underline', 'strikethrough']}>bold italic underline strikethrough</S>
+    */}
+    </P>
 
-      {/* <GParagraph>
+     {/*  <GParagraph>
         <GTextRun content="Ez a dokumentum két táblázatot tartalmaz." />
       </GParagraph>
 
