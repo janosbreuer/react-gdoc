@@ -42,7 +42,7 @@ export default function MediumTableExample() {
       </GHeading3>
 
       <GHeading4>
-        <GTextRun content="Közepes táblázat példa (heading 4)" />
+        <GTextRun content="Példák a stílusokkal (heading 4)" />
       </GHeading4>
 
       <P>
