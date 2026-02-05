@@ -34,24 +34,28 @@ export const P: React.FC<PProps> = ({ style, children }) => {
 export type StyleOption = 'bold' | 'italic' | 'underline' | 'strikethrough';
 
 export interface SProps {
-  style?: StyleOption[];
+  style?: StyleOption[] | TextStyle;
   children?: React.ReactNode;
 }
 
-export const S: React.FC<SProps> = ({ style = [], children }) => {
-  const textStyle: TextStyle = {};
-  
-  if (style.includes('bold')) {
-    textStyle.bold = true;
-  }
-  if (style.includes('italic')) {
-    textStyle.italic = true;
-  }
-  if (style.includes('underline')) {
-    textStyle.underline = true;
-  }
-  if (style.includes('strikethrough')) {
-    textStyle.strikethrough = true;
+export const S: React.FC<SProps> = ({ style, children }) => {
+  let textStyle: TextStyle = {};
+
+  if (Array.isArray(style)) {
+    if (style.includes('bold')) {
+      textStyle.bold = true;
+    }
+    if (style.includes('italic')) {
+      textStyle.italic = true;
+    }
+    if (style.includes('underline')) {
+      textStyle.underline = true;
+    }
+    if (style.includes('strikethrough')) {
+      textStyle.strikethrough = true;
+    }
+  } else if (style) {
+    textStyle = style;
   }
   
   if (typeof children === 'string') {

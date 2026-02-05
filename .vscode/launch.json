@@ -1,0 +1,39 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Render (npm run render)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "render",
+        "--",
+        "${input:exampleFile}",
+        "${input:documentId}"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "exampleFile",
+      "type": "promptString",
+      "description": "Path to example TSX file",
+      "default": "examples/tables/medium-table-example.tsx"
+    },
+    {
+      "id": "documentId",
+      "type": "promptString",
+      "description": "Google Docs document ID to render into"
+    }
+  ]
+}
+
+
