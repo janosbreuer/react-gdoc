@@ -9,11 +9,6 @@ type ParagraphStyle = docs_v1.Schema$ParagraphStyle;
 type BatchUpdateFn = (requests: Request[]) => Promise<void>;
 type GetDocumentFn = () => Promise<Document>;
 
-interface QueuedTable {
-  node: VirtualNode;
-  startIndex: number;
-}
-
 
 const KNOWN_VIRTUAL_NODE_TYPES: VirtualNodeType[] = [
   'GTextRun', 'GParagraph', 'GPageBreak', 'GColumnBreak', 'GHorizontalRule',
@@ -32,6 +27,7 @@ interface RenderContext {
   startIndex: number;
   previousNodeWasParagraph: boolean;
   paragraphContext: ParagraphContext | null;
+  tableNodesReversed: VirtualNode[];
 }
 
 interface ParagraphContext {
@@ -41,7 +37,6 @@ interface ParagraphContext {
 
 export class GDocRenderer {
 
-  private tableQueue: QueuedTable[] = [];
   constructor(
     private batchUpdate: BatchUpdateFn,
     private getDocument: GetDocumentFn
@@ -64,6 +59,7 @@ export class GDocRenderer {
       startIndex,
       previousNodeWasParagraph: false,
       paragraphContext: null,
+      tableNodesReversed: [],
     };
 
     // 1. FÁZIS: Szövegek és üres táblázatok beszúrása
@@ -71,6 +67,23 @@ export class GDocRenderer {
     const initialRequests = requestBuilder.getAllRequests();
     if (initialRequests.length > 0) {
       await this.batchUpdate(initialRequests);
+    }
+
+    if (renderContext.tableNodesReversed.length > 0) {
+      // lekérjük a dokumentumot, hogy a táblázatcellák indexeit meg tudjuk határozni
+      const doc = await this.getDocument();
+
+      // felsoroljuk a táblázatokat a dokumentumban hátulról előre
+      const content = doc.body?.content || [];
+      const tablesReversed = content.filter(el => el.table).map(el => el.table!).reverse();
+      if (tablesReversed.length !== renderContext.tableNodesReversed.length) {
+        throw new Error('The number of tables in the document does not match the number of tables in the virtual tree');
+      }
+      for (let i = 0; i < tablesReversed.length; i++) {
+        const tableInDoc = tablesReversed[i];
+        const tableNode = renderContext.tableNodesReversed[i];
+        this.renderTableContent(tableNode, tableInDoc);
+      }
     }
 
     // if (this.tableQueue.length === 0) return;
@@ -109,12 +122,12 @@ export class GDocRenderer {
         isParagraph = true;
         break;
       case 'GTable':
-        // Csak üres vázat szúrunk be, és elmentjük a pozíciót
-        // const rows = node.children?.length || 1;
-        // const cols = node.children?.[0]?.children?.length || 1;
-        // renderContext.requestBuilder.addInsertTable(rows, cols, renderContext.startIndex);
-        // this.tableQueue.push({ node, startIndex: renderContext.startIndex });
-        // length = 1;
+        // Csak üres táblázatot szúrunk be, és elmentjük a node-ot a táblázatok listájába
+        const rows = node.children?.length || 1;
+        const cols = node.children?.[0]?.children?.length || 1;
+        renderContext.requestBuilder.addInsertTable(rows, cols, renderContext.startIndex);
+        renderContext.tableNodesReversed.push(node);
+        length = rows * cols;
         break;
       default:
         if (node.children) {
@@ -187,34 +200,36 @@ export class GDocRenderer {
     return content.length;
   }
 
-  private fillTableContent(node: VirtualNode, table: docs_v1.Schema$Table, renderContext: RenderContext) {
-    const vRows = node.children || [];
-    
-    // Végigmegyünk a táblázat sorain és celláin
-    vRows.forEach((vRow, rIndex) => {
-      const vCells = vRow.children || [];
-      const docRow = table.tableRows?.[rIndex];
+  private renderTableContent(node: VirtualNode, table: docs_v1.Schema$Table) {
+    // megyünk hátulról előre a táblázat celláin
+    const rowNodesReversed = node.children?.reverse() || [];
+    const rowsInDocReversed = table.tableRows?.reverse() || [];
 
-      vCells.forEach((vCell, cIndex) => {
-        const docCell = docRow?.tableCells?.[cIndex];
-        if (docCell && docCell.content && vCell.children) {
-          // A Google Docs minden cellába tesz egy alapértelmezett üres paragrafust.
-          // Ennek az indexe a cella kezdete.
-          const cellContentStart = docCell.startIndex! + 1;
-          
-          // A cella tartalmát hátulról előre szúrjuk be
-          [...vCell.children].reverse().forEach(child => {
-            this.renderInsertPhase(child, { ...renderContext, startIndex: cellContentStart });
-          });
-        }
-      });
-    });
-  }
+    for (let i = 0; i < rowNodesReversed.length; i++) {
+      const rowNode = rowNodesReversed[i];
+      const rowInDoc = rowsInDocReversed[i];
 
-  private findTableAt(doc: Document, index: number): docs_v1.Schema$Table | null {
-    // Megkeressük a StructuralElement-et a megadott indexen
-    const element = doc.body?.content?.find(el => el.startIndex === index);
-    return element?.table || null;
+      const cellNodesReversed = rowNode.children?.reverse() || [];
+      const cellsInDocReversed = rowInDoc?.tableCells?.reverse() || [];
+
+      for (let j = 0; j < cellNodesReversed.length; j++) {
+        const cellNode = cellNodesReversed[j];
+        const cellInDoc = cellsInDocReversed[j];
+
+        console.log('Cell structure:', {
+          cellStartIndex: cellInDoc?.startIndex,
+          cellEndIndex: cellInDoc?.endIndex,
+          cellContent: cellInDoc?.content,
+          firstParagraph: cellInDoc?.content?.[0]?.paragraph,
+          firstParagraphStartIndex: cellInDoc?.content?.[0]?.paragraph?.elements?.[0]?.startIndex,
+        });
+
+        const contentStart = cellInDoc?.startIndex! + 1;
+        console.log('Using contentStart:', contentStart);
+        
+        this.renderNode(cellNode, contentStart);
+      }
+    }
   }
 
   private jsxToVirtualNode(element: React.ReactElement | React.ReactNode): VirtualNode | null {

@@ -72,12 +72,8 @@ export default function MediumTableExample() {
         Színes szöveg: <S style={styles.redText}>piros szöveg</S> és <S style={styles.yellowBackground}>sárga háttér</S>.
       </P>
 
-      {/*  <GParagraph>
-        <GTextRun content="Ez a dokumentum két táblázatot tartalmaz." />
-      </GParagraph>
-
       <GHeading2>
-        <GTextRun content="Első táblázat" />
+        <GTextRun content="Egyszerű táblázat példa" />
       </GHeading2>
 
       <GTable>
@@ -118,49 +114,6 @@ export default function MediumTableExample() {
           </GTableCell>
         </GTableRow>
       </GTable>
-
-      <GHeading2>
-        <GTextRun content="Második táblázat" />
-      </GHeading2>
-
-      <GTable>
-        <GTableRow>
-          <GTableCell>
-            <GParagraph>
-              <GTextRun content="Hónap" />
-            </GParagraph>
-          </GTableCell>
-          <GTableCell>
-            <GParagraph>
-              <GTextRun content="Bevétel" />
-            </GParagraph>
-          </GTableCell>
-        </GTableRow>
-        <GTableRow>
-          <GTableCell>
-            <GParagraph>
-              <GTextRun content="Január" />
-            </GParagraph>
-          </GTableCell>
-          <GTableCell>
-            <GParagraph>
-              <GTextRun content="1.500.000 Ft" />
-            </GParagraph>
-          </GTableCell>
-        </GTableRow>
-        <GTableRow>
-          <GTableCell>
-            <GParagraph>
-              <GTextRun content="Február" />
-            </GParagraph>
-          </GTableCell>
-          <GTableCell>
-            <GParagraph>
-              <GTextRun content="1.800.000 Ft" />
-            </GParagraph>
-          </GTableCell>
-        </GTableRow>
-      </GTable> */}
     </>
   );
 }
