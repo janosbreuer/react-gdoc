@@ -5,10 +5,10 @@ import {
   GTable,
   GTableRow,
   GTableCell,
-  GHeading1,
-  GHeading2,
-  GHeading3,
-  GHeading4,
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
 } from '@react-gdoc/primitives';
 import { P } from '@react-gdoc/P';
 import { S } from '@react-gdoc/shortcuts';
@@ -24,26 +24,17 @@ const styles = {
       color: { rgbColor: { red: 1, green: 1, blue: 0 } },
     },
   },
+  bold: {
+    bold: true,
+  },
 };
 
 export default function MediumTableExample() {
   return (
     <>
-      <GHeading1>
-        <GTextRun content="React-GDoc stílus példák" />
-      </GHeading1>
-
-      <GHeading2>
-        <GTextRun content="Alcím – heading 2" />
-      </GHeading2>
-
-      <GHeading3>
-        <GTextRun content="Alcím – heading 3" />
-      </GHeading3>
-
-      <GHeading4>
-        <GTextRun content="Példák a stílusokkal (heading 4)" />
-      </GHeading4>
+      <Heading4>
+        React-GDoc stílus példák
+      </Heading4>
 
       <P>
         Egyszerű bekezdés{' '}
@@ -72,45 +63,31 @@ export default function MediumTableExample() {
         Színes szöveg: <S style={styles.redText}>piros szöveg</S> és <S style={styles.yellowBackground}>sárga háttér</S>.
       </P>
 
-      <GHeading2>
-        <GTextRun content="Egyszerű táblázat példa" />
-      </GHeading2>
+      <Heading2>Táblázat példa</Heading2>
 
       <GTable>
         <GTableRow>
           <GTableCell>
-            <GParagraph>
-              <GTextRun content="Név" />
-            </GParagraph>
+            <P>Név</P>
           </GTableCell>
           <GTableCell>
-            <GParagraph>
-              <GTextRun content="Életkor" />
-            </GParagraph>
+            <P>Életkor</P>
           </GTableCell>
         </GTableRow>
         <GTableRow>
           <GTableCell>
-            <GParagraph>
-              <GTextRun content="Kovács János" />
-            </GParagraph>
+            <P>Kovács János</P>
           </GTableCell>
           <GTableCell>
-            <GParagraph>
-              <GTextRun content="35" />
-            </GParagraph>
+            <P>35</P>
           </GTableCell>
         </GTableRow>
         <GTableRow>
           <GTableCell>
-            <GParagraph>
-              <GTextRun content="Nagy Péter" />
-            </GParagraph>
+            <P><S style={['bold']}>Nagy Péter</S></P>
           </GTableCell>
           <GTableCell>
-            <GParagraph>
-              <GTextRun content="28" />
-            </GParagraph>
+            <P><S style={{...styles.redText, ...styles.bold}}>28</S></P>
           </GTableCell>
         </GTableRow>
       </GTable>

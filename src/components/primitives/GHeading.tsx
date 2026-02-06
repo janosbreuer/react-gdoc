@@ -1,6 +1,7 @@
 import React from 'react';
-import { GParagraph, GParagraphProps } from './GParagraph';
+import { GParagraphProps } from './GParagraph';
 import type { ParagraphStyle } from './types';
+import { P } from '@react-gdoc/P';
 
 export interface GHeadingProps extends Omit<GParagraphProps, 'style'> {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
@@ -15,27 +16,26 @@ const headingStyles: Record<1 | 2 | 3 | 4 | 5 | 6, ParagraphStyle['namedStyleTyp
   6: 'HEADING_6',
 };
 
-export const GHeading1: React.FC<Omit<GHeadingProps, 'level'>> = (props) => {
-  return <GParagraph {...props} style={{ namedStyleType: 'HEADING_1' }} />;
+export const Heading1: React.FC<Omit<GHeadingProps, 'level'>> = (props) => {
+  return <P {...props} style={{ namedStyleType: headingStyles[1] }} />;
 };
 
-export const GHeading2: React.FC<Omit<GHeadingProps, 'level'>> = (props) => {
-  return <GParagraph {...props} style={{ namedStyleType: 'HEADING_2' }} />;
+export const Heading2: React.FC<Omit<GHeadingProps, 'level'>> = (props) => {
+  return <P {...props} style={{ namedStyleType: headingStyles[2] }} />;
 };
 
-export const GHeading3: React.FC<Omit<GHeadingProps, 'level'>> = (props) => {
-  return <GParagraph {...props} style={{ namedStyleType: 'HEADING_3' }} />;
+export const Heading3: React.FC<Omit<GHeadingProps, 'level'>> = (props) => {
+  return <P {...props} style={{ namedStyleType: headingStyles[3] }} />;
 };
 
-export const GHeading4: React.FC<Omit<GHeadingProps, 'level'>> = (props) => {
-  return <GParagraph {...props} style={{ namedStyleType: 'HEADING_4' }} />;
+export const Heading4: React.FC<Omit<GHeadingProps, 'level'>> = (props) => {
+  return <P {...props} style={{ namedStyleType: headingStyles[4] }} />;
 };
 
-export const GHeading5: React.FC<Omit<GHeadingProps, 'level'>> = (props) => {
-  return <GParagraph {...props} style={{ namedStyleType: 'HEADING_5' }} />;
+export const Heading5: React.FC<Omit<GHeadingProps, 'level'>> = (props) => {
+  return <P {...props} style={{ namedStyleType: headingStyles[5] }} />;
 };
 
-export const GHeading6: React.FC<Omit<GHeadingProps, 'level'>> = (props) => {
-  return <GParagraph {...props} style={{ namedStyleType: 'HEADING_6' }} />;
+export const Heading6: React.FC<Omit<GHeadingProps, 'level'>> = (props) => {
+  return <P {...props} style={{ namedStyleType: headingStyles[6] }} />;
 };
-

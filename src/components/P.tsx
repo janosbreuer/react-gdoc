@@ -11,7 +11,7 @@ export interface PProps {
  * Egyszerű bekezdés komponens - HTML-szerű szintaxis.
  * A GParagraph primitívet használja.
  */
-export const P: React.FC<PProps> = ({ style, children }) => {
+export const P: React.FC<PProps> = ({ style, children, ...props }) => {
   const processedChildren = React.Children.map(children, (child) => {
     if (typeof child === 'string') {
       return <GTextRun content={child} />;
@@ -20,7 +20,7 @@ export const P: React.FC<PProps> = ({ style, children }) => {
   });
 
   return (
-    <GParagraph style={style}>
+    <GParagraph {...props} style={style}>
       {processedChildren}
     </GParagraph>
   );

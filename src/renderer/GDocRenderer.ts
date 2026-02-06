@@ -48,6 +48,8 @@ export class GDocRenderer {
     const node = this.jsxToVirtualNode(element);
     if (!node) return;
 
+    console.debug('Virtual Node Tree:', JSON.stringify(node, null, 2));
+
     await this.renderNode(node, startIndex);
   }
 
@@ -79,35 +81,18 @@ export class GDocRenderer {
       if (tablesReversed.length !== renderContext.tableNodesReversed.length) {
         throw new Error('The number of tables in the document does not match the number of tables in the virtual tree');
       }
+      const tableUpdateBuilder = new RequestBuilder();
       for (let i = 0; i < tablesReversed.length; i++) {
         const tableInDoc = tablesReversed[i];
         const tableNode = renderContext.tableNodesReversed[i];
-        this.renderTableContent(tableNode, tableInDoc);
+
+        this.renderTableContent(tableNode, tableInDoc, tableUpdateBuilder);
+      }
+      const tableUpdateRequests = tableUpdateBuilder.getAllRequests();
+      if (tableUpdateRequests.length > 0) {
+        await this.batchUpdate(tableUpdateRequests);
       }
     }
-
-    // if (this.tableQueue.length === 0) return;
-
-    // // 2. FÁZIS: Pontos indexek lekérése a dokumentumból
-    // const doc = await this.getDocument();
-    // const tableUpdateBuilder = new RequestBuilder();
-
-    // // A táblázatokat sorrendben szúrtuk be, de a tartalommal hátulról előre kell tölteni
-    // // a dokumentum indexstabilitása miatt.
-    // for (let i = this.tableQueue.length - 1; i >= 0; i--) {
-    //   const queued = this.tableQueue[i];
-    //   // Megkeressük a táblázatot a lekért dokumentumban a mentett startIndex alapján
-    //   const table = this.findTableAt(doc, queued.startIndex);
-      
-    //   if (table && table.tableRows) {
-    //     this.fillTableContent(queued.node, table, { ...renderContext, requestBuilder: tableUpdateBuilder });
-    //   }
-    // }
-
-    // const finalRequests = tableUpdateBuilder.getAllRequests();
-    // if (finalRequests.length > 0) {
-    //   await this.batchUpdate(finalRequests);
-    // }
   }
 
   private renderInsertPhase(node: VirtualNode, renderContext: RenderContext): number {
@@ -200,7 +185,8 @@ export class GDocRenderer {
     return content.length;
   }
 
-  private renderTableContent(node: VirtualNode, table: docs_v1.Schema$Table) {
+  private renderTableContent(node: VirtualNode, table: docs_v1.Schema$Table, requestBuilder: RequestBuilder) {
+
     // megyünk hátulról előre a táblázat celláin
     const rowNodesReversed = node.children?.reverse() || [];
     const rowsInDocReversed = table.tableRows?.reverse() || [];
@@ -216,22 +202,31 @@ export class GDocRenderer {
         const cellNode = cellNodesReversed[j];
         const cellInDoc = cellsInDocReversed[j];
 
-        console.log('Cell structure:', {
+        console.log('Cell in doc structure:', {
           cellStartIndex: cellInDoc?.startIndex,
-          cellEndIndex: cellInDoc?.endIndex,
-          cellContent: cellInDoc?.content,
-          firstParagraph: cellInDoc?.content?.[0]?.paragraph,
-          firstParagraphStartIndex: cellInDoc?.content?.[0]?.paragraph?.elements?.[0]?.startIndex,
+          cellEndIndex: cellInDoc?.endIndex
         });
 
-        const contentStart = cellInDoc?.startIndex! + 1;
-        console.log('Using contentStart:', contentStart);
-        
-        this.renderNode(cellNode, contentStart);
+        function getConcatenatedNodeContent(node: VirtualNode): string {
+          if (node.type === 'GTextRun') {
+            return node.props.content || '';
+          }
+          return node.children?.reduce((acc, child) => acc + getConcatenatedNodeContent(child), '') || '';
+        }
+        const concatenatedNodeContent = getConcatenatedNodeContent(cellNode);
+        console.log('Node content:', concatenatedNodeContent);
+
+        const renderContext: RenderContext = {
+          requestBuilder,
+          startIndex: cellInDoc.startIndex! + 1,
+          previousNodeWasParagraph: false,
+          paragraphContext: null,
+          tableNodesReversed: [],
+        };
+        this.renderInsertPhase(cellNode, renderContext);
       }
     }
   }
-
   private jsxToVirtualNode(element: React.ReactElement | React.ReactNode): VirtualNode | null {
     if (!element || typeof element === 'boolean') return null;
     if (typeof element === 'string' || typeof element === 'number') {

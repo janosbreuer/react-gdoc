@@ -5,26 +5,25 @@ import {
   GTable,
   GTableRow,
   GTableCell,
+  Heading4,
 } from '@react-gdoc/primitives';
+import { P } from '@react-gdoc/P';
+import { S } from '@react-gdoc/shortcuts';
 
 export default function MinimalTableExample() {
   return (
     <>
-      <GParagraph>
-        <GTextRun content="Minimális táblázat példa" />
-      </GParagraph>
+      <Heading4>
+        Minimális táblázat példa
+      </Heading4>
 
       <GTable>
         <GTableRow>
           <GTableCell>
-            <GParagraph>
-              <GTextRun content="Első oszlop" />
-            </GParagraph>
+            <P>Első oszlop</P>
           </GTableCell>
           <GTableCell>
-            <GParagraph>
-              <GTextRun content="Második oszlop" />
-            </GParagraph>
+            <P>Második <S style={['bold']}>oszlop</S></P>
           </GTableCell>
         </GTableRow>
       </GTable>
