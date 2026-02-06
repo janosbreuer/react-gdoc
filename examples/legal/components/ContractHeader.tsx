@@ -1,5 +1,5 @@
 import React from 'react';
-import { GParagraph, GTextRun, GHeading1 } from '@react-gdoc/primitives';
+import { GParagraph, GTextRun } from '@react-gdoc/primitives';
 
 export interface ContractHeaderProps {
   title: string;

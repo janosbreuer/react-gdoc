@@ -1,234 +1,235 @@
 import React from 'react';
 import {
-  GParagraph,
-  GTextRun,
-  GHeading1,
-  GHeading2,
-  GHeading3,
   GListItem,
   GPageBreak,
+  Heading1,
+  Heading2,
+  Heading3,
 } from '@react-gdoc/primitives';
+import { P, S } from '@react-gdoc/shortcuts';
 
 export default function AdvancedExample() {
   return (
     <>
-      <GHeading1>
-        <GTextRun content="Advanced React-GDoc Example" />
-      </GHeading1>
+      <Heading1>
+        Advanced React-GDoc Example
+      </Heading1>
 
-      <GParagraph>
-        <GTextRun content="This document demonstrates various formatting options, headers, lists, and custom styles." />
-      </GParagraph>
+      <P>
+        This document demonstrates various formatting options, headers, lists, and custom styles.
+      </P>
 
       <GPageBreak />
 
-      <GHeading2>
-        <GTextRun content="Text Formatting" />
-      </GHeading2>
+      <Heading2>
+        Text Formatting
+      </Heading2>
 
-      <GParagraph>
-        <GTextRun content="You can use " />
-        <GTextRun content="bold text" style={{ bold: true }} />
-        <GTextRun content=", " />
-        <GTextRun content="italic text" style={{ italic: true }} />
-        <GTextRun content=", " />
-        <GTextRun content="underlined text" style={{ underline: true }} />
-        <GTextRun content=", and " />
-        <GTextRun content="strikethrough text" style={{ strikethrough: true }} />
-        <GTextRun content="." />
-      </GParagraph>
+      <P>
+        You can use{' '}
+        <S className="font-bold">bold text</S>
+        ,{' '}
+        <S className="italic">italic text</S>
+        ,{' '}
+        <S className="underline">underlined text</S>
+        , and{' '}
+        <S className="line-through">strikethrough text</S>
+        .
+      </P>
 
-      <GParagraph>
-        <GTextRun content="You can also combine formats: " />
-        <GTextRun content="bold and italic" style={{ bold: true, italic: true }} />
-        <GTextRun content=", or " />
-        <GTextRun content="bold and underlined" style={{ bold: true, underline: true }} />
-        <GTextRun content="." />
-      </GParagraph>
+      <P>
+        You can also combine formats:{' '}
+        <S className="font-bold italic">bold and italic</S>
+        , or{' '}
+        <S className="font-bold underline">bold and underlined</S>
+        .
+      </P>
 
-      <GHeading2>
-        <GTextRun content="Named Styles" />
-      </GHeading2>
+      <P>
+        Nested S components merge styles:{' '}
+        <S className="font-bold">
+          bold text with{' '}
+          <S className="italic">nested italic</S>
+          {' '}and{' '}
+          <S className="text-red-500 underline">nested red underlined</S>
+        </S>
+        .
+      </P>
 
-      <GParagraph style={{ namedStyleType: 'TITLE' }}>
-        <GTextRun content="This paragraph uses the TITLE named style." />
-      </GParagraph>
+      <P>
+        Multiple levels of nesting:{' '}
+        <S className="text-blue-500">
+          blue text with{' '}
+          <S className="font-bold">
+            bold and{' '}
+            <S className="italic">bold italic</S>
+          </S>
+        </S>
+        .
+      </P>
 
-      <GParagraph style={{ namedStyleType: 'SUBTITLE' }}>
-        <GTextRun content="This paragraph uses the SUBTITLE named style." />
-      </GParagraph>
+      <Heading2>
+        Named Styles
+      </Heading2>
 
-      <GParagraph style={{ namedStyleType: 'HEADING_1' }}>
-        <GTextRun content="This paragraph uses HEADING_1 named style (alternative to GHeading1)." />
-      </GParagraph>
+      <P style={{ namedStyleType: 'TITLE' }}>
+        This paragraph uses the TITLE named style.
+      </P>
 
-      <GHeading3>
-        <GTextRun content="Custom Paragraph Styles" />
-      </GHeading3>
+      <P style={{ namedStyleType: 'SUBTITLE' }}>
+        This paragraph uses the SUBTITLE named style.
+      </P>
 
-      <GParagraph style={{ alignment: 'CENTER' }}>
-        <GTextRun content="This paragraph is centered." />
-      </GParagraph>
+      <P style={{ namedStyleType: 'HEADING_1' }}>
+        This paragraph uses HEADING_1 named style (alternative to GHeading1).
+      </P>
 
-      <GParagraph style={{ alignment: 'END' }}>
-        <GTextRun content="This paragraph is right-aligned." />
-      </GParagraph>
+      <Heading3>
+        Custom Paragraph Styles
+      </Heading3>
 
-      <GParagraph style={{ alignment: 'JUSTIFIED' }}>
-        <GTextRun content="This paragraph is justified. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
-      </GParagraph>
+      <P className="text-center">
+        This paragraph is centered.
+      </P>
 
-      <GHeading2>
-        <GTextRun content="Lists" />
-      </GHeading2>
+      <P className="text-right">
+        This paragraph is right-aligned.
+      </P>
 
-      <GParagraph>
-        <GTextRun content="Unordered list items:" />
-      </GParagraph>
+      <P className="text-justify">
+        This paragraph is justified. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </P>
+
+      <Heading2>
+        Lists
+      </Heading2>
+
+      <P>
+        Unordered list items:
+      </P>
 
       <GListItem nestingLevel={0} ordered={false}>
-        <GParagraph>
-          <GTextRun content="First item" />
-        </GParagraph>
+        <P>
+          First item
+        </P>
       </GListItem>
 
       <GListItem nestingLevel={0} ordered={false}>
-        <GParagraph>
-          <GTextRun content="Second item with " />
-          <GTextRun content="bold text" style={{ bold: true }} />
-        </GParagraph>
+        <P>
+          Second item with{' '}
+          <S className="font-bold">bold text</S>
+        </P>
       </GListItem>
 
       <GListItem nestingLevel={0} ordered={false}>
-        <GParagraph>
-          <GTextRun content="Third item" />
-        </GParagraph>
+        <P>
+          Third item
+        </P>
       </GListItem>
 
       <GListItem nestingLevel={1} ordered={false}>
-        <GParagraph>
-          <GTextRun content="Nested item (level 1)" />
-        </GParagraph>
+        <P>
+          Nested item (level 1)
+        </P>
       </GListItem>
 
       <GListItem nestingLevel={1} ordered={false}>
-        <GParagraph>
-          <GTextRun content="Another nested item" />
-        </GParagraph>
+        <P>
+          Another nested item
+        </P>
       </GListItem>
 
       <GListItem nestingLevel={0} ordered={false}>
-        <GParagraph>
-          <GTextRun content="Back to top level" />
-        </GParagraph>
+        <P>
+          Back to top level
+        </P>
       </GListItem>
 
-      <GParagraph>
-        <GTextRun content="Ordered list items:" />
-      </GParagraph>
+      <P>
+        Ordered list items:
+      </P>
 
       <GListItem nestingLevel={0} ordered={true}>
-        <GParagraph>
-          <GTextRun content="First numbered item" />
-        </GParagraph>
+        <P>
+          First numbered item
+        </P>
       </GListItem>
 
       <GListItem nestingLevel={0} ordered={true}>
-        <GParagraph>
-          <GTextRun content="Second numbered item" />
-        </GParagraph>
+        <P>
+          Second numbered item
+        </P>
       </GListItem>
 
       <GListItem nestingLevel={1} ordered={true}>
-        <GParagraph>
-          <GTextRun content="Nested numbered item (level 1)" />
-        </GParagraph>
+        <P>
+          Nested numbered item (level 1)
+        </P>
       </GListItem>
 
       <GListItem nestingLevel={1} ordered={true}>
-        <GParagraph>
-          <GTextRun content="Another nested numbered item" />
-        </GParagraph>
+        <P>
+          Another nested numbered item
+        </P>
       </GListItem>
 
       <GListItem nestingLevel={0} ordered={true}>
-        <GParagraph>
-          <GTextRun content="Back to top level numbered" />
-        </GParagraph>
+        <P>
+          Back to top level numbered
+        </P>
       </GListItem>
 
-      <GHeading2>
-        <GTextRun content="Custom Text Styles" />
-      </GHeading2>
+      <Heading2>
+        Custom Text Styles
+      </Heading2>
 
-      <GParagraph>
-        <GTextRun content="Custom font size: " />
-        <GTextRun content="Large text" style={{ fontSize: { magnitude: 18, unit: 'PT' } }} />
-        <GTextRun content=" and " />
-        <GTextRun content="Small text" style={{ fontSize: { magnitude: 8, unit: 'PT' } }} />
-        <GTextRun content="." />
-      </GParagraph>
+      <P>
+        Custom font size:{' '}
+        <S className="text-xl">Large text</S>
+        {' '}and{' '}
+        <S className="text-xs">Small text</S>
+        .
+      </P>
 
-      <GParagraph>
-        <GTextRun content="Custom colors: " />
-        <GTextRun 
-          content="Red text" 
-          style={{ 
-            foregroundColor: { 
-              color: { rgbColor: { red: 1, green: 0, blue: 0 } } 
-            } 
-          }} 
-        />
-        <GTextRun content=", " />
-        <GTextRun 
-          content="Blue text" 
-          style={{ 
-            foregroundColor: { 
-              color: { rgbColor: { red: 0, green: 0, blue: 1 } } 
-            } 
-          }} 
-        />
-        <GTextRun content=", and " />
-        <GTextRun 
-          content="Green background" 
-          style={{ 
-            backgroundColor: { 
-              color: { rgbColor: { red: 0, green: 1, blue: 0 } } 
-            } 
-          }} 
-        />
-        <GTextRun content="." />
-      </GParagraph>
+      <P>
+        Custom colors:{' '}
+        <S className="text-red-500">Red text</S>
+        ,{' '}
+        <S className="text-blue-500">Blue text</S>
+        , and{' '}
+        <S className="bg-green-500">Green background</S>
+        .
+      </P>
 
-      <GHeading2>
-        <GTextRun content="Paragraph Spacing" />
-      </GHeading2>
+      <Heading2>
+        Paragraph Spacing
+      </Heading2>
 
-      <GParagraph style={{ spaceAbove: { magnitude: 12, unit: 'PT' } }}>
-        <GTextRun content="This paragraph has extra space above." />
-      </GParagraph>
+      <P style={{ spaceAbove: { magnitude: 12, unit: 'PT' } }}>
+        This paragraph has extra space above.
+      </P>
 
-      <GParagraph style={{ spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-        <GTextRun content="This paragraph has extra space below." />
-      </GParagraph>
+      <P style={{ spaceBelow: { magnitude: 12, unit: 'PT' } }}>
+        This paragraph has extra space below.
+      </P>
 
-      <GParagraph>
-        <GTextRun content="Normal spacing paragraph." />
-      </GParagraph>
+      <P>
+        Normal spacing paragraph.
+      </P>
 
-      <GHeading2>
-        <GTextRun content="Conclusion" />
-      </GHeading2>
+      <Heading2>
+        Conclusion
+      </Heading2>
 
-      <GParagraph>
-        <GTextRun content="This example demonstrates the flexibility of the React-GDoc framework. You can combine " />
-        <GTextRun content="various formatting options" style={{ bold: true, italic: true }} />
-        <GTextRun content=", use " />
-        <GTextRun content="named styles" style={{ foregroundColor: { color: { rgbColor: { red: 0.2, green: 0.4, blue: 0.8 } } } }} />
-        <GTextRun content=", and create " />
-        <GTextRun content="custom styles" style={{ fontSize: { magnitude: 14, unit: 'PT' }, underline: true }} />
-        <GTextRun content=" to create professional documents." />
-      </GParagraph>
+      <P>
+        This example demonstrates the flexibility of the React-GDoc framework. You can combine{' '}
+        <S className="font-bold italic">various formatting options</S>
+        , use{' '}
+        <S className="text-blue-600">named styles</S>
+        , and create{' '}
+        <S className="text-base underline">custom styles</S>
+        {' '}to create professional documents.
+      </P>
     </>
   );
 }

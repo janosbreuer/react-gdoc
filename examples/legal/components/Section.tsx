@@ -1,5 +1,5 @@
 import React from 'react';
-import { GHeading2, GTextRun } from '@react-gdoc/primitives';
+import { Heading2 } from '@react-gdoc/primitives';
 
 export interface SectionProps {
   title: string;
@@ -9,14 +9,14 @@ export interface SectionProps {
 /**
  * Egy szerződési szakasz komponens.
  * Clause komponensekből épül fel, amelyek viszont primitívekből épülnek.
- * A beépített GHeading2 komponenst használja.
+ * A beépített Heading2 komponenst használja.
  */
 export const Section: React.FC<SectionProps> = ({ title, children }) => {
   return (
     <>
-      <GHeading2>
-        <GTextRun content={title} />
-      </GHeading2>
+      <Heading2>
+        {title}
+      </Heading2>
       {children}
     </>
   );

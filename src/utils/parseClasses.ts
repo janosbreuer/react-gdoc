@@ -99,3 +99,38 @@ export function parseParagraphClasses(classNames: string): ParagraphStyle {
   return style;
 }
 
+const PARAGRAPH_ALIGNMENT_CLASSES = ['text-left', 'text-center', 'text-right', 'text-justify'];
+
+const TEXT_CLASSES = [
+  'font-bold', 'bold', 'italic', 'underline', 'line-through', 'strikethrough',
+  'text-xs', 'text-sm', 'text-base', 'text-lg', 'text-xl', 'text-2xl', 'text-3xl',
+  'text-4xl', 'text-5xl', 'text-6xl', 'text-7xl', 'text-8xl', 'text-9xl'
+];
+
+const isTextClass = (className: string): boolean => {
+  if (PARAGRAPH_ALIGNMENT_CLASSES.includes(className)) return false;
+  if (TEXT_CLASSES.includes(className)) return true;
+  if (className.match(/^text-(.+)$/)) return true;
+  if (className.match(/^bg-(.+)$/)) return true;
+  return false;
+};
+
+export function splitClasses(classNames: string): { paragraphClasses: string; textClasses: string } {
+  const classes = classNames.split(/\s+/).filter(Boolean);
+  const paragraphClasses: string[] = [];
+  const textClasses: string[] = [];
+  
+  classes.forEach(className => {
+    if (isTextClass(className)) {
+      textClasses.push(className);
+    } else {
+      paragraphClasses.push(className);
+    }
+  });
+  
+  return {
+    paragraphClasses: paragraphClasses.join(' '),
+    textClasses: textClasses.join(' '),
+  };
+}
+

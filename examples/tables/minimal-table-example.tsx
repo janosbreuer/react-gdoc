@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  GParagraph,
-  GTextRun,
-  GTable,
-  GTableRow,
-  GTableCell,
-  Heading4,
-} from '@react-gdoc/primitives';
+import { Heading4 } from '@react-gdoc/primitives';
 import { P, S } from '@react-gdoc/shortcuts';
+import { Table, TRow, TCell } from '@react-gdoc/tables';
 
 export default function MinimalTableExample() {
   return (
@@ -16,16 +10,16 @@ export default function MinimalTableExample() {
         Minimális táblázat példa
       </Heading4>
 
-      <GTable>
-        <GTableRow>
-          <GTableCell>
+      <Table>
+        <TRow>
+          <TCell>
             <P>Első oszlop</P>
-          </GTableCell>
-          <GTableCell>
-            <P>Második <S style={{ bold: true }}>oszlop</S></P>
-          </GTableCell>
-        </GTableRow>
-      </GTable>
+          </TCell>
+          <TCell>
+            <P>Második <S className="font-bold">oszlop</S></P>
+          </TCell>
+        </TRow>
+      </Table>
     </>
   );
 }

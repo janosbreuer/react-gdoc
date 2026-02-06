@@ -1,5 +1,6 @@
 import React from 'react';
-import { GParagraph, GTextRun, GHeading1, GHeading2 } from '@react-gdoc/primitives';
+import { Heading1, Heading2 } from '@react-gdoc/primitives';
+import { P } from '@react-gdoc/shortcuts';
 import { ContractHeader, Section, Clause } from './components';
 
 /**
@@ -9,21 +10,21 @@ import { ContractHeader, Section, Clause } from './components';
 export default function TestComponents() {
   return (
     <>
-      <GHeading1>
-        <GTextRun content="Teszt Dokumentum" />
-      </GHeading1>
+      <Heading1>
+        Teszt Dokumentum
+      </Heading1>
 
-      <GParagraph>
-        <GTextRun content="Ez egy egyszerű teszt bekezdés." />
-      </GParagraph>
+      <P>
+        Ez egy egyszerű teszt bekezdés.
+      </P>
 
-      <GHeading2>
-        <GTextRun content="Teszt Section" />
-      </GHeading2>
+      <Heading2>
+        Teszt Section
+      </Heading2>
 
-      <GParagraph>
-        <GTextRun content="Ez egy másik bekezdés a section után." />
-      </GParagraph>
+      <P>
+        Ez egy másik bekezdés a section után.
+      </P>
 
       <ContractHeader 
         title="Teszt Szerződés Címe"
@@ -32,20 +33,20 @@ export default function TestComponents() {
         location="Budapest"
       />
 
-      <GParagraph>
-        <GTextRun content="Ez egy bekezdés a ContractHeader után." />
-      </GParagraph>
+      <P>
+        Ez egy bekezdés a ContractHeader után.
+      </P>
 
       <Section title="Teszt Szakasz">
-        <GParagraph>
-          <GTextRun content="Ez egy bekezdés a Section-ben." />
-        </GParagraph>
+        <P>
+          Ez egy bekezdés a Section-ben.
+        </P>
       </Section>
 
       <Clause number={1} title="Teszt Záradék">
-        <GParagraph>
-          <GTextRun content="Ez egy bekezdés a Clause-ben." />
-        </GParagraph>
+        <P>
+          Ez egy bekezdés a Clause-ben.
+        </P>
       </Clause>
     </>
   );

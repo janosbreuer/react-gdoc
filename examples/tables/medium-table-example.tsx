@@ -1,28 +1,7 @@
 import React from 'react';
-import {
-  GTable,
-  GTableRow,
-  GTableCell,
-  Heading2,
-  Heading4,
-} from '@react-gdoc/primitives';
+import { Heading2, Heading4 } from '@react-gdoc/primitives';
 import { P, S } from '@react-gdoc/shortcuts';
-
-const styles = {
-  redText: {
-    foregroundColor: {
-      color: { rgbColor: { red: 1, green: 0, blue: 0 } },
-    },
-  },
-  yellowBackground: {
-    backgroundColor: {
-      color: { rgbColor: { red: 1, green: 1, blue: 0 } },
-    },
-  },
-  bold: {
-    bold: true,
-  },
-};
+import { Table, TRow, TCell } from '@react-gdoc/tables';
 
 export default function MediumTableExample() {
   return (
@@ -33,59 +12,59 @@ export default function MediumTableExample() {
 
       <P>
         Egyszerű bekezdés{' '}
-        <S style={{ bold: true }}>félkövér</S>{' '}
+        <S className="font-bold">félkövér</S>{' '}
         és{' '}
-        <S style={{ italic: true }}>dőlt</S>
+        <S className="italic">dőlt</S>
         .
       </P>
 
       <P>
         Többféle stílus:{' '}
-        <S style={{ underline: true }}>aláhúzott</S>,{' '}
-        <S style={{ strikethrough: true }}>áthúzott</S>,{' '}
-        <S style={{ bold: true, italic: true }}>félkövér + dőlt</S>,{' '}
-        <S style={{ bold: true, italic: true, underline: true }}>
+        <S className="underline">aláhúzott</S>,{' '}
+        <S className="line-through">áthúzott</S>,{' '}
+        <S className="font-bold italic">félkövér + dőlt</S>,{' '}
+        <S className="font-bold italic underline">
           félkövér + dőlt + aláhúzott
         </S>{' '}
         és{' '}
-        <S style={{ bold: true, strikethrough: true }}>
+        <S className="font-bold line-through">
           félkövér + áthúzott
         </S>
         .
       </P>
 
       <P>
-        Színes szöveg: <S style={styles.redText}>piros szöveg</S> és <S style={styles.yellowBackground}>sárga háttér</S>.
+        Színes szöveg: <S className="text-red-500">piros szöveg</S> és <S className="bg-yellow-400">sárga háttér</S>.
       </P>
 
       <Heading2>Táblázat példa</Heading2>
 
-      <GTable>
-        <GTableRow>
-          <GTableCell>
+      <Table>
+        <TRow>
+          <TCell>
             <P>Név</P>
-          </GTableCell>
-          <GTableCell>
+          </TCell>
+          <TCell>
             <P>Életkor</P>
-          </GTableCell>
-        </GTableRow>
-        <GTableRow>
-          <GTableCell>
+          </TCell>
+        </TRow>
+        <TRow>
+          <TCell>
             <P>Kovács János</P>
-          </GTableCell>
-          <GTableCell>
+          </TCell>
+          <TCell>
             <P>35</P>
-          </GTableCell>
-        </GTableRow>
-        <GTableRow>
-          <GTableCell>
-            <P><S style={{ bold: true }}>Nagy Péter</S></P>
-          </GTableCell>
-          <GTableCell>
-            <P><S style={{...styles.redText, ...styles.bold}}>28</S></P>
-          </GTableCell>
-        </GTableRow>
-      </GTable>
+          </TCell>
+        </TRow>
+        <TRow>
+          <TCell>
+            <P><S className="font-bold">Nagy Péter</S></P>
+          </TCell>
+          <TCell>
+            <P><S className="text-red-500 font-bold">28</S></P>
+          </TCell>
+        </TRow>
+      </Table>
     </>
   );
 }

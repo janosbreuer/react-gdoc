@@ -148,14 +148,16 @@ export class GDocRenderer {
     
     const rawStyle = (node.props.paragraphStyle || node.props.style) as ParagraphStyle | null | undefined;
 
-    const effectiveStyle: ParagraphStyle =
-      !rawStyle || Object.keys(rawStyle).length === 0
-        ? { namedStyleType: 'NORMAL_TEXT' }
-        : rawStyle;
+    const effectiveStyle: ParagraphStyle = rawStyle || {};
+    if (!effectiveStyle.namedStyleType) {
+      effectiveStyle.namedStyleType = 'NORMAL_TEXT';
+    }
 
+    console.log('Effective style:', effectiveStyle);
     requestBuilder.addUpdateParagraphStyle(startIndex, paragraphContext.cursorIndex, effectiveStyle);
     
     for (const textStyleUpdate of paragraphContext.textStyleUpdates) {
+      console.log('Text style update:', textStyleUpdate);
       requestBuilder.addUpdateTextStyle(textStyleUpdate.startIndex, textStyleUpdate.endIndex, textStyleUpdate.style);
     }
 
