@@ -80,6 +80,30 @@ export function parseTextClasses(classNames: string): TextStyle {
   return style;
 }
 
+const SPACING_MAP: Record<string, number> = {
+  'mb-0': 0, 'mt-0': 0, 'pb-0': 0, 'pt-0': 0,
+  'mb-1': 4, 'mt-1': 4, 'pb-1': 4, 'pt-1': 4,
+  'mb-2': 8, 'mt-2': 8, 'pb-2': 8, 'pt-2': 8,
+  'mb-3': 12, 'mt-3': 12, 'pb-3': 12, 'pt-3': 12,
+  'mb-4': 16, 'mt-4': 16, 'pb-4': 16, 'pt-4': 16,
+  'mb-5': 20, 'mt-5': 20, 'pb-5': 20, 'pt-5': 20,
+  'mb-6': 24, 'mt-6': 24, 'pb-6': 24, 'pt-6': 24,
+};
+
+const INDENT_MAP: Record<string, number> = {
+  'indent-0': 0,
+  'indent-1': 4,
+  'indent-2': 8,
+  'indent-3': 12,
+  'indent-4': 16,
+  'indent-5': 20,
+  'indent-6': 24,
+  'indent-7': 28,
+  'indent-8': 32,
+  'indent-9': 36,
+  'indent-10': 40,
+};
+
 export function parseParagraphClasses(classNames: string): ParagraphStyle {
   const classes = classNames.split(/\s+/).filter(Boolean);
   const style: ParagraphStyle = {};
@@ -93,6 +117,19 @@ export function parseParagraphClasses(classNames: string): ParagraphStyle {
       style.alignment = 'END';
     } else if (className === 'text-justify') {
       style.alignment = 'JUSTIFIED';
+    } else if (SPACING_MAP[className]) {
+      const magnitude = SPACING_MAP[className];
+      if (className.startsWith('mb-')) {
+        style.spaceBelow = { magnitude, unit: 'PT' };
+      } else if (className.startsWith('mt-')) {
+        style.spaceAbove = { magnitude, unit: 'PT' };
+      } else if (className.startsWith('pb-')) {
+        style.spaceBelow = { magnitude, unit: 'PT' };
+      } else if (className.startsWith('pt-')) {
+        style.spaceAbove = { magnitude, unit: 'PT' };
+      }
+    } else if (INDENT_MAP[className]) {
+      style.indentStart = { magnitude: INDENT_MAP[className], unit: 'PT' };
     }
   });
   
@@ -100,6 +137,8 @@ export function parseParagraphClasses(classNames: string): ParagraphStyle {
 }
 
 const PARAGRAPH_ALIGNMENT_CLASSES = ['text-left', 'text-center', 'text-right', 'text-justify'];
+const PARAGRAPH_SPACING_CLASSES = Object.keys(SPACING_MAP);
+const PARAGRAPH_INDENT_CLASSES = Object.keys(INDENT_MAP);
 
 const TEXT_CLASSES = [
   'font-bold', 'bold', 'italic', 'underline', 'line-through', 'strikethrough',
@@ -109,6 +148,8 @@ const TEXT_CLASSES = [
 
 const isTextClass = (className: string): boolean => {
   if (PARAGRAPH_ALIGNMENT_CLASSES.includes(className)) return false;
+  if (PARAGRAPH_SPACING_CLASSES.includes(className)) return false;
+  if (PARAGRAPH_INDENT_CLASSES.includes(className)) return false;
   if (TEXT_CLASSES.includes(className)) return true;
   if (className.match(/^text-(.+)$/)) return true;
   if (className.match(/^bg-(.+)$/)) return true;

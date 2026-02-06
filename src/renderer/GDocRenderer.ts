@@ -128,6 +128,18 @@ export class GDocRenderer {
         renderContext.tableNodesReversed.push(node);
         length = rows * cols;
         break;
+      case 'GPageBreak':
+        renderContext.requestBuilder.addInsertPageBreak(renderContext.startIndex);
+        length = 1;
+        break;
+      case 'GColumnBreak':
+        renderContext.requestBuilder.addInsertColumnBreak(renderContext.startIndex);
+        length = 1;
+        break;
+      case 'GHorizontalRule':
+        renderContext.requestBuilder.addInsertHorizontalRule(renderContext.startIndex);
+        length = 1;
+        break;
       default:
         if (node.children) {
           const children = renderContext.paragraphContext ? node.children : node.children.reverse();
@@ -137,7 +149,9 @@ export class GDocRenderer {
         }
         break;
     }
-    renderContext.previousNodeWasParagraph = isParagraph;
+    if (node.type !== 'Fragment') {
+      renderContext.previousNodeWasParagraph = isParagraph;
+    }
     return length;
   }
 

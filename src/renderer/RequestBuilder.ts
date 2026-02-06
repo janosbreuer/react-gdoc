@@ -39,6 +39,7 @@ export class RequestBuilder {
     } as any);
   }
 
+
   addInsertHorizontalRule(startIndex: number): void {
     this.requests.push({
       insertHorizontalRule: {

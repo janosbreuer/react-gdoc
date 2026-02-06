@@ -164,3 +164,7 @@ export const S: React.FC<SProps> = ({ className, style, children }) => {
   return <>{flattened}</>;
 };
 
+export const Br: React.FC = () => {
+  return <GTextRun content={'\u000b'} />;
+};
+
