@@ -1,7 +1,7 @@
 import React from 'react';
-import { GParagraphProps } from './GParagraph';
-import type { ParagraphStyle } from './types';
-import { P } from '@react-gdoc/P';
+import { GParagraphProps } from './primitives/GParagraph';
+import type { ParagraphStyle } from './primitives/types';
+import { P } from './shortcuts';
 
 export interface GHeadingProps extends Omit<GParagraphProps, 'style'> {
   level?: 1 | 2 | 3 | 4 | 5 | 6;

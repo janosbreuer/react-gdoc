@@ -113,12 +113,12 @@ export default function ExampleContract({ args = [] }: ExampleContractProps = {}
           <SubClause letter="a" title="Megbízó">
             {numberOfParties === 1 ? (
               <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-                A <S style={['bold', 'italic']}>megbízó</S> a {parties[0].name} (székhely: {parties[0].address}, cégjegyzékszám: {parties[0].registrationNumber}, adószám: {parties[0].taxNumber}), amely a szolgáltatásokat igénybe veszi. A <S style={['bold', 'italic']}>megbízó</S> köteles biztosítani a szolgáltatások nyújtásához szükséges feltételeket és információkat, valamint időben teljesíteni a fizetési kötelezettségeit.
+                A <S style={{ bold: true, italic: true }}>megbízó</S> a {parties[0].name} (székhely: {parties[0].address}, cégjegyzékszám: {parties[0].registrationNumber}, adószám: {parties[0].taxNumber}), amely a szolgáltatásokat igénybe veszi. A <S style={{ bold: true, italic: true }}>megbízó</S> köteles biztosítani a szolgáltatások nyújtásához szükséges feltételeket és információkat, valamint időben teljesíteni a fizetési kötelezettségeit.
               </P>
             ) : (
               <>
                 <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-                  A <S style={['bold', 'italic']}>megbízók</S> a következők:
+                  A <S style={{ bold: true, italic: true }}>megbízók</S> a következők:
                 </P>
                 {parties.map((party, idx) => (
                   <P key={idx} style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
@@ -126,14 +126,14 @@ export default function ExampleContract({ args = [] }: ExampleContractProps = {}
                   </P>
                 ))}
                 <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-                  A <S style={['bold', 'italic']}>megbízók</S> kötelesek biztosítani a szolgáltatások nyújtásához szükséges feltételeket és információkat, valamint időben teljesíteni a fizetési kötelezettségeiket.
+                  A <S style={{ bold: true, italic: true }}>megbízók</S> kötelesek biztosítani a szolgáltatások nyújtásához szükséges feltételeket és információkat, valamint időben teljesíteni a fizetési kötelezettségeiket.
                 </P>
               </>
             )}
           </SubClause>
           <SubClause letter="b" title="Megbízott">
             <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-              A <S style={['bold', 'italic']}>megbízott</S> az ABC Kft. (székhely: 1011 Budapest, Fő utca 1., cégjegyzékszám: 01-23-456789, adószám: 12345678-1-23), amely a szerződésben meghatározott szolgáltatásokat nyújtja. A <S style={['bold', 'italic']}>megbízott</S> felelős a szolgáltatások minőségéért és időben történő teljesítéséért.
+              A <S style={{ bold: true, italic: true }}>megbízott</S> az ABC Kft. (székhely: 1011 Budapest, Fő utca 1., cégjegyzékszám: 01-23-456789, adószám: 12345678-1-23), amely a szerződésben meghatározott szolgáltatásokat nyújtja. A <S style={{ bold: true, italic: true }}>megbízott</S> felelős a szolgáltatások minőségéért és időben történő teljesítéséért.
             </P>
           </SubClause>
         </Clause>
@@ -142,40 +142,40 @@ export default function ExampleContract({ args = [] }: ExampleContractProps = {}
       <Section title="2. Szolgáltatások">
         <Clause number={3} title="Szolgáltatás tartalma">
           <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-            A <S style={['bold', 'italic']}>megbízott</S> a következő szolgáltatásokat nyújtja a <S style={['bold', 'italic']}>{partyPossessive}</S> részére:
+            A <S style={{ bold: true, italic: true }}>megbízott</S> a következő szolgáltatásokat nyújtja a <S style={{ bold: true, italic: true }}>{partyPossessive}</S> részére:
           </P>
           <P style={{ 
             alignment: 'JUSTIFIED',
             indentStart: { magnitude: 18, unit: 'PT' },
             spaceBelow: { magnitude: 12, unit: 'PT' }
           }}>
-            <S style={['bold']}>a)</S> Tanácsadási szolgáltatások: stratégiai, működési és technológiai tanácsadás, üzleti folyamatok elemzése és optimalizálási javaslatok kidolgozása.
+            <S style={{ bold: true }}>a)</S> Tanácsadási szolgáltatások: stratégiai, működési és technológiai tanácsadás, üzleti folyamatok elemzése és optimalizálási javaslatok kidolgozása.
           </P>
           <P style={{ 
             alignment: 'JUSTIFIED',
             indentStart: { magnitude: 18, unit: 'PT' },
             spaceBelow: { magnitude: 12, unit: 'PT' }
           }}>
-            <S style={['bold']}>b)</S> Projektmenedzsment: projektek tervezése, koordinálása, monitoringja és lezárása, projektcsapatok vezetése, határidők és költségvetések kezelése.
+            <S style={{ bold: true }}>b)</S> Projektmenedzsment: projektek tervezése, koordinálása, monitoringja és lezárása, projektcsapatok vezetése, határidők és költségvetések kezelése.
           </P>
           <P style={{ 
             alignment: 'JUSTIFIED',
             indentStart: { magnitude: 18, unit: 'PT' },
             spaceBelow: { magnitude: 12, unit: 'PT' }
           }}>
-            <S style={['bold']}>c)</S> Technikai támogatás: rendszerek telepítése, konfigurálása, karbantartása és hibaelhárítása.
+            <S style={{ bold: true }}>c)</S> Technikai támogatás: rendszerek telepítése, konfigurálása, karbantartása és hibaelhárítása.
           </P>
         </Clause>
 
         <Clause number={4} title="Szolgáltatás időtartama">
           <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-            A szolgáltatások nyújtása <S style={['bold']}>2026. február 1.</S>-től <S style={['bold']}>2026. december 31.</S>-ig tart. A <S style={['bold', 'italic']}>megbízott</S> köteles folyamatosan nyújtani a szolgáltatásokat, kivéve, ha a szerződésben másként rendelkeznek.
+            A szolgáltatások nyújtása <S style={{ bold: true }}>2026. február 1.</S>-től <S style={{ bold: true }}>2026. december 31.</S>-ig tart. A <S style={{ bold: true, italic: true }}>megbízott</S> köteles folyamatosan nyújtani a szolgáltatásokat, kivéve, ha a szerződésben másként rendelkeznek.
           </P>
         </Clause>
 
         <Clause number={5} title="Szolgáltatás minősége">
           <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-            A <S style={['bold', 'italic']}>megbízott</S> köteles a szolgáltatásokat professzionális minőségben, a szakmai szabályoknak megfelelően nyújtani. A <S style={['bold', 'italic']}>{partyPossessive}</S> {partyVerb} a szolgáltatások minőségének ellenőrzésére.
+            A <S style={{ bold: true, italic: true }}>megbízott</S> köteles a szolgáltatásokat professzionális minőségben, a szakmai szabályoknak megfelelően nyújtani. A <S style={{ bold: true, italic: true }}>{partyPossessive}</S> {partyVerb} a szolgáltatások minőségének ellenőrzésére.
           </P>
         </Clause>
       </Section>
@@ -183,13 +183,13 @@ export default function ExampleContract({ args = [] }: ExampleContractProps = {}
       <Section title="3. Pénzügyi rendelkezések">
         <Clause number={6} title="Díjszabás">
           <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-            A szolgáltatások díja: <S style={['bold']}>5.000.000 Ft</S> (áfával együtt). Az ár tartalmazza az összes olyan költséget, amely a szolgáltatások nyújtásához szükséges.
+            A szolgáltatások díja: <S style={{ bold: true }}>5.000.000 Ft</S> (áfával együtt). Az ár tartalmazza az összes olyan költséget, amely a szolgáltatások nyújtásához szükséges.
           </P>
         </Clause>
 
         <Clause number={7} title="Fizetési feltételek">
           <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-            A <S style={['bold', 'italic']}>{partyPossessive}</S> köteles <S style={['bold']}>30 napos</S> határidővel teljesíteni a fizetési kötelezettségét a számla kiállítását követően. A fizetés banki átutalással történik. Késedelmes fizetés esetén a <S style={['bold', 'italic']}>{partyPossessive}</S> köteles késedelmi kamatot fizetni.
+            A <S style={{ bold: true, italic: true }}>{partyPossessive}</S> köteles <S style={{ bold: true }}>30 napos</S> határidővel teljesíteni a fizetési kötelezettségét a számla kiállítását követően. A fizetés banki átutalással történik. Késedelmes fizetés esetén a <S style={{ bold: true, italic: true }}>{partyPossessive}</S> köteles késedelmi kamatot fizetni.
           </P>
         </Clause>
       </Section>
@@ -197,13 +197,13 @@ export default function ExampleContract({ args = [] }: ExampleContractProps = {}
       <Section title="4. Felelősség és kártérítés">
         <Clause number={8} title="Felelősség">
           <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-            A <S style={['bold', 'italic']}>megbízott</S> felelős a szolgáltatások hibás vagy hiányos teljesítéséért. A <S style={['bold', 'italic']}>megbízott</S> felelőssége nem terjed ki olyan károkra, amelyek a <S style={['bold', 'italic']}>{partyPossessive}</S> hibájából erednek. A felelősség összesen nem haladhatja meg a szerződésben meghatározott szolgáltatási díj összegét.
+            A <S style={{ bold: true, italic: true }}>megbízott</S> felelős a szolgáltatások hibás vagy hiányos teljesítéséért. A <S style={{ bold: true, italic: true }}>megbízott</S> felelőssége nem terjed ki olyan károkra, amelyek a <S style={{ bold: true, italic: true }}>{partyPossessive}</S> hibájából erednek. A felelősség összesen nem haladhatja meg a szerződésben meghatározott szolgáltatási díj összegét.
           </P>
         </Clause>
 
         <Clause number={9} title="Kártérítés">
           <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-            Amennyiben a <S style={['bold', 'italic']}>megbízott</S> a szerződésben meghatározott kötelezettségeit megszegi, és ebből kár keletkezik a <S style={['bold', 'italic']}>{partyPossessive}</S> számára, a <S style={['bold', 'italic']}>megbízott</S> köteles kártérítést fizetni.
+            Amennyiben a <S style={{ bold: true, italic: true }}>megbízott</S> a szerződésben meghatározott kötelezettségeit megszegi, és ebből kár keletkezik a <S style={{ bold: true, italic: true }}>{partyPossessive}</S> számára, a <S style={{ bold: true, italic: true }}>megbízott</S> köteles kártérítést fizetni.
           </P>
         </Clause>
       </Section>
@@ -211,7 +211,7 @@ export default function ExampleContract({ args = [] }: ExampleContractProps = {}
       <Section title="5. Adatvédelem és titoktartás">
         <Clause number={10} title="Adatvédelem">
           <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-            A felek kötelesek betartani az adatvédelmi jogszabályokat. A <S style={['bold', 'italic']}>megbízott</S> köteles biztosítani, hogy a <S style={['bold', 'italic']}>{partyPossessive}</S>tól kapott személyes adatokat csak a szerződésben meghatározott célokra használja fel.
+            A felek kötelesek betartani az adatvédelmi jogszabályokat. A <S style={{ bold: true, italic: true }}>megbízott</S> köteles biztosítani, hogy a <S style={{ bold: true, italic: true }}>{partyPossessive}</S>tól kapott személyes adatokat csak a szerződésben meghatározott célokra használja fel.
           </P>
         </Clause>
 
@@ -225,25 +225,25 @@ export default function ExampleContract({ args = [] }: ExampleContractProps = {}
       <Section title="6. Külföldi harmadik felekre vonatkozó rendelkezések">
         <Clause number={12} title="Harmadik felek bevonása">
           <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-            A <S style={['bold', 'italic']}>megbízott</S> csak a <S style={['bold', 'italic']}>{partyPossessive}</S> előzetes írásos hozzájárulásával vonhat be harmadik feleket a szolgáltatások nyújtásába. A <S style={['bold', 'italic']}>megbízott</S> köteles biztosítani, hogy a bevont harmadik felek ugyanazokat a kötelezettségeket vállalják, mint amelyeket a <S style={['bold', 'italic']}>megbízott</S> a szerződésben vállalt.
+            A <S style={{ bold: true, italic: true }}>megbízott</S> csak a <S style={{ bold: true, italic: true }}>{partyPossessive}</S> előzetes írásos hozzájárulásával vonhat be harmadik feleket a szolgáltatások nyújtásába. A <S style={{ bold: true, italic: true }}>megbízott</S> köteles biztosítani, hogy a bevont harmadik felek ugyanazokat a kötelezettségeket vállalják, mint amelyeket a <S style={{ bold: true, italic: true }}>megbízott</S> a szerződésben vállalt.
           </P>
         </Clause>
 
         <Clause number={13} title="Külföldi szolgáltatók">
           <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-            Amennyiben a <S style={['bold', 'italic']}>megbízott</S> külföldi szolgáltatókat kíván bevonni, köteles a <S style={['bold', 'italic']}>{partyPossessive}</S> előzetes írásos hozzájárulását kérni. A külföldi szolgáltatók bevonása esetén a <S style={['bold', 'italic']}>megbízott</S> köteles biztosítani, hogy a külföldi szolgáltatók megfeleljenek az adatvédelmi és biztonsági követelményeknek, valamint a vonatkozó európai uniós és magyar jogszabályoknak.
+            Amennyiben a <S style={{ bold: true, italic: true }}>megbízott</S> külföldi szolgáltatókat kíván bevonni, köteles a <S style={{ bold: true, italic: true }}>{partyPossessive}</S> előzetes írásos hozzájárulását kérni. A külföldi szolgáltatók bevonása esetén a <S style={{ bold: true, italic: true }}>megbízott</S> köteles biztosítani, hogy a külföldi szolgáltatók megfeleljenek az adatvédelmi és biztonsági követelményeknek, valamint a vonatkozó európai uniós és magyar jogszabályoknak.
           </P>
         </Clause>
 
         <Clause number={14} title="Adatkezelés külföldi harmadik feleknél">
           <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-            Amennyiben a <S style={['bold', 'italic']}>megbízott</S> külföldi harmadik feleket von be az adatkezelésbe, köteles biztosítani, hogy az adatkezelés megfeleljen a GDPR rendelkezéseinek. A <S style={['bold', 'italic']}>megbízott</S> köteles a <S style={['bold', 'italic']}>{partyPossessive}</S> részére tájékoztatást nyújtani a bevont külföldi harmadik felekről, az adatkezelés céljáról és az alkalmazott garanciákról.
+            Amennyiben a <S style={{ bold: true, italic: true }}>megbízott</S> külföldi harmadik feleket von be az adatkezelésbe, köteles biztosítani, hogy az adatkezelés megfeleljen a GDPR rendelkezéseinek. A <S style={{ bold: true, italic: true }}>megbízott</S> köteles a <S style={{ bold: true, italic: true }}>{partyPossessive}</S> részére tájékoztatást nyújtani a bevont külföldi harmadik felekről, az adatkezelés céljáról és az alkalmazott garanciákról.
           </P>
         </Clause>
 
         <Clause number={15} title="Felelősség külföldi harmadik felek esetén">
           <P style={{ alignment: 'JUSTIFIED', spaceBelow: { magnitude: 12, unit: 'PT' } }}>
-            A <S style={['bold', 'italic']}>megbízott</S> teljes mértékben felelős a bevont külföldi harmadik felek tevékenységéért. A <S style={['bold', 'italic']}>megbízott</S> kötelezettségei nem szűnnek meg a harmadik felek bevonása miatt, és a <S style={['bold', 'italic']}>megbízott</S> köteles kártérítést fizetni, amennyiben a külföldi harmadik felek tevékenysége kárt okoz a <S style={['bold', 'italic']}>{partyPossessive}</S> számára.
+            A <S style={{ bold: true, italic: true }}>megbízott</S> teljes mértékben felelős a bevont külföldi harmadik felek tevékenységéért. A <S style={{ bold: true, italic: true }}>megbízott</S> kötelezettségei nem szűnnek meg a harmadik felek bevonása miatt, és a <S style={{ bold: true, italic: true }}>megbízott</S> köteles kártérítést fizetni, amennyiben a külföldi harmadik felek tevékenysége kárt okoz a <S style={{ bold: true, italic: true }}>{partyPossessive}</S> számára.
           </P>
         </Clause>
       </Section>

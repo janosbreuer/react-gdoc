@@ -1,17 +1,12 @@
 import React from 'react';
 import {
-  GParagraph,
-  GTextRun,
   GTable,
   GTableRow,
   GTableCell,
-  Heading1,
   Heading2,
-  Heading3,
   Heading4,
 } from '@react-gdoc/primitives';
-import { P } from '@react-gdoc/P';
-import { S } from '@react-gdoc/shortcuts';
+import { P, S } from '@react-gdoc/shortcuts';
 
 const styles = {
   redText: {
@@ -38,22 +33,22 @@ export default function MediumTableExample() {
 
       <P>
         Egyszerű bekezdés{' '}
-        <S style={['bold']}>félkövér</S>{' '}
+        <S style={{ bold: true }}>félkövér</S>{' '}
         és{' '}
-        <S style={['italic']}>dőlt</S>
+        <S style={{ italic: true }}>dőlt</S>
         .
       </P>
 
       <P>
         Többféle stílus:{' '}
-        <S style={['underline']}>aláhúzott</S>,{' '}
-        <S style={['strikethrough']}>áthúzott</S>,{' '}
-        <S style={['bold', 'italic']}>félkövér + dőlt</S>,{' '}
-        <S style={['bold', 'italic', 'underline']}>
+        <S style={{ underline: true }}>aláhúzott</S>,{' '}
+        <S style={{ strikethrough: true }}>áthúzott</S>,{' '}
+        <S style={{ bold: true, italic: true }}>félkövér + dőlt</S>,{' '}
+        <S style={{ bold: true, italic: true, underline: true }}>
           félkövér + dőlt + aláhúzott
         </S>{' '}
         és{' '}
-        <S style={['bold', 'strikethrough']}>
+        <S style={{ bold: true, strikethrough: true }}>
           félkövér + áthúzott
         </S>
         .
@@ -84,7 +79,7 @@ export default function MediumTableExample() {
         </GTableRow>
         <GTableRow>
           <GTableCell>
-            <P><S style={['bold']}>Nagy Péter</S></P>
+            <P><S style={{ bold: true }}>Nagy Péter</S></P>
           </GTableCell>
           <GTableCell>
             <P><S style={{...styles.redText, ...styles.bold}}>28</S></P>

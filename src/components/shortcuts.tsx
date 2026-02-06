@@ -1,6 +1,7 @@
 import React from 'react';
 import { GParagraph, GTextRun } from './primitives';
 import type { ParagraphStyle, TextStyle } from './primitives/types';
+import { parseTextClasses, parseParagraphClasses } from '../utils/parseClasses';
 
 /**
  * HTML-szerű shortcut komponensek az egyszerűbb szintaxisért.
@@ -8,61 +9,55 @@ import type { ParagraphStyle, TextStyle } from './primitives/types';
  */
 
 export interface PProps {
+  className?: string;
   style?: ParagraphStyle;
   children?: React.ReactNode;
 }
 
-export const P: React.FC<PProps> = ({ style, children }) => {
-  // Ha a children string, akkor GTextRun-ként rendereljük
-  // Ha React element vagy tömb, akkor közvetlenül rendereljük
-  if (typeof children === 'string') {
-    return (
-      <GParagraph style={style}>
-        <GTextRun content={children} />
-      </GParagraph>
-    );
-  }
+/**
+ * Egyszerű bekezdés komponens - HTML-szerű szintaxis.
+ * A GParagraph primitívet használja.
+ */
+export const P: React.FC<PProps> = ({ className, style, children, ...props }) => {
+  const classStyle = className ? parseParagraphClasses(className) : {};
   
-  // Ha tömb vagy React element, akkor közvetlenül rendereljük
+  const mergedStyle: ParagraphStyle = {
+    ...classStyle,
+    ...style,
+  };
+  
+  const processedChildren = React.Children.map(children, (child) => {
+    if (typeof child === 'string') {
+      return <GTextRun content={child} />;
+    }
+    return child;
+  });
+
   return (
-    <GParagraph style={style}>
-      {children}
+    <GParagraph {...props} style={mergedStyle}>
+      {processedChildren}
     </GParagraph>
   );
 };
 
-export type StyleOption = 'bold' | 'italic' | 'underline' | 'strikethrough';
-
 export interface SProps {
-  style?: StyleOption[] | TextStyle;
+  className?: string;
+  style?: TextStyle;
   children?: React.ReactNode;
 }
 
-export const S: React.FC<SProps> = ({ style, children }) => {
-  let textStyle: TextStyle = {};
-
-  if (Array.isArray(style)) {
-    if (style.includes('bold')) {
-      textStyle.bold = true;
-    }
-    if (style.includes('italic')) {
-      textStyle.italic = true;
-    }
-    if (style.includes('underline')) {
-      textStyle.underline = true;
-    }
-    if (style.includes('strikethrough')) {
-      textStyle.strikethrough = true;
-    }
-  } else if (style) {
-    textStyle = style;
-  }
+export const S: React.FC<SProps> = ({ className, style, children }) => {
+  const classStyle = className ? parseTextClasses(className) : {};
+  
+  const mergedStyle: TextStyle = {
+    ...classStyle,
+    ...style,
+  };
   
   if (typeof children === 'string') {
-    return <GTextRun content={children} style={textStyle} />;
+    return <GTextRun content={children} style={mergedStyle} />;
   }
   
-  // Ha nem string, akkor a children-eket rendereljük (pl. <S style={['bold']}><S style={['italic']}>text</S></S>)
   return <>{children}</>;
 };
 

@@ -11,6 +11,6 @@ export * from './GTableRow';
 export * from './GTableCell';
 export * from './GSectionBreak';
 export * from './GListItem';
-export * from './GHeading';
+export * from '../headings';
 export * from './GImage';
 

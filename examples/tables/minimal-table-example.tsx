@@ -7,8 +7,7 @@ import {
   GTableCell,
   Heading4,
 } from '@react-gdoc/primitives';
-import { P } from '@react-gdoc/P';
-import { S } from '@react-gdoc/shortcuts';
+import { P, S } from '@react-gdoc/shortcuts';
 
 export default function MinimalTableExample() {
   return (
@@ -23,7 +22,7 @@ export default function MinimalTableExample() {
             <P>Első oszlop</P>
           </GTableCell>
           <GTableCell>
-            <P>Második <S style={['bold']}>oszlop</S></P>
+            <P>Második <S style={{ bold: true }}>oszlop</S></P>
           </GTableCell>
         </GTableRow>
       </GTable>
