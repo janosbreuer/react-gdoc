@@ -45,6 +45,18 @@ export default function AdvancedExample() {
         .
       </P>
 
+      <Heading3>
+        Nested S Components
+      </Heading3>
+
+      <P>
+        Simple nesting test:{' '}
+        <S className="font-bold">bold</S>
+        {' '}and{' '}
+        <S className="italic">italic</S>
+        .
+      </P>
+
       <P>
         Nested S components merge styles:{' '}
         <S className="font-bold">
@@ -64,6 +76,16 @@ export default function AdvancedExample() {
             bold and{' '}
             <S className="italic">bold italic</S>
           </S>
+        </S>
+        .
+      </P>
+
+      <P>
+        Complex nesting with text between:{' '}
+        <S className="font-bold">
+          Start bold{' '}
+          <S className="text-red-500">red inside bold</S>
+          {' '}end bold
         </S>
         .
       </P>

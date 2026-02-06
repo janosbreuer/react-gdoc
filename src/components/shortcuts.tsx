@@ -35,13 +35,26 @@ export const P: React.FC<PProps> = ({ className, style, children, ...props }) =>
         <GTextRun content={child} />
       );
     }
-    if (React.isValidElement(child) && textClasses) {
-      return React.cloneElement(child, {
-        ...child.props,
-        className: child.props.className 
-          ? `${textClasses} ${child.props.className}`.trim()
-          : textClasses,
-      } as any);
+    if (React.isValidElement(child)) {
+      if (child.type === GTextRun && textClasses) {
+        const classStyle = parseTextClasses(textClasses);
+        const mergedStyle: TextStyle = {
+          ...classStyle,
+          ...(child.props.style || {}),
+        };
+        return React.cloneElement(child, {
+          ...child.props,
+          style: mergedStyle,
+        } as any);
+      }
+      if (textClasses) {
+        return React.cloneElement(child, {
+          ...child.props,
+          className: child.props.className 
+            ? `${textClasses} ${child.props.className}`.trim()
+            : textClasses,
+        } as any);
+      }
     }
     return child;
   });
@@ -139,6 +152,14 @@ export const S: React.FC<SProps> = ({ className, style, children }) => {
   }
   
   const flattened = flattenSChildren(children, className, mergedStyle);
+  
+  if (flattened.length === 0) {
+    return null;
+  }
+  
+  if (flattened.length === 1) {
+    return flattened[0] as React.ReactElement;
+  }
   
   return <>{flattened}</>;
 };

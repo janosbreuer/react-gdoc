@@ -20,6 +20,7 @@ interface TextStyleUpdate {
   startIndex: number;
   endIndex: number;
   style: TextStyle;
+  content: string;
 }
 
 interface RenderContext {
@@ -36,11 +37,21 @@ interface ParagraphContext {
 }
 
 export class GDocRenderer {
+  private debug: boolean;
 
   constructor(
     private batchUpdate: BatchUpdateFn,
-    private getDocument: GetDocumentFn
-  ) {}
+    private getDocument: GetDocumentFn,
+    debug: boolean = false
+  ) {
+    this.debug = debug;
+  }
+
+  private debugLog(...args: any[]): void {
+    if (this.debug) {
+      console.debug(...args);
+    }
+  }
 
   // --- Renderelés ---
   async render(element: React.ReactElement, startIndex: number = 1): Promise<void> {
@@ -48,7 +59,7 @@ export class GDocRenderer {
     const node = this.jsxToVirtualNode(element);
     if (!node) return;
 
-    console.debug('Virtual Node Tree:', JSON.stringify(node, null, 2));
+    this.debugLog('Virtual Node Tree:', JSON.stringify(node, null, 2));
 
     await this.renderNode(node, startIndex);
   }
@@ -101,6 +112,9 @@ export class GDocRenderer {
     switch (node.type) {
       case 'GTextRun':
         length = this.handleTextRun(node, renderContext);
+        if (renderContext.paragraphContext) {
+          renderContext.paragraphContext.cursorIndex += length;
+        }
         break;
       case 'GParagraph':
         length = this.handleParagraph(node, renderContext);
@@ -116,7 +130,8 @@ export class GDocRenderer {
         break;
       default:
         if (node.children) {
-          [...node.children].reverse().forEach(child => {
+          const children = renderContext.paragraphContext ? node.children : node.children.reverse();
+          children.forEach(child => {
             length += this.renderInsertPhase(child, renderContext);
           });
         }
@@ -142,7 +157,9 @@ export class GDocRenderer {
     
     if (node.children) {
       [...node.children].forEach(child => {
-        paragraphContext.cursorIndex += this.renderInsertPhase(child, renderContext);
+        this.debugLog('handleParagraph: render child: ', { content: child.props.content });
+        this.renderInsertPhase(child, renderContext);
+        this.debugLog('handleParagraph: cursorIndex after render child: ', paragraphContext.cursorIndex);
       });
     }
     
@@ -153,11 +170,11 @@ export class GDocRenderer {
       effectiveStyle.namedStyleType = 'NORMAL_TEXT';
     }
 
-    console.log('Effective style:', effectiveStyle);
+    this.debugLog('Effective style:', effectiveStyle);
     requestBuilder.addUpdateParagraphStyle(startIndex, paragraphContext.cursorIndex, effectiveStyle);
     
     for (const textStyleUpdate of paragraphContext.textStyleUpdates) {
-      console.log('Text style update:', textStyleUpdate);
+      this.debugLog('Text style update:', textStyleUpdate);
       requestBuilder.addUpdateTextStyle(textStyleUpdate.startIndex, textStyleUpdate.endIndex, textStyleUpdate.style);
     }
 
@@ -167,6 +184,7 @@ export class GDocRenderer {
   }
 
   private handleTextRun(node: VirtualNode, renderContext: RenderContext): number {
+    this.debugLog('handleTextRun:', { content: node.props.content, cursorIndex: renderContext.paragraphContext?.cursorIndex });
     const { requestBuilder, paragraphContext } = renderContext;
     if (!paragraphContext) {
       throw new Error('Text runs must be inside a paragraph');
@@ -178,11 +196,14 @@ export class GDocRenderer {
     
     const style = node.props.style || node.props.textStyle;
     if (style) {
-      paragraphContext.textStyleUpdates.push({ 
-        startIndex: cursorIndex, 
-        endIndex: cursorIndex + content.length, 
-        style 
-      });
+      const textStyleUpdate: TextStyleUpdate = {
+        startIndex: cursorIndex,
+        endIndex: cursorIndex + content.length,
+        style,
+        content
+      };  
+      this.debugLog('textStyleUpdates.push:', textStyleUpdate);
+      paragraphContext.textStyleUpdates.push(textStyleUpdate);
     }
     return content.length;
   }
@@ -204,7 +225,7 @@ export class GDocRenderer {
         const cellNode = cellNodesReversed[j];
         const cellInDoc = cellsInDocReversed[j];
 
-        console.log('Cell in doc structure:', {
+        this.debugLog('Cell in doc structure:', {
           cellStartIndex: cellInDoc?.startIndex,
           cellEndIndex: cellInDoc?.endIndex
         });
@@ -216,7 +237,7 @@ export class GDocRenderer {
           return node.children?.reduce((acc, child) => acc + getConcatenatedNodeContent(child), '') || '';
         }
         const concatenatedNodeContent = getConcatenatedNodeContent(cellNode);
-        console.log('Node content:', concatenatedNodeContent);
+        this.debugLog('Node content:', concatenatedNodeContent);
 
         const renderContext: RenderContext = {
           requestBuilder,

@@ -15,6 +15,7 @@ interface ParsedArgs {
   title?: string;
   range?: { start: number; end: number };
   componentArgs: string[];
+  debug: boolean;
 }
 
 function stripQuotes(value: string): string {
@@ -60,13 +61,14 @@ function parseRange(rangeStr: string): { start: number; end: number } {
 }
 
 function printUsage(): never {
-  console.error('Usage: npm run render <path-to-tsx-file> [document-id] [--title=<title>] [--range=<start>:<end>] [--args <arg1> <arg2> ...]');
+  console.error('Usage: npm run render <path-to-tsx-file> [document-id] [--title=<title>] [--range=<start>:<end>] [--debug] [--args <arg1> <arg2> ...]');
   console.error('');
   console.error('Arguments:');
   console.error('  <path-to-tsx-file>     Required: Path to the TSX file to render');
   console.error('  [document-id]           Optional: Google Docs document ID (if provided, document will be updated)');
   console.error('  --title=<title>         Optional: Document title (only used when creating new document)');
   console.error('  --range=<start>:<end>   Optional: Character range to replace (e.g., "100:200", only works with document-id)');
+  console.error('  --debug                 Optional: Enable debug logging');
   console.error('  --args <arg1> <arg2>    Optional: Component arguments (everything after --args is passed to the component)');
   console.error('');
   console.error('Examples:');
@@ -74,6 +76,7 @@ function printUsage(): never {
   console.error('  npm run render src/legal/example-contract.tsx DOC_ID');
   console.error('  npm run render src/legal/example-contract.tsx DOC_ID --title="My Document"');
   console.error('  npm run render src/legal/example-contract.tsx DOC_ID --range=100:500');
+  console.error('  npm run render src/legal/example-contract.tsx DOC_ID --debug');
   console.error('  npm run render src/legal/example-contract.tsx DOC_ID --args 2');
   console.error('  npm run render src/legal/example-contract.tsx DOC_ID --range=100:500 --args 2');
   process.exit(1);
@@ -86,12 +89,19 @@ function parseArgs(args: string[]): ParsedArgs {
 
   const parsed: ParsedArgs = {
     file: args[0],
-    componentArgs: []
+    componentArgs: [],
+    debug: false
   };
 
   let i = 1;
   while (i < args.length) {
     const arg = args[i];
+    
+    if (arg === '--debug') {
+      parsed.debug = true;
+      i += 1;
+      continue;
+    }
     
     const titleResult = extractFlagValue(args, i, 'title');
     if (titleResult) {
@@ -218,7 +228,8 @@ async function main() {
       },
       async () => {
         return await client.getDocument(finalDocumentId);
-      }
+      },
+      args.debug
     );
 
     await renderer.render(element);
