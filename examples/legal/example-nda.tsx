@@ -2,6 +2,7 @@ import React from 'react';
 import { Br, P, S, Ol, Li } from '@react-gdoc/shortcuts';
 import { Heading1, Heading2 } from '@react-gdoc/headings';
 import { GList } from '@react-gdoc/primitives';
+import { Table, TRow, TCell } from '@react-gdoc/tables';
 
 interface PartyData {
   name: string;
@@ -32,6 +33,19 @@ const DEFAULT_PARTY_2: PartyData = {
 };
 
 export default function ExampleNDA({ args = [] }: NDAProps = {}) {
+  let clauseNumber = 0;
+  
+  const Clause: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => {
+    clauseNumber += 1;
+    const currentClauseNumber = clauseNumber;
+
+    return (
+      <P className={className || 'text-justify mb-4'}>
+        <S className="font-bold">{currentClauseNumber}.</S> {children}
+      </P>
+    );
+  };
+
   const currentYear = new Date().getFullYear();
   const defaultDate = `${currentYear}`;
   const defaultPurpose = 'discussing the possibility of the parties entering into a joint venture';
@@ -95,25 +109,25 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
         {party2Text}
       </P>
 
-      <P className="text-justify mb-4">
-        1. Each of the parties to this Agreement intends to disclose information (the <S className="font-bold italic">Confidential Information</S>) to the other party for the purpose of {purpose} (the <S className="font-bold italic">Purpose</S>).
-      </P>
+      <Clause>
+        Each of the parties to this Agreement intends to disclose information (the <S className="font-bold italic">Confidential Information</S>) to the other party for the purpose of {purpose} (the <S className="font-bold italic">Purpose</S>).
+      </Clause>
 
-      <P className="text-justify mb-4">
-        2. Each party to this Agreement is referred to as 'the <S className="font-bold italic">Recipient</S>' when it receives or uses the Confidential Information disclosed by the other party.
-      </P>
+      <Clause>
+        Each party to this Agreement is referred to as 'the <S className="font-bold italic">Recipient</S>' when it receives or uses the Confidential Information disclosed by the other party.
+      </Clause>
 
-      <P className="text-justify mb-4">
-        3. The Recipient undertakes not to use the Confidential Information disclosed by the other party for any purpose except the Purpose, without first obtaining the written agreement of the other party.
-      </P>
+      <Clause>
+        The Recipient undertakes not to use the Confidential Information disclosed by the other party for any purpose except the Purpose, without first obtaining the written agreement of the other party.
+      </Clause>
 
-      <P className="text-justify mb-4">
-        4. The Recipient undertakes to keep the Confidential Information disclosed by the other party secure and not to disclose it to any third party except to its employees and professional advisers who need to know the same for the Purpose, who know they owe a duty of confidence to the other party and who are bound by obligations equivalent to those in clause 3 above and this clause 4.
-      </P>
+      <Clause>
+        The Recipient undertakes to keep the Confidential Information disclosed by the other party secure and not to disclose it to any third party except to its employees and professional advisers who need to know the same for the Purpose, who know they owe a duty of confidence to the other party and who are bound by obligations equivalent to those in clause 3 above and this clause 4.
+      </Clause>
 
-      <P className="text-justify mb-3">
-        5. The undertakings in clauses 3 and 4 above apply to all of the information disclosed by each of the parties to the other, regardless of the way or form in which it is disclosed or recorded but they do not apply to:
-      </P>
+      <Clause className="text-justify mb-3">
+        The undertakings in clauses 3 and 4 above apply to all of the information disclosed by each of the parties to the other, regardless of the way or form in which it is disclosed or recorded but they do not apply to:
+      </Clause>
 
       <GList bulletPreset="NUMBERED_UPPERALPHA_ALPHA_ROMAN">
         <Li className="text-justify mb-4">
@@ -125,63 +139,85 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
         </Li>
       </GList>
 
-      <P className="text-justify mb-4">
-        6. Nothing in this Agreement will prevent the Recipient from making any disclosure of the Confidential Information required by law or by any competent authority.
-      </P>
+      <Clause>
+        Nothing in this Agreement will prevent the Recipient from making any disclosure of the Confidential Information required by law or by any competent authority.
+      </Clause>
 
-      <P className="text-justify mb-4">
-        7. The Recipient will, on request from the other party, return all copies and records of the Confidential Information disclosed by the other party to the Recipient and will not retain any copies or records of the Confidential Information disclosed by the other party.
-      </P>
+      <Clause>
+        The Recipient will, on request from the other party, return all copies and records of the Confidential Information disclosed by the other party to the Recipient and will not retain any copies or records of the Confidential Information disclosed by the other party.
+      </Clause>
 
-      <P className="text-justify mb-4">
-        8. Neither this Agreement nor the supply of any information grants the Recipient any licence, interest or right in respect of any intellectual property rights of the other party except the right to copy the Confidential Information disclosed by the other party solely for the Purpose.
-      </P>
+      <Clause>
+        Neither this Agreement nor the supply of any information grants the Recipient any licence, interest or right in respect of any intellectual property rights of the other party except the right to copy the Confidential Information disclosed by the other party solely for the Purpose.
+      </Clause>
 
-      <P className="text-justify mb-4">
-        9. The undertakings in clauses 3 and 4 will continue in force {durationText}.
-      </P>
+      <Clause>
+        The undertakings in clauses 3 and 4 will continue in force {durationText}.
+      </Clause>
 
-      <P className="text-justify mb-6">
-        10. This Agreement is governed by, and is to be construed in accordance with, English law. The English Courts will have non-exclusive jurisdiction to deal with any dispute which has arisen or may arise out of, or in connection with, this Agreement.
-      </P>
+      <Clause className="text-justify mb-6">
+        This Agreement is governed by, and is to be construed in accordance with, English law. The English Courts will have non-exclusive jurisdiction to deal with any dispute which has arisen or may arise out of, or in connection with, this Agreement.
+      </Clause>
 
-      <P className="mb-3 mt-6">
-        Signed on behalf of {party1Name} by its duly authorised representative:
-      </P>
+      <Table className="mt-6 mb-4">
+        <TRow>
+          <TCell>
+            <P className="mb-3">
+              Signed on behalf of {party1Name} by its duly authorised representative:
+            </P>
+          </TCell>
+          <TCell>
+            <P className="mb-3">
+              Signed on behalf of {party2Name} by its duly authorised representative:
+            </P>
+          </TCell>
+        </TRow>
 
-      <P className="mb-2">
-        _____________________________<Br />
-        Signature
-      </P>
+        <TRow>
+          <TCell>
+            <P className="mb-2">
+              _____________________________<Br />
+              Signature
+            </P>
+          </TCell>
+          <TCell>
+            <P className="mb-2">
+              _____________________________<Br />
+              Signature
+            </P>
+          </TCell>
+        </TRow>
 
-      <P className="mb-2">
-        _____________________________<Br />
-        Name
-      </P>
+        <TRow>
+          <TCell>
+            <P className="mb-2">
+              _____________________________<Br />
+              Name
+            </P>
+          </TCell>
+          <TCell>
+            <P className="mb-2">
+              _____________________________<Br />
+              Name
+            </P>
+          </TCell>
+        </TRow>
 
-      <P className="mb-6">
-        _____________________________<Br />
-        Position
-      </P>
-
-      <P className="mb-3">
-        Signed on behalf of {party2Name} by its duly authorised representative:
-      </P>
-
-      <P className="mb-2">
-        _____________________________<Br />
-        Signature
-      </P>
-
-      <P className="mb-2">
-        _____________________________<Br />
-        Name
-      </P>
-
-      <P className="mb-4">
-        _____________________________<Br />
-        Position
-      </P>
+        <TRow>
+          <TCell>
+            <P className="mb-2">
+              _____________________________<Br />
+              Position
+            </P>
+          </TCell>
+          <TCell>
+            <P className="mb-2">
+              _____________________________<Br />
+              Position
+            </P>
+          </TCell>
+        </TRow>
+      </Table>
     </>
   );
 }
