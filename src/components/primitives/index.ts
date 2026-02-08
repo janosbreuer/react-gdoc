@@ -6,6 +6,7 @@ export * from './GFootnoteReference';
 export * from './GEquation';
 export * from './GInlineObject';
 export * from './GParagraph';
+export * from './GList';
 export * from './GTable';
 export * from './GTableRow';
 export * from './GTableCell';

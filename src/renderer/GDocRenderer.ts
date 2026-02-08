@@ -11,7 +11,7 @@ type GetDocumentFn = () => Promise<Document>;
 
 
 const KNOWN_VIRTUAL_NODE_TYPES: VirtualNodeType[] = [
-  'GTextRun', 'GParagraph', 'GPageBreak', 'GColumnBreak', 'GHorizontalRule',
+  'GTextRun', 'GParagraph', 'GList', 'GPageBreak', 'GColumnBreak', 'GHorizontalRule',
   'GFootnoteReference', 'GEquation', 'GInlineObject', 'GTable', 'GTableRow',
   'GTableCell', 'GSectionBreak', 'GImage'
 ];
@@ -28,12 +28,18 @@ interface RenderContext {
   startIndex: number;
   previousNodeWasParagraph: boolean;
   paragraphContext: ParagraphContext | null;
+  listContext: ListContext | null;
   tableNodesReversed: VirtualNode[];
 }
 
 interface ParagraphContext {
   textStyleUpdates: TextStyleUpdate[];
   cursorIndex: number;
+}
+
+interface ListContext {
+  ordered: boolean;
+  nestingLevel: number;
 }
 
 export class GDocRenderer {
@@ -92,6 +98,7 @@ export class GDocRenderer {
       startIndex,
       previousNodeWasParagraph: false,
       paragraphContext: null,
+      listContext: null,
       tableNodesReversed: [],
     };
 
@@ -138,6 +145,10 @@ export class GDocRenderer {
         break;
       case 'GParagraph':
         length = this.handleParagraph(node, renderContext);
+        isParagraph = true;
+        break;
+      case 'GList':
+        length = this.handleList(node, renderContext);
         isParagraph = true;
         break;
       case 'GTable':
@@ -222,31 +233,6 @@ export class GDocRenderer {
       if (nestingLevel > 0) {
         requestBuilder.addInsertText('\t'.repeat(nestingLevel), startIndex);
       }
-      requestBuilder.addCreateParagraphBullets(
-        startIndex,
-        paragraphContext.cursorIndex + nestingLevel,
-        ordered
-      );
-      
-      
-      // if (nestingLevel > 0) {
-      //   const indentMagnitude = nestingLevel * 36;
-      //   this.debugLog('handleParagraph: addUpdateParagraphStyle: ', { startIndex, endIndex: paragraphContext.cursorIndex, indentMagnitude });
-      //   requestBuilder.addUpdateParagraphStyle(
-      //     startIndex,
-      //     paragraphContext.cursorIndex,
-      //     {
-      //       indentFirstLine: {
-      //         magnitude: indentMagnitude,
-      //         unit: 'PT',
-      //       },
-      //       indentStart: {
-      //         magnitude: indentMagnitude,
-      //         unit: 'PT',
-      //       },
-      //     } as any
-      //   );
-      // }
     } else {
       requestBuilder.addDeleteParagraphBullets(
         startIndex,
@@ -257,6 +243,38 @@ export class GDocRenderer {
     const length = renderContext.paragraphContext.cursorIndex - renderContext.startIndex;
     renderContext.paragraphContext = null;
     return length;
+  }
+
+  private handleList(node: VirtualNode, renderContext: RenderContext): number {
+    const { requestBuilder, startIndex } = renderContext;
+    if (renderContext.listContext) {
+      throw new Error('Lists cannot be nested');
+    }
+    if (renderContext.paragraphContext) {
+      throw new Error('Lists cannot be nested inside paragraphs');
+    }
+
+    const ordered = node.props.ordered !== undefined ? node.props.ordered : false;
+    const nestingLevel = node.props.nestingLevel || 0;
+
+    const listStartIndex = startIndex;
+    renderContext.listContext = {
+      ordered,
+      nestingLevel,
+    };
+
+    let listEndIndex = listStartIndex;
+
+    if (node.children) {
+      const childrenReversed = [...node.children].reverse();
+      childrenReversed.forEach(child => {
+        listEndIndex += this.renderInsertPhase(child, renderContext);
+      });
+    }
+
+    requestBuilder.addCreateParagraphBullets(startIndex, listEndIndex, ordered);
+    renderContext.listContext = null;
+    return listEndIndex - listStartIndex;
   }
 
   private handleTextRun(node: VirtualNode, renderContext: RenderContext): number {
@@ -320,6 +338,7 @@ export class GDocRenderer {
           startIndex: cellInDoc.startIndex! + 1,
           previousNodeWasParagraph: false,
           paragraphContext: null,
+          listContext: null,
           tableNodesReversed: [],
         };
         this.renderInsertPhase(cellNode, renderContext);

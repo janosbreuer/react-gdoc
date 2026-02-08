@@ -1,5 +1,5 @@
 import React from 'react';
-import { GParagraph, GTextRun } from './primitives';
+import { GParagraph, GTextRun, GList } from './primitives';
 import type { ParagraphStyle, TextStyle } from './primitives/types';
 import { parseTextClasses, parseParagraphClasses, splitClasses } from '../utils/parseClasses';
 
@@ -230,18 +230,20 @@ export const Li: React.FC<LiProps> = ({ className, style, nestingLevel = 0, list
 };
 
 export interface UlProps {
+  nestingLevel?: number;
   children?: React.ReactNode;
 }
 
-export const Ul: React.FC<UlProps> = ({ children }) => {
-  return <>{children}</>;
+export const Ul: React.FC<UlProps> = ({ nestingLevel = 0, children }) => {
+  return <GList ordered={false} nestingLevel={nestingLevel}>{children}</GList>;
 };
 
 export interface OlProps {
+  nestingLevel?: number;
   children?: React.ReactNode;
 }
 
-export const Ol: React.FC<OlProps> = ({ children }) => {
+export const Ol: React.FC<OlProps> = ({ nestingLevel = 0, children }) => {
   const processedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement(child) && child.type === Li) {
       return React.cloneElement(child, {
@@ -254,6 +256,6 @@ export const Ol: React.FC<OlProps> = ({ children }) => {
     }
     return child;
   });
-  return <>{processedChildren}</>;
+  return <GList ordered={true} nestingLevel={nestingLevel}>{processedChildren}</GList>;
 };
 

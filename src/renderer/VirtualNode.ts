@@ -25,6 +25,7 @@ export type VirtualNodeType =
   | 'GEquation'
   | 'GInlineObject'
   | 'GParagraph'
+  | 'GList'
   | 'GTable'
   | 'GTableRow'
   | 'GTableCell'

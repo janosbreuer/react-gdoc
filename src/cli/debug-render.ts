@@ -25,21 +25,146 @@ async function main() {
     let requests: docs_v1.Schema$Request[] = [
       {
         deleteParagraphBullets: {
-          range: { startIndex: 1, endIndex: 2 },
+          range: {
+            startIndex: 1,
+            endIndex: 2,
+          },
+        },
+      },
+      
+      {
+        insertText: {
+          location: {
+            index: 1,
+          },
+          text: 'Second item',
+        },
+      },
+      {
+        updateParagraphStyle: {
+          range: {
+            startIndex: 1,
+            endIndex: 12,
+          },
+          paragraphStyle: {
+            namedStyleType: 'NORMAL_TEXT',
+          },
+          fields: 'namedStyleType',
         },
       },
       {
         insertText: {
-          text: '\tLine 1\n\t\tLine 2\nLine 3',
-          location: { index: 1 },
-        }
+          location: {
+            index: 1,
+          },
+          text: '\t',
+        },
+      },
+      {
+        insertText: {
+          location: {
+            index: 1,
+          },
+          text: '\n',
+        },
+      },
+      {
+        insertText: {
+          location: {
+            index: 1,
+          },
+          text: 'First item',
+        },
+      },
+      {
+        updateParagraphStyle: {
+          range: {
+            startIndex: 1,
+            endIndex: 11,
+          },
+          paragraphStyle: {
+            namedStyleType: 'NORMAL_TEXT',
+          },
+          fields: 'namedStyleType',
+        },
       },
       {
         createParagraphBullets: {
-          range: { startIndex: 1, endIndex: 22 },
-          bulletPreset: 'NUMBERED_DECIMAL_NESTED' //'BULLET_DISC_CIRCLE_SQUARE'
+          range: {
+            startIndex: 1,
+            endIndex: 16,
+          },
+          bulletPreset: 'NUMBERED_DECIMAL_NESTED',
         },
       },
+      // {
+      //   createParagraphBullets: {
+      //     range: {
+      //       startIndex: 15,
+      //       endIndex: 16,
+      //     },
+      //     bulletPreset: 'NUMBERED_DECIMAL_NESTED',
+      //   },
+      // },
+      // {
+      //   insertText: {
+      //     location: {
+      //       index: 1,
+      //     },
+      //     text: '\n',
+      //   },
+      // },
+      // {
+      //   insertText: {
+      //     location: {
+      //       index: 1,
+      //     },
+      //     text: 'First item',
+      //   },
+      // },
+      // {
+      //   updateParagraphStyle: {
+      //     range: {
+      //       startIndex: 1,
+      //       endIndex: 11,
+      //     },
+      //     paragraphStyle: {
+      //       namedStyleType: 'NORMAL_TEXT',
+      //     },
+      //     fields: 'namedStyleType',
+      //   },
+      // },
+      // {
+      //   createParagraphBullets: {
+      //     range: {
+      //       startIndex: 1,
+      //       endIndex: 11,
+      //     },
+      //     bulletPreset: 'NUMBERED_DECIMAL_NESTED',
+      //   },
+      // },
+      
+      
+
+
+
+      // {
+      //   deleteParagraphBullets: {
+      //     range: { startIndex: 1, endIndex: 2 },
+      //   },
+      // },
+      // {
+      //   insertText: {
+      //     text: '\tLine 1\n\t\tLine 2\nLine 3',
+      //     location: { index: 1 },
+      //   }
+      // },
+      // {
+      //   createParagraphBullets: {
+      //     range: { startIndex: 1, endIndex: 22 },
+      //     bulletPreset: 'NUMBERED_DECIMAL_NESTED' //'BULLET_DISC_CIRCLE_SQUARE'
+      //   },
+      // },
       // {
       //   deleteParagraphBullets: {
       //     range: { startIndex: 1, endIndex: 22 },
