@@ -168,3 +168,92 @@ export const Br: React.FC = () => {
   return <GTextRun content={'\u000b'} />;
 };
 
+export interface LiProps {
+  className?: string;
+  style?: ParagraphStyle;
+  nestingLevel?: number;
+  listItemStyle?: { ordered?: boolean; nestingLevel?: number; listId?: string };
+  children?: React.ReactNode;
+}
+
+export const Li: React.FC<LiProps> = ({ className, style, nestingLevel = 0, listItemStyle, children }) => {
+  const { paragraphClasses, textClasses } = className ? splitClasses(className) : { paragraphClasses: '', textClasses: '' };
+  const classStyle = paragraphClasses ? parseParagraphClasses(paragraphClasses) : {};
+  
+  const mergedStyle: ParagraphStyle = {
+    ...classStyle,
+    ...style,
+  };
+  
+  const processedChildren = React.Children.map(children, (child) => {
+    if (typeof child === 'string') {
+      return textClasses ? (
+        <GTextRun content={child} style={parseTextClasses(textClasses)} />
+      ) : (
+        <GTextRun content={child} />
+      );
+    }
+    if (React.isValidElement(child)) {
+      if (child.type === GTextRun && textClasses) {
+        const classStyle = parseTextClasses(textClasses);
+        const mergedStyle: TextStyle = {
+          ...classStyle,
+          ...(child.props.style || {}),
+        };
+        return React.cloneElement(child, {
+          ...child.props,
+          style: mergedStyle,
+        } as any);
+      }
+      if (textClasses) {
+        return React.cloneElement(child, {
+          ...child.props,
+          className: child.props.className 
+            ? `${textClasses} ${child.props.className}`.trim()
+            : textClasses,
+        } as any);
+      }
+    }
+    return child;
+  });
+
+  const finalListItemStyle = listItemStyle || { ordered: false, nestingLevel };
+  if (nestingLevel !== undefined && finalListItemStyle.nestingLevel === undefined) {
+    finalListItemStyle.nestingLevel = nestingLevel;
+  }
+
+  return (
+    <GParagraph style={mergedStyle} listItemStyle={finalListItemStyle}>
+      {processedChildren}
+    </GParagraph>
+  );
+};
+
+export interface UlProps {
+  children?: React.ReactNode;
+}
+
+export const Ul: React.FC<UlProps> = ({ children }) => {
+  return <>{children}</>;
+};
+
+export interface OlProps {
+  children?: React.ReactNode;
+}
+
+export const Ol: React.FC<OlProps> = ({ children }) => {
+  const processedChildren = React.Children.map(children, (child) => {
+    if (React.isValidElement(child) && child.type === Li) {
+      return React.cloneElement(child, {
+        ...child.props,
+        listItemStyle: {
+          ...(child.props.listItemStyle || {}),
+          ordered: true,
+        },
+      } as any);
+    }
+    return child;
+  });
+  return <>{processedChildren}</>;
+};
+

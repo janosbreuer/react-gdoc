@@ -96,7 +96,6 @@ function parseArgs(args: string[]): ParsedArgs {
   let i = 1;
   while (i < args.length) {
     const arg = args[i];
-    
     if (arg === '--debug') {
       parsed.debug = true;
       i += 1;
@@ -123,6 +122,7 @@ function parseArgs(args: string[]): ParsedArgs {
     }
     
     if (!parsed.documentId && !arg.startsWith('--')) {
+
       parsed.documentId = arg;
       i += 1;
       continue;
@@ -156,6 +156,7 @@ async function main() {
   console.log(`  Document ID: ${args.documentId || '(not provided)'}`);
   console.log(`  Title: ${args.title || '(not provided)'}`);
   console.log(`  Range: ${args.range ? `${args.range.start}:${args.range.end}` : '(not provided)'}`);
+  console.log(`  Debug: ${args.debug}`);
   console.log(`  Component args: ${args.componentArgs.length > 0 ? JSON.stringify(args.componentArgs) : '(none)'}`);
   console.log(`Loading TSX file: ${tsxPath}`);
   

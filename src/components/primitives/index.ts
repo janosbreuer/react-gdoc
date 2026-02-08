@@ -10,7 +10,6 @@ export * from './GTable';
 export * from './GTableRow';
 export * from './GTableCell';
 export * from './GSectionBreak';
-export * from './GListItem';
 export * from '../headings';
 export * from './GImage';
 

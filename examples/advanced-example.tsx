@@ -1,12 +1,11 @@
 import React from 'react';
 import {
-  GListItem,
   GPageBreak,
   Heading1,
   Heading2,
   Heading3,
 } from '@react-gdoc/primitives';
-import { P, S } from '@react-gdoc/shortcuts';
+import { P, S, Li, Ul, Ol } from '@react-gdoc/shortcuts';
 
 export default function AdvancedExample() {
   return (
@@ -130,76 +129,58 @@ export default function AdvancedExample() {
         Unordered list items:
       </P>
 
-      <GListItem nestingLevel={0} ordered={false}>
-        <P>
+      <Ul>
+        <Li>
           First item
-        </P>
-      </GListItem>
+        </Li>
 
-      <GListItem nestingLevel={0} ordered={false}>
-        <P>
+        <Li>
           Second item with{' '}
           <S className="font-bold">bold text</S>
-        </P>
-      </GListItem>
+        </Li>
 
-      <GListItem nestingLevel={0} ordered={false}>
-        <P>
+        <Li>
           Third item
-        </P>
-      </GListItem>
+        </Li>
 
-      <GListItem nestingLevel={1} ordered={false}>
-        <P>
+        <Li nestingLevel={1}>
           Nested item (level 1)
-        </P>
-      </GListItem>
+        </Li>
 
-      <GListItem nestingLevel={1} ordered={false}>
-        <P>
+        <Li nestingLevel={1}>
           Another nested item
-        </P>
-      </GListItem>
+        </Li>
 
-      <GListItem nestingLevel={0} ordered={false}>
-        <P>
+        <Li>
           Back to top level
-        </P>
-      </GListItem>
+        </Li>
+      </Ul>
 
       <P>
         Ordered list items:
       </P>
 
-      <GListItem nestingLevel={0} ordered={true}>
-        <P>
+      <Ol>
+        <Li>
           First numbered item
-        </P>
-      </GListItem>
+        </Li>
 
-      <GListItem nestingLevel={0} ordered={true}>
-        <P>
+        <Li>
           Second numbered item
-        </P>
-      </GListItem>
+        </Li>
 
-      <GListItem nestingLevel={1} ordered={true}>
-        <P>
+        <Li nestingLevel={1}>
           Nested numbered item (level 1)
-        </P>
-      </GListItem>
+        </Li>
 
-      <GListItem nestingLevel={1} ordered={true}>
-        <P>
+        <Li nestingLevel={1}>
           Another nested numbered item
-        </P>
-      </GListItem>
+        </Li>
 
-      <GListItem nestingLevel={0} ordered={true}>
-        <P>
+        <Li>
           Back to top level numbered
-        </P>
-      </GListItem>
+        </Li>
+      </Ol>
 
       <Heading2>
         Custom Text Styles

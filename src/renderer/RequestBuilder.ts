@@ -119,7 +119,7 @@ export class RequestBuilder {
     });
   }
 
-  addCreateParagraphBullets(startIndex: number, endIndex: number, nestingLevel: number = 0, ordered: boolean = false): void {
+  addCreateParagraphBullets(startIndex: number, endIndex: number, ordered: boolean = false): void {
     if (ordered) {
       this.requests.push({
         createParagraphBullets: {
@@ -127,7 +127,7 @@ export class RequestBuilder {
             startIndex: startIndex,
             endIndex: endIndex,
           },
-          bulletPreset: 'NUMBERED_DECIMAL_ALPHA_ROMAN',
+          bulletPreset: 'NUMBERED_DECIMAL_NESTED',
         } as any,
       });
     } else {
@@ -141,30 +141,19 @@ export class RequestBuilder {
         } as any,
       });
     }
-
-    if (nestingLevel > 0) {
-      const indentMagnitude = nestingLevel * 36;
-      this.requests.push({
-        updateParagraphStyle: {
-          range: {
-            startIndex: startIndex,
-            endIndex: endIndex,
-          },
-          paragraphStyle: {
-            indentFirstLine: {
-              magnitude: indentMagnitude,
-              unit: 'PT',
-            },
-            indentStart: {
-              magnitude: indentMagnitude,
-              unit: 'PT',
-            },
-          } as any,
-          fields: 'indentFirstLine,indentStart',
-        },
-      });
-    }
   }
+
+  addDeleteParagraphBullets(startIndex: number, endIndex: number): void {
+    this.requests.push({
+      deleteParagraphBullets: {
+        range: {
+          startIndex: startIndex,
+          endIndex: endIndex,
+        },
+      },
+    });
+  }
+
 
   addUpdateTableCellStyle(tableCellLocation: docs_v1.Schema$TableCellLocation, style: TableCellStyle): void {
     this.requests.push({

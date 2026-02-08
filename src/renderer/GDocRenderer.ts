@@ -13,7 +13,7 @@ type GetDocumentFn = () => Promise<Document>;
 const KNOWN_VIRTUAL_NODE_TYPES: VirtualNodeType[] = [
   'GTextRun', 'GParagraph', 'GPageBreak', 'GColumnBreak', 'GHorizontalRule',
   'GFootnoteReference', 'GEquation', 'GInlineObject', 'GTable', 'GTableRow',
-  'GTableCell', 'GSectionBreak', 'GListItem', 'GImage'
+  'GTableCell', 'GSectionBreak', 'GImage'
 ];
 
 interface TextStyleUpdate {
@@ -38,13 +38,25 @@ interface ParagraphContext {
 
 export class GDocRenderer {
   private debug: boolean;
+  private batchUpdate: BatchUpdateFn;
+  private getDocument: GetDocumentFn;
 
   constructor(
-    private batchUpdate: BatchUpdateFn,
-    private getDocument: GetDocumentFn,
+    batchUpdate: BatchUpdateFn,
+    getDocument: GetDocumentFn,
     debug: boolean = false
   ) {
     this.debug = debug;
+    this.batchUpdate = async (requests: Request[]) => {
+      this.debugLog('batchUpdate called with requests:', JSON.stringify(requests, null, 2));
+      await batchUpdate(requests);
+    };
+    this.getDocument = async () => {
+      this.debugLog('getDocument called');
+      const doc = await getDocument();
+      this.debugLog('getDocument returned:', JSON.stringify(doc, null, 2));
+      return doc;
+    };
   }
 
   private debugLog(...args: any[]): void {
@@ -56,6 +68,7 @@ export class GDocRenderer {
   // --- Renderelés ---
   async render(element: React.ReactElement, startIndex: number = 1): Promise<void> {
     
+
     const node = this.jsxToVirtualNode(element);
     if (!node) return;
 
@@ -67,6 +80,13 @@ export class GDocRenderer {
   private async renderNode(node: VirtualNode, startIndex: number): Promise<void> {
 
     const requestBuilder = new RequestBuilder();
+
+    // IMPORTANT: This is a workaround for a bug in the Google Docs API:
+    // Without this, bullet point nesting doesn't work correctly.
+    // Apparently, when a doc is cleared, the nesting level information is not cleared properly
+    // so we need this for Google Docs server to reset the nesting level information properly.
+    requestBuilder.addDeleteParagraphBullets(startIndex, startIndex + 1);
+
     const renderContext: RenderContext = {
       requestBuilder,
       startIndex,
@@ -163,6 +183,7 @@ export class GDocRenderer {
     if (previousNodeWasParagraph) {
       requestBuilder.addInsertText('\n', renderContext.startIndex);
     }
+    
     renderContext.paragraphContext = {
       textStyleUpdates: [],
       cursorIndex: startIndex
@@ -190,6 +211,47 @@ export class GDocRenderer {
     for (const textStyleUpdate of paragraphContext.textStyleUpdates) {
       this.debugLog('Text style update:', textStyleUpdate);
       requestBuilder.addUpdateTextStyle(textStyleUpdate.startIndex, textStyleUpdate.endIndex, textStyleUpdate.style);
+    }
+
+    const listItemStyle = node.props.listItemStyle as { ordered?: boolean; nestingLevel?: number; listId?: string } | undefined;
+    if (listItemStyle) {
+      const ordered = listItemStyle.ordered !== undefined ? listItemStyle.ordered : false;
+      const nestingLevel = listItemStyle.nestingLevel || 0;
+      
+      this.debugLog('handleParagraph: addCreateParagraphBullets: ', { startIndex, endIndex: paragraphContext.cursorIndex, ordered });
+      if (nestingLevel > 0) {
+        requestBuilder.addInsertText('\t'.repeat(nestingLevel), startIndex);
+      }
+      requestBuilder.addCreateParagraphBullets(
+        startIndex,
+        paragraphContext.cursorIndex + nestingLevel,
+        ordered
+      );
+      
+      
+      // if (nestingLevel > 0) {
+      //   const indentMagnitude = nestingLevel * 36;
+      //   this.debugLog('handleParagraph: addUpdateParagraphStyle: ', { startIndex, endIndex: paragraphContext.cursorIndex, indentMagnitude });
+      //   requestBuilder.addUpdateParagraphStyle(
+      //     startIndex,
+      //     paragraphContext.cursorIndex,
+      //     {
+      //       indentFirstLine: {
+      //         magnitude: indentMagnitude,
+      //         unit: 'PT',
+      //       },
+      //       indentStart: {
+      //         magnitude: indentMagnitude,
+      //         unit: 'PT',
+      //       },
+      //     } as any
+      //   );
+      // }
+    } else {
+      requestBuilder.addDeleteParagraphBullets(
+        startIndex,
+        paragraphContext.cursorIndex
+      );
     }
 
     const length = renderContext.paragraphContext.cursorIndex - renderContext.startIndex;

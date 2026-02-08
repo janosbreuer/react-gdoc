@@ -13,7 +13,6 @@ import type {
   GTableRowProps,
   GTableCellProps,
   GSectionBreakProps,
-  GListItemProps,
   GImageProps,
 } from '../components/primitives';
 
@@ -30,7 +29,6 @@ export type VirtualNodeType =
   | 'GTableRow'
   | 'GTableCell'
   | 'GSectionBreak'
-  | 'GListItem'
   | 'GImage'
   | 'GHeading1'
   | 'GHeading2'
