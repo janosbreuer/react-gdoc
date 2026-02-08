@@ -24,22 +24,27 @@ async function main() {
 
     let requests: docs_v1.Schema$Request[] = [
       {
+        deleteParagraphBullets: {
+          range: { startIndex: 1, endIndex: 2 },
+        },
+      },
+      {
         insertText: {
-          text: 'Line 1\n\tLine 2\nLine 3',
+          text: '\tLine 1\n\t\tLine 2\nLine 3',
           location: { index: 1 },
         }
       },
       {
         createParagraphBullets: {
           range: { startIndex: 1, endIndex: 22 },
-          bulletPreset: 'BULLET_DISC_CIRCLE_SQUARE'
+          bulletPreset: 'NUMBERED_DECIMAL_NESTED' //'BULLET_DISC_CIRCLE_SQUARE'
         },
       },
-      {
-        deleteParagraphBullets: {
-          range: { startIndex: 18, endIndex: 21 },
-        },
-      },
+      // {
+      //   deleteParagraphBullets: {
+      //     range: { startIndex: 1, endIndex: 22 },
+      //   },
+      // },
     ];
 
     if (requests.length === 0) {
