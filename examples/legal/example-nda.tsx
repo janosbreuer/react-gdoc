@@ -1,5 +1,5 @@
 import React from 'react';
-import { Br, P, S } from '@react-gdoc/shortcuts';
+import { Br, P, S, Ol, Li } from '@react-gdoc/shortcuts';
 import { Heading1, Heading2 } from '@react-gdoc/headings';
 
 interface PartyData {
@@ -114,13 +114,15 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
         5. The undertakings in clauses 3 and 4 above apply to all of the information disclosed by each of the parties to the other, regardless of the way or form in which it is disclosed or recorded but they do not apply to:
       </P>
 
-      <P className="text-justify indent-5 mb-2">
-        <S className="font-bold">a)</S> any information which is or in future comes into the public domain (unless as a result of the breach of this Agreement); or
-      </P>
+      <Ol>
+        <Li>
+          any information which is or in future comes into the public domain (unless as a result of the breach of this Agreement); or
+        </Li>
 
-      <P className="text-justify indent-5 mb-4">
-        <S className="font-bold">b)</S> any information which is already known to the Recipient and which was not subject to any obligation of confidence before it was disclosed to the Recipient by the other party.
-      </P>
+        <Li>
+          any information which is already known to the Recipient and which was not subject to any obligation of confidence before it was disclosed to the Recipient by the other party.
+        </Li>
+      </Ol>
 
       <P className="text-justify mb-4">
         6. Nothing in this Agreement will prevent the Recipient from making any disclosure of the Confidential Information required by law or by any competent authority.

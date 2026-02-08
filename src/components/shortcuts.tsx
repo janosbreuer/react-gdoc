@@ -60,7 +60,7 @@ export const P: React.FC<PProps> = ({ className, style, children, ...props }) =>
   });
 
   return (
-    <GParagraph {...props} style={mergedStyle}>
+    <GParagraph {...props} style={mergedStyle} listItemStyle={{ nestingLevel: 0 }}>
       {processedChildren}
     </GParagraph>
   );
@@ -168,15 +168,11 @@ export const Br: React.FC = () => {
   return <GTextRun content={'\u000b'} />;
 };
 
-export interface LiProps {
-  className?: string;
-  style?: ParagraphStyle;
+export interface LiProps extends PProps {
   nestingLevel?: number;
-  listItemStyle?: { ordered?: boolean; nestingLevel?: number; listId?: string };
-  children?: React.ReactNode;
 }
 
-export const Li: React.FC<LiProps> = ({ className, style, nestingLevel = 0, listItemStyle, children }) => {
+export const Li: React.FC<LiProps> = ({ className, style, children, nestingLevel = 0, ...props }) => {
   const { paragraphClasses, textClasses } = className ? splitClasses(className) : { paragraphClasses: '', textClasses: '' };
   const classStyle = paragraphClasses ? parseParagraphClasses(paragraphClasses) : {};
   
@@ -217,45 +213,35 @@ export const Li: React.FC<LiProps> = ({ className, style, nestingLevel = 0, list
     return child;
   });
 
-  const finalListItemStyle = listItemStyle || { ordered: false, nestingLevel };
-  if (nestingLevel !== undefined && finalListItemStyle.nestingLevel === undefined) {
-    finalListItemStyle.nestingLevel = nestingLevel;
-  }
-
   return (
-    <GParagraph style={mergedStyle} listItemStyle={finalListItemStyle}>
+    <GParagraph {...props} style={mergedStyle} listItemStyle={{ nestingLevel }}>
       {processedChildren}
     </GParagraph>
   );
 };
 
-export interface UlProps {
-  nestingLevel?: number;
+export interface ListProps {
+  bulletPreset?: string;
   children?: React.ReactNode;
 }
 
-export const Ul: React.FC<UlProps> = ({ nestingLevel = 0, children }) => {
-  return <GList ordered={false} nestingLevel={nestingLevel}>{children}</GList>;
+export const List: React.FC<ListProps> = ({ bulletPreset = 'BULLET_DISC_CIRCLE_SQUARE', children }) => {
+  return <GList bulletPreset={bulletPreset}>{children}</GList>;
+};
+
+export interface UlProps {
+  children?: React.ReactNode;
+}
+
+export const Ul: React.FC<UlProps> = ({ ...props }) => {
+  return <GList bulletPreset="BULLET_DISC_CIRCLE_SQUARE" {...props} />;
 };
 
 export interface OlProps {
-  nestingLevel?: number;
   children?: React.ReactNode;
 }
 
-export const Ol: React.FC<OlProps> = ({ nestingLevel = 0, children }) => {
-  const processedChildren = React.Children.map(children, (child) => {
-    if (React.isValidElement(child) && child.type === Li) {
-      return React.cloneElement(child, {
-        ...child.props,
-        listItemStyle: {
-          ...(child.props.listItemStyle || {}),
-          ordered: true,
-        },
-      } as any);
-    }
-    return child;
-  });
-  return <GList ordered={true} nestingLevel={nestingLevel}>{processedChildren}</GList>;
+export const Ol: React.FC<OlProps> = ({ ...props }) => {
+  return <GList bulletPreset="NUMBERED_DECIMAL_NESTED" {...props} />;
 };
 

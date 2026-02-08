@@ -119,28 +119,16 @@ export class RequestBuilder {
     });
   }
 
-  addCreateParagraphBullets(startIndex: number, endIndex: number, ordered: boolean = false): void {
-    if (ordered) {
-      this.requests.push({
-        createParagraphBullets: {
-          range: {
-            startIndex: startIndex,
-            endIndex: endIndex,
-          },
-          bulletPreset: 'NUMBERED_DECIMAL_NESTED',
-        } as any,
-      });
-    } else {
-      this.requests.push({
-        createParagraphBullets: {
-          range: {
-            startIndex: startIndex,
-            endIndex: endIndex,
-          },
-          bulletPreset: 'BULLET_DISC_CIRCLE_SQUARE',
-        } as any,
-      });
-    }
+  addCreateParagraphBullets(startIndex: number, endIndex: number, bulletPreset: string = 'BULLET_DISC_CIRCLE_SQUARE'): void {
+    this.requests.push({
+      createParagraphBullets: {
+        range: {
+          startIndex: startIndex,
+          endIndex: endIndex,
+        },
+        bulletPreset: bulletPreset,
+      } as any,
+    });
   }
 
   addDeleteParagraphBullets(startIndex: number, endIndex: number): void {

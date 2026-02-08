@@ -28,18 +28,13 @@ interface RenderContext {
   startIndex: number;
   previousNodeWasParagraph: boolean;
   paragraphContext: ParagraphContext | null;
-  listContext: ListContext | null;
+  isInList: boolean;
   tableNodesReversed: VirtualNode[];
 }
 
 interface ParagraphContext {
   textStyleUpdates: TextStyleUpdate[];
   cursorIndex: number;
-}
-
-interface ListContext {
-  ordered: boolean;
-  nestingLevel: number;
 }
 
 export class GDocRenderer {
@@ -98,7 +93,7 @@ export class GDocRenderer {
       startIndex,
       previousNodeWasParagraph: false,
       paragraphContext: null,
-      listContext: null,
+      isInList: false,
       tableNodesReversed: [],
     };
 
@@ -224,20 +219,20 @@ export class GDocRenderer {
       requestBuilder.addUpdateTextStyle(textStyleUpdate.startIndex, textStyleUpdate.endIndex, textStyleUpdate.style);
     }
 
-    const listItemStyle = node.props.listItemStyle as { ordered?: boolean; nestingLevel?: number; listId?: string } | undefined;
-    if (listItemStyle) {
-      const ordered = listItemStyle.ordered !== undefined ? listItemStyle.ordered : false;
-      const nestingLevel = listItemStyle.nestingLevel || 0;
-      
-      this.debugLog('handleParagraph: addCreateParagraphBullets: ', { startIndex, endIndex: paragraphContext.cursorIndex, ordered });
-      if (nestingLevel > 0) {
-        requestBuilder.addInsertText('\t'.repeat(nestingLevel), startIndex);
-      }
-    } else {
+    if (!renderContext.isInList) {
       requestBuilder.addDeleteParagraphBullets(
         startIndex,
         paragraphContext.cursorIndex
       );
+    } else {
+      const listItemStyle = node.props.listItemStyle as { nestingLevel?: number; listId?: string } | undefined;
+      if (listItemStyle?.nestingLevel) {
+        const nestingLevel = listItemStyle.nestingLevel!;
+        
+        if (nestingLevel > 0) {
+          requestBuilder.addInsertText('\t'.repeat(nestingLevel), startIndex);
+        }
+      }
     }
 
     const length = renderContext.paragraphContext.cursorIndex - renderContext.startIndex;
@@ -247,22 +242,17 @@ export class GDocRenderer {
 
   private handleList(node: VirtualNode, renderContext: RenderContext): number {
     const { requestBuilder, startIndex } = renderContext;
-    if (renderContext.listContext) {
+    if (renderContext.isInList) {
       throw new Error('Lists cannot be nested');
     }
     if (renderContext.paragraphContext) {
       throw new Error('Lists cannot be nested inside paragraphs');
     }
 
-    const ordered = node.props.ordered !== undefined ? node.props.ordered : false;
-    const nestingLevel = node.props.nestingLevel || 0;
+    const bulletPreset = node.props.bulletPreset || 'BULLET_DISC_CIRCLE_SQUARE';
 
     const listStartIndex = startIndex;
-    renderContext.listContext = {
-      ordered,
-      nestingLevel,
-    };
-
+    renderContext.isInList = true;
     let listEndIndex = listStartIndex;
 
     if (node.children) {
@@ -272,8 +262,8 @@ export class GDocRenderer {
       });
     }
 
-    requestBuilder.addCreateParagraphBullets(startIndex, listEndIndex, ordered);
-    renderContext.listContext = null;
+    requestBuilder.addCreateParagraphBullets(startIndex, listEndIndex, bulletPreset);
+    renderContext.isInList = false;
     return listEndIndex - listStartIndex;
   }
 
@@ -338,7 +328,7 @@ export class GDocRenderer {
           startIndex: cellInDoc.startIndex! + 1,
           previousNodeWasParagraph: false,
           paragraphContext: null,
-          listContext: null,
+          isInList: false,
           tableNodesReversed: [],
         };
         this.renderInsertPhase(cellNode, renderContext);
