@@ -146,7 +146,11 @@ export class RequestBuilder {
   addUpdateTableCellStyle(tableCellLocation: docs_v1.Schema$TableCellLocation, style: TableCellStyle): void {
     this.requests.push({
       updateTableCellStyle: {
-        tableCellLocation: tableCellLocation,
+        tableRange: {
+          tableCellLocation: tableCellLocation,
+          rowSpan: 1,
+          columnSpan: 1,
+        },
         tableCellStyle: style,
         fields: this.getTableCellStyleFields(style),
       },

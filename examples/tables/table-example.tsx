@@ -20,17 +20,17 @@ export default function TableExample() {
 
       <Table>
         <TRow>
-          <TCell style={{ contentAlignment: 'CENTER' }}>
+          <TCell tableCellStyle={{ contentAlignment: 'CENTER' }}>
             <P className="text-center">
               <S className="font-bold">Név</S>
             </P>
           </TCell>
-          <TCell style={{ contentAlignment: 'CENTER' }}>
+          <TCell tableCellStyle={{ contentAlignment: 'CENTER' }}>
             <P className="text-center">
               <S className="font-bold">Életkor</S>
             </P>
           </TCell>
-          <TCell style={{ contentAlignment: 'CENTER' }}>
+          <TCell tableCellStyle={{ contentAlignment: 'CENTER' }}>
             <P className="text-center">
               <S className="font-bold">Város</S>
             </P>
@@ -81,17 +81,17 @@ export default function TableExample() {
 
       <Table>
         <TRow>
-          <TCell style={{ contentAlignment: 'CENTER' }}>
+          <TCell tableCellStyle={{ contentAlignment: 'CENTER' }}>
             <P className="text-center">
               <S className="font-bold">Hónap</S>
             </P>
           </TCell>
-          <TCell style={{ contentAlignment: 'CENTER' }}>
+          <TCell tableCellStyle={{ contentAlignment: 'CENTER' }}>
             <P className="text-center">
               <S className="font-bold">Bevétel</S>
             </P>
           </TCell>
-          <TCell style={{ contentAlignment: 'CENTER' }}>
+          <TCell tableCellStyle={{ contentAlignment: 'CENTER' }}>
             <P className="text-center">
               <S className="font-bold">Kiadás</S>
             </P>

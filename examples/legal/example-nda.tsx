@@ -41,13 +41,13 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
 
     return (
       <P className={className || 'text-justify mb-4'}>
-        <S className="font-bold">{currentClauseNumber}.</S> {children}
+        <S className="font-bold text-lg">{currentClauseNumber}.</S> {children}
       </P>
     );
   };
 
-  const currentYear = new Date().getFullYear();
-  const defaultDate = `${currentYear}`;
+  const currentDate = new Date().toLocaleDateString('en-GB', { year: 'numeric' });
+  const defaultDate = `${currentDate}`;
   const defaultPurpose = 'discussing the possibility of the parties entering into a joint venture';
   const defaultDuration = 'indefinitely';
   const defaultDurationYears = 5;
@@ -86,7 +86,8 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
   return (
     <>
       <Heading1 className="text-center mb-4">
-        An Example of a <Br /><S className="font-bold">Mutual Non-Disclosure Agreement</S>
+        An Example of a <Br />
+        <S className="font-bold text-2xl">Mutual Non-Disclosure Agreement</S>
       </Heading1>
 
       <P className="text-center mb-6">
@@ -159,7 +160,31 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
         This Agreement is governed by, and is to be construed in accordance with, English law. The English Courts will have non-exclusive jurisdiction to deal with any dispute which has arisen or may arise out of, or in connection with, this Agreement.
       </Clause>
 
-      <Table className="mt-6 mb-4">
+      <Table
+        className="mt-6 mb-4"
+        tableCellStyle={{
+          borderTop: {
+            width: { magnitude: 0, unit: 'PT' },
+            dashStyle: 'SOLID',
+            color: { color: { rgbColor: { red: 0, green: 0, blue: 0 } } },
+          },
+          borderBottom: {
+            width: { magnitude: 0, unit: 'PT' },
+            dashStyle: 'SOLID',
+            color: { color: { rgbColor: { red: 0, green: 0, blue: 0 } } },
+          },
+          borderLeft: {
+            width: { magnitude: 0, unit: 'PT' },
+            dashStyle: 'SOLID',
+            color: { color: { rgbColor: { red: 0, green: 0, blue: 0 } } },
+          },
+          borderRight: {
+            width: { magnitude: 0, unit: 'PT' },
+            dashStyle: 'SOLID',
+            color: { color: { rgbColor: { red: 0, green: 0, blue: 0 } } },
+          },
+        }}
+      >
         <TRow>
           <TCell>
             <P className="mb-3">

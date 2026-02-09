@@ -4,11 +4,20 @@ import type { TableCellStyle } from './types';
 export interface GTableCellProps {
   rowSpan?: number;
   columnSpan?: number;
-  style?: TableCellStyle;
+  // Table cell style (borders, alignment, padding, etc.)
+  tableCellStyle?: TableCellStyle;
+  // Optional className that can be used to style the cell content
+  className?: string;
   children?: React.ReactNode;
 }
 
-export const GTableCell: React.FC<GTableCellProps> = ({ rowSpan, columnSpan, style, children }) => {
+export const GTableCell: React.FC<GTableCellProps> = ({
+  rowSpan,
+  columnSpan,
+  tableCellStyle,
+  className,
+  children,
+}) => {
   return null;
 };
 

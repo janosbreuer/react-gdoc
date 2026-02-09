@@ -13,15 +13,27 @@ export interface TableProps {
   className?: string;
   rows?: number;
   columns?: number;
+  tableCellStyle?: TableCellStyle;
   children?: React.ReactNode;
 }
 
-export const Table: React.FC<TableProps> = ({ className, children, ...props }) => {
+export const Table: React.FC<TableProps> = ({ className, tableCellStyle, children, ...props }) => {
   const processedChildren = React.Children.map(children, (child) => {
-    if (React.isValidElement(child) && className) {
+    if (React.isValidElement(child)) {
+      const childProps: any = child.props || {};
+
+      const mergedClassName = className
+        ? mergeClassName(className, childProps.className)
+        : childProps.className;
+
+      const mergedTableCellStyle: TableCellStyle | undefined = tableCellStyle
+        ? { ...tableCellStyle, ...(childProps.tableCellStyle || {}) }
+        : childProps.tableCellStyle;
+
       return React.cloneElement(child, {
-        ...child.props,
-        className: mergeClassName(className, child.props.className),
+        ...childProps,
+        className: mergedClassName,
+        tableCellStyle: mergedTableCellStyle,
       } as any);
     }
     return child;
@@ -37,15 +49,27 @@ export const Table: React.FC<TableProps> = ({ className, children, ...props }) =
 export interface TRowProps {
   className?: string;
   style?: TableRowStyle;
+  tableCellStyle?: TableCellStyle;
   children?: React.ReactNode;
 }
 
-export const TRow: React.FC<TRowProps> = ({ className, style, children }) => {
+export const TRow: React.FC<TRowProps> = ({ className, style, tableCellStyle, children }) => {
   const processedChildren = React.Children.map(children, (child) => {
-    if (React.isValidElement(child) && className) {
+    if (React.isValidElement(child)) {
+      const childProps: any = child.props || {};
+
+      const mergedClassName = className
+        ? mergeClassName(className, childProps.className)
+        : childProps.className;
+
+      const mergedTableCellStyle: TableCellStyle | undefined = tableCellStyle
+        ? { ...tableCellStyle, ...(childProps.tableCellStyle || {}) }
+        : childProps.tableCellStyle;
+
       return React.cloneElement(child, {
-        ...child.props,
-        className: mergeClassName(className, child.props.className),
+        ...childProps,
+        className: mergedClassName,
+        tableCellStyle: mergedTableCellStyle,
       } as any);
     }
     return child;
@@ -62,11 +86,12 @@ export interface TCellProps {
   className?: string;
   rowSpan?: number;
   columnSpan?: number;
-  style?: TableCellStyle;
+  // Cell-level table style (borders, alignment, padding, etc.)
+  tableCellStyle?: TableCellStyle;
   children?: React.ReactNode;
 }
 
-export const TCell: React.FC<TCellProps> = ({ className, style, children, ...props }) => {
+export const TCell: React.FC<TCellProps> = ({ className, tableCellStyle, children, ...props }) => {
   const processedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement(child) && className) {
       return React.cloneElement(child, {
@@ -78,7 +103,7 @@ export const TCell: React.FC<TCellProps> = ({ className, style, children, ...pro
   });
 
   return (
-    <GTableCell {...props} style={style}>
+    <GTableCell {...props} tableCellStyle={tableCellStyle} className={className}>
       {processedChildren}
     </GTableCell>
   );

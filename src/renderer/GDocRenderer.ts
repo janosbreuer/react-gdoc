@@ -6,6 +6,7 @@ import { docs_v1 } from 'googleapis';
 
 type TextStyle = docs_v1.Schema$TextStyle;
 type ParagraphStyle = docs_v1.Schema$ParagraphStyle;
+type TableCellStyle = docs_v1.Schema$TableCellStyle;
 type BatchUpdateFn = (requests: Request[]) => Promise<void>;
 type GetDocumentFn = () => Promise<Document>;
 
@@ -110,16 +111,22 @@ export class GDocRenderer {
 
       // felsoroljuk a táblázatokat a dokumentumban hátulról előre
       const content = doc.body?.content || [];
-      const tablesReversed = content.filter(el => el.table).map(el => el.table!).reverse();
+      const tablesReversed = content
+        .filter(el => el.table)
+        .map(el => ({
+          table: el.table!,
+          startIndex: el.startIndex!,
+        }))
+        .reverse();
       if (tablesReversed.length !== renderContext.tableNodesReversed.length) {
         throw new Error('The number of tables in the document does not match the number of tables in the virtual tree');
       }
       const tableUpdateBuilder = new RequestBuilder();
       for (let i = 0; i < tablesReversed.length; i++) {
-        const tableInDoc = tablesReversed[i];
+        const { table: tableInDoc, startIndex: tableStartIndex } = tablesReversed[i];
         const tableNode = renderContext.tableNodesReversed[i];
 
-        this.renderTableContent(tableNode, tableInDoc, tableUpdateBuilder);
+        this.renderTableContent(tableNode, tableInDoc, tableStartIndex, tableUpdateBuilder);
       }
       const tableUpdateRequests = tableUpdateBuilder.getAllRequests();
       if (tableUpdateRequests.length > 0) {
@@ -292,7 +299,12 @@ export class GDocRenderer {
     return content.length;
   }
 
-  private renderTableContent(node: VirtualNode, table: docs_v1.Schema$Table, requestBuilder: RequestBuilder) {
+  private renderTableContent(
+    node: VirtualNode,
+    table: docs_v1.Schema$Table,
+    tableStartIndex: number,
+    requestBuilder: RequestBuilder
+  ) {
 
     // megyünk hátulról előre a táblázat celláin
     const rowNodesReversed = node.children?.reverse() || [];
@@ -332,6 +344,33 @@ export class GDocRenderer {
           tableNodesReversed: [],
         };
         this.renderInsertPhase(cellNode, renderContext);
+
+        // Apply table cell style if present on the virtual node
+        const tableCellStyle = cellNode.props.tableCellStyle as TableCellStyle | undefined;
+        if (tableCellStyle) {
+          const totalRowCount = rowsInDocReversed.length;
+          const totalColCount = cellsInDocReversed.length;
+
+          // Because we iterate reversed, map back to original row/column indices
+          const rowIndex = totalRowCount - 1 - i;
+          const columnIndex = totalColCount - 1 - j;
+
+          this.debugLog('Applying tableCellStyle for cell:', {
+            rowIndex,
+            columnIndex,
+            tableStartIndex,
+            tableCellStyle,
+          });
+
+          requestBuilder.addUpdateTableCellStyle(
+            {
+              tableStartLocation: { index: tableStartIndex },
+              rowIndex,
+              columnIndex,
+            },
+            tableCellStyle
+          );
+        }
       }
     }
   }
