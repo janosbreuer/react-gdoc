@@ -13,4 +13,5 @@ export * from './GTableCell';
 export * from './GSectionBreak';
 export * from '../headings';
 export * from './GImage';
+export * from './GContainer';
 

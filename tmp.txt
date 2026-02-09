@@ -1,0 +1,3524 @@
+
+> react-gdoc@0.1.0 render
+> tsx src/cli/render.ts examples/legal/example-nda.tsx 1uSpaewnJp2dATLTKNjCqSruG1XY2y0hy6K7gZOeEQnU --debug
+
+Parsed arguments:
+  File: examples/legal/example-nda.tsx
+  Document ID: 1uSpaewnJp2dATLTKNjCqSruG1XY2y0hy6K7gZOeEQnU
+  Title: (not provided)
+  Range: (not provided)
+  Debug: true
+  Component args: (none)
+Loading TSX file: C:\Users\janos\projects\react-gdoc\examples\legal\example-nda.tsx
+Authenticating with Google...
+Rendering JSX to Google Docs requests...
+Component props: {"args":[]}
+Updating existing document: 1uSpaewnJp2dATLTKNjCqSruG1XY2y0hy6K7gZOeEQnU
+Clearing document content...
+Virtual Node Tree: {
+  "type": "Fragment",
+  "props": {},
+  "children": [
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "CENTER",
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          },
+          "namedStyleType": "HEADING_1"
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "An Example of a "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "\u000b"
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "Mutual Non-Disclosure Agreement",
+            "style": {
+              "bold": true,
+              "fontSize": {
+                "magnitude": 20,
+                "unit": "PT"
+              },
+              "foregroundColor": {
+                "color": {
+                  "rgbColor": {
+                    "red": 0.1850980392156863,
+                    "green": 0.40784313725490196,
+                    "blue": 0.771764705882353
+                  }
+                }
+              }
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "CENTER",
+          "spaceBelow": {
+            "magnitude": 24,
+            "unit": "PT"
+          },
+          "namedStyleType": "HEADING_3"
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "Date:",
+            "style": {
+              "bold": true
+            }
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "10 February 2026"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "spaceBelow": {
+            "magnitude": 12,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {
+          "bold": true
+        },
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "Parties:",
+            "style": {
+              "bold": true
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "JUSTIFIED",
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "Tech Solutions Ltd.",
+            "style": {
+              "bold": true
+            }
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": ", a company registered in "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "England"
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " under company number "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "12345678",
+            "style": {
+              "bold": true
+            }
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " whose registered office is at "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "123 Business Street, London, SW1A 1AA, United Kingdom"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "and"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "JUSTIFIED",
+          "spaceBelow": {
+            "magnitude": 24,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "Innovation Corp.",
+            "style": {
+              "bold": true
+            }
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": ", a company registered in "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "England"
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " under company number "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "87654321",
+            "style": {
+              "bold": true
+            }
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " whose registered office is at "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "456 Innovation Avenue, London, EC1A 1BB, United Kingdom"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "JUSTIFIED",
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "Fragment",
+          "props": {},
+          "children": [
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": "1",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            },
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": ".",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "Each of the parties to this Agreement intends to disclose information (the "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "Confidential Information",
+            "style": {
+              "bold": true,
+              "italic": true
+            }
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": ") to the other party for the purpose of "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "discussing the possibility of the parties entering into a joint venture"
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " (the "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "Purpose",
+            "style": {
+              "bold": true,
+              "italic": true
+            }
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": ")."
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "JUSTIFIED",
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "Fragment",
+          "props": {},
+          "children": [
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": "2",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            },
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": ".",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "Each party to this Agreement is referred to as 'the "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "Recipient",
+            "style": {
+              "bold": true,
+              "italic": true
+            }
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "' when it receives or uses the Confidential Information disclosed by the other party."
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "JUSTIFIED",
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "Fragment",
+          "props": {},
+          "children": [
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": "3",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            },
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": ".",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "The Recipient undertakes not to use the Confidential Information disclosed by the other party for any purpose except the Purpose, without first obtaining the written agreement of the other party."
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "JUSTIFIED",
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "Fragment",
+          "props": {},
+          "children": [
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": "4",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            },
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": ".",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "The Recipient undertakes to keep the Confidential Information disclosed by the other party secure and not to disclose it to any third party except to its employees and professional advisers who need to know the same for the Purpose, who know they owe a duty of confidence to the other party and who are bound by obligations equivalent to those in clause 3 above and this clause 4."
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "JUSTIFIED",
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "Fragment",
+          "props": {},
+          "children": [
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": "5",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            },
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": ".",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "The undertakings in clauses 3 and 4 above apply to all of the information disclosed by each of the parties to the other, regardless of the way or form in which it is disclosed or recorded but they do not apply to:"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GList",
+      "props": {
+        "bulletPreset": "NUMBERED_UPPERALPHA_ALPHA_ROMAN"
+      },
+      "children": [
+        {
+          "type": "GParagraph",
+          "props": {
+            "paragraphStyle": {
+              "alignment": "JUSTIFIED",
+              "spaceBelow": {
+                "magnitude": 16,
+                "unit": "PT"
+              }
+            },
+            "textStyle": {},
+            "listItemStyle": {
+              "nestingLevel": 0
+            }
+          },
+          "children": [
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": "any information which is or in future comes into the public domain (unless as a result of the breach of this Agreement); or"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "GParagraph",
+          "props": {
+            "paragraphStyle": {
+              "alignment": "JUSTIFIED",
+              "spaceBelow": {
+                "magnitude": 16,
+                "unit": "PT"
+              }
+            },
+            "textStyle": {},
+            "listItemStyle": {
+              "nestingLevel": 0
+            }
+          },
+          "children": [
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": "any information which is already known to the Recipient and which was not subject to any obligation of confidence before it was disclosed to the Recipient by the other party."
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "JUSTIFIED",
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "Fragment",
+          "props": {},
+          "children": [
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": "6",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            },
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": ".",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "Nothing in this Agreement will prevent the Recipient from making any disclosure of the Confidential Information required by law or by any competent authority."
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "JUSTIFIED",
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "Fragment",
+          "props": {},
+          "children": [
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": "7",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            },
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": ".",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "The Recipient will, on request from the other party, return all copies and records of the Confidential Information disclosed by the other party to the Recipient and will not retain any copies or records of the Confidential Information disclosed by the other party."
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "JUSTIFIED",
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "Fragment",
+          "props": {},
+          "children": [
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": "8",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            },
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": ".",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "Neither this Agreement nor the supply of any information grants the Recipient any licence, interest or right in respect of any intellectual property rights of the other party except the right to copy the Confidential Information disclosed by the other party solely for the Purpose."
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "JUSTIFIED",
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "Fragment",
+          "props": {},
+          "children": [
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": "9",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            },
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": ".",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "The undertakings in clauses 3 and 4 will continue in force "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "indefinitely"
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "."
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {
+          "alignment": "JUSTIFIED",
+          "spaceBelow": {
+            "magnitude": 16,
+            "unit": "PT"
+          }
+        },
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "Fragment",
+          "props": {},
+          "children": [
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": "10",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            },
+            {
+              "type": "GTextRun",
+              "props": {
+                "content": ".",
+                "style": {
+                  "bold": true,
+                  "fontSize": {
+                    "magnitude": 16,
+                    "unit": "PT"
+                  },
+                  "foregroundColor": {
+                    "color": {
+                      "rgbColor": {
+                        "red": 0.1850980392156863,
+                        "green": 0.40784313725490196,
+                        "blue": 0.771764705882353
+                      }
+                    }
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " "
+          },
+          "children": []
+        },
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": "This Agreement is governed by, and is to be construed in accordance with, English law. The English Courts will have non-exclusive jurisdiction to deal with any dispute which has arisen or may arise out of, or in connection with, this Agreement."
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GParagraph",
+      "props": {
+        "paragraphStyle": {},
+        "textStyle": {},
+        "listItemStyle": {
+          "nestingLevel": 0
+        }
+      },
+      "children": [
+        {
+          "type": "GTextRun",
+          "props": {
+            "content": " ",
+            "style": {
+              "weightedFontFamily": {
+                "fontFamily": "Times New Roman",
+                "weight": 400
+              }
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "GTable",
+      "props": {},
+      "children": [
+        {
+          "type": "GTableRow",
+          "props": {},
+          "children": [
+            {
+              "type": "GTableCell",
+              "props": {
+                "tableCellStyle": {
+                  "borderTop": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderBottom": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderLeft": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderRight": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "paddingLeft": {
+                    "magnitude": 0,
+                    "unit": "PT"
+                  },
+                  "paddingRight": {
+                    "magnitude": 24,
+                    "unit": "PT"
+                  }
+                },
+                "className": "mt-6 mb-4 border-0 pl-0 pr-6"
+              },
+              "children": [
+                {
+                  "type": "GParagraph",
+                  "props": {
+                    "paragraphStyle": {
+                      "spaceAbove": {
+                        "magnitude": 24,
+                        "unit": "PT"
+                      },
+                      "spaceBelow": {
+                        "magnitude": 12,
+                        "unit": "PT"
+                      }
+                    },
+                    "textStyle": {},
+                    "listItemStyle": {
+                      "nestingLevel": 0
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "Signed on behalf of "
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "Tech Solutions Ltd.",
+                        "style": {
+                          "bold": true
+                        }
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": " by its duly authorised representative:"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "GTableCell",
+              "props": {
+                "tableCellStyle": {
+                  "borderTop": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderBottom": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderLeft": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderRight": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "paddingLeft": {
+                    "magnitude": 24,
+                    "unit": "PT"
+                  },
+                  "paddingRight": {
+                    "magnitude": 0,
+                    "unit": "PT"
+                  }
+                },
+                "className": "mt-6 mb-4 border-0 pl-6 pr-0"
+              },
+              "children": [
+                {
+                  "type": "GParagraph",
+                  "props": {
+                    "paragraphStyle": {
+                      "spaceAbove": {
+                        "magnitude": 24,
+                        "unit": "PT"
+                      },
+                      "spaceBelow": {
+                        "magnitude": 12,
+                        "unit": "PT"
+                      }
+                    },
+                    "textStyle": {},
+                    "listItemStyle": {
+                      "nestingLevel": 0
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "Signed on behalf of "
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "Innovation Corp.",
+                        "style": {
+                          "bold": true
+                        }
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": " by its duly authorised representative:"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "GTableRow",
+          "props": {},
+          "children": [
+            {
+              "type": "GTableCell",
+              "props": {
+                "tableCellStyle": {
+                  "borderTop": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderBottom": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderLeft": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderRight": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "paddingLeft": {
+                    "magnitude": 0,
+                    "unit": "PT"
+                  },
+                  "paddingRight": {
+                    "magnitude": 24,
+                    "unit": "PT"
+                  }
+                },
+                "className": "mt-6 mb-4 border-0 pl-0 pr-6"
+              },
+              "children": [
+                {
+                  "type": "GParagraph",
+                  "props": {
+                    "paragraphStyle": {
+                      "spaceAbove": {
+                        "magnitude": 24,
+                        "unit": "PT"
+                      },
+                      "spaceBelow": {
+                        "magnitude": 8,
+                        "unit": "PT"
+                      }
+                    },
+                    "textStyle": {},
+                    "listItemStyle": {
+                      "nestingLevel": 0
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "_____________________________"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "\u000b"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "Signature"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "GTableCell",
+              "props": {
+                "tableCellStyle": {
+                  "borderTop": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderBottom": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderLeft": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderRight": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "paddingLeft": {
+                    "magnitude": 24,
+                    "unit": "PT"
+                  },
+                  "paddingRight": {
+                    "magnitude": 0,
+                    "unit": "PT"
+                  }
+                },
+                "className": "mt-6 mb-4 border-0 pl-6 pr-0"
+              },
+              "children": [
+                {
+                  "type": "GParagraph",
+                  "props": {
+                    "paragraphStyle": {
+                      "spaceAbove": {
+                        "magnitude": 24,
+                        "unit": "PT"
+                      },
+                      "spaceBelow": {
+                        "magnitude": 8,
+                        "unit": "PT"
+                      }
+                    },
+                    "textStyle": {},
+                    "listItemStyle": {
+                      "nestingLevel": 0
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "_____________________________"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "\u000b"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "Signature"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "GTableRow",
+          "props": {},
+          "children": [
+            {
+              "type": "GTableCell",
+              "props": {
+                "tableCellStyle": {
+                  "borderTop": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderBottom": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderLeft": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderRight": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "paddingLeft": {
+                    "magnitude": 0,
+                    "unit": "PT"
+                  },
+                  "paddingRight": {
+                    "magnitude": 24,
+                    "unit": "PT"
+                  }
+                },
+                "className": "mt-6 mb-4 border-0 pl-0 pr-6"
+              },
+              "children": [
+                {
+                  "type": "GParagraph",
+                  "props": {
+                    "paragraphStyle": {
+                      "spaceAbove": {
+                        "magnitude": 24,
+                        "unit": "PT"
+                      },
+                      "spaceBelow": {
+                        "magnitude": 8,
+                        "unit": "PT"
+                      }
+                    },
+                    "textStyle": {},
+                    "listItemStyle": {
+                      "nestingLevel": 0
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "_____________________________"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "\u000b"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "Name"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "GTableCell",
+              "props": {
+                "tableCellStyle": {
+                  "borderTop": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderBottom": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderLeft": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderRight": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "paddingLeft": {
+                    "magnitude": 24,
+                    "unit": "PT"
+                  },
+                  "paddingRight": {
+                    "magnitude": 0,
+                    "unit": "PT"
+                  }
+                },
+                "className": "mt-6 mb-4 border-0 pl-6 pr-0"
+              },
+              "children": [
+                {
+                  "type": "GParagraph",
+                  "props": {
+                    "paragraphStyle": {
+                      "spaceAbove": {
+                        "magnitude": 24,
+                        "unit": "PT"
+                      },
+                      "spaceBelow": {
+                        "magnitude": 8,
+                        "unit": "PT"
+                      }
+                    },
+                    "textStyle": {},
+                    "listItemStyle": {
+                      "nestingLevel": 0
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "_____________________________"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "\u000b"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "Name"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "GTableRow",
+          "props": {},
+          "children": [
+            {
+              "type": "GTableCell",
+              "props": {
+                "tableCellStyle": {
+                  "borderTop": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderBottom": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderLeft": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderRight": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "paddingLeft": {
+                    "magnitude": 0,
+                    "unit": "PT"
+                  },
+                  "paddingRight": {
+                    "magnitude": 24,
+                    "unit": "PT"
+                  }
+                },
+                "className": "mt-6 mb-4 border-0 pl-0 pr-6"
+              },
+              "children": [
+                {
+                  "type": "GParagraph",
+                  "props": {
+                    "paragraphStyle": {
+                      "spaceAbove": {
+                        "magnitude": 24,
+                        "unit": "PT"
+                      },
+                      "spaceBelow": {
+                        "magnitude": 8,
+                        "unit": "PT"
+                      }
+                    },
+                    "textStyle": {},
+                    "listItemStyle": {
+                      "nestingLevel": 0
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "_____________________________"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "\u000b"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "Position"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "GTableCell",
+              "props": {
+                "tableCellStyle": {
+                  "borderTop": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderBottom": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderLeft": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "borderRight": {
+                    "width": {
+                      "magnitude": 0,
+                      "unit": "PT"
+                    },
+                    "dashStyle": "SOLID",
+                    "color": {
+                      "color": {
+                        "rgbColor": {
+                          "red": 0,
+                          "green": 0,
+                          "blue": 0
+                        }
+                      }
+                    }
+                  },
+                  "paddingLeft": {
+                    "magnitude": 24,
+                    "unit": "PT"
+                  },
+                  "paddingRight": {
+                    "magnitude": 0,
+                    "unit": "PT"
+                  }
+                },
+                "className": "mt-6 mb-4 border-0 pl-6 pr-0"
+              },
+              "children": [
+                {
+                  "type": "GParagraph",
+                  "props": {
+                    "paragraphStyle": {
+                      "spaceAbove": {
+                        "magnitude": 24,
+                        "unit": "PT"
+                      },
+                      "spaceBelow": {
+                        "magnitude": 8,
+                        "unit": "PT"
+                      }
+                    },
+                    "textStyle": {},
+                    "listItemStyle": {
+                      "nestingLevel": 0
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "_____________________________"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "\u000b"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "GTextRun",
+                      "props": {
+                        "content": "Position"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+handleParagraph: render child:  { content: ' ' }
+handleTextRun: { content: ' ', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    weightedFontFamily: { fontFamily: 'Times New Roman', weight: 400 }
+  },
+  content: ' '
+}
+handleParagraph: cursorIndex after render child:  2
+Effective style: { namedStyleType: 'NORMAL_TEXT' }
+Text style update: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    weightedFontFamily: { fontFamily: 'Times New Roman', weight: 400 }
+  },
+  content: ' '
+}
+handleParagraph: render child:  { content: undefined }
+handleTextRun: { content: '10', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '10'
+}
+handleTextRun: { content: '.', cursorIndex: 3 }
+textStyleUpdates.push: {
+  startIndex: 3,
+  endIndex: 4,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: cursorIndex after render child:  4
+handleParagraph: render child:  { content: ' ' }
+handleTextRun: { content: ' ', cursorIndex: 4 }
+handleParagraph: cursorIndex after render child:  5
+handleParagraph: render child:  {
+  content: 'This Agreement is governed by, and is to be construed in accordance with, English law. The English Courts will have non-exclusive jurisdiction to deal with any dispute which has arisen or may arise out of, or in connection with, this Agreement.'
+}
+handleTextRun: {
+  content: 'This Agreement is governed by, and is to be construed in accordance with, English law. The English Courts will have non-exclusive jurisdiction to deal with any dispute which has arisen or may arise out of, or in connection with, this Agreement.',
+  cursorIndex: 5
+}
+handleParagraph: cursorIndex after render child:  249
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '10'
+}
+Text style update: {
+  startIndex: 3,
+  endIndex: 4,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: render child:  { content: undefined }
+handleTextRun: { content: '9', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '9'
+}
+handleTextRun: { content: '.', cursorIndex: 2 }
+textStyleUpdates.push: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: cursorIndex after render child:  3
+handleParagraph: render child:  { content: ' ' }
+handleTextRun: { content: ' ', cursorIndex: 3 }
+handleParagraph: cursorIndex after render child:  4
+handleParagraph: render child:  {
+  content: 'The undertakings in clauses 3 and 4 will continue in force '
+}
+handleTextRun: {
+  content: 'The undertakings in clauses 3 and 4 will continue in force ',
+  cursorIndex: 4
+}
+handleParagraph: cursorIndex after render child:  63
+handleParagraph: render child:  { content: 'indefinitely' }
+handleTextRun: { content: 'indefinitely', cursorIndex: 63 }
+handleParagraph: cursorIndex after render child:  75
+handleParagraph: render child:  { content: '.' }
+handleTextRun: { content: '.', cursorIndex: 75 }
+handleParagraph: cursorIndex after render child:  76
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '9'
+}
+Text style update: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: render child:  { content: undefined }
+handleTextRun: { content: '8', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '8'
+}
+handleTextRun: { content: '.', cursorIndex: 2 }
+textStyleUpdates.push: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: cursorIndex after render child:  3
+handleParagraph: render child:  { content: ' ' }
+handleTextRun: { content: ' ', cursorIndex: 3 }
+handleParagraph: cursorIndex after render child:  4
+handleParagraph: render child:  {
+  content: 'Neither this Agreement nor the supply of any information grants the Recipient any licence, interest or right in respect of any intellectual property rights of the other party except the right to copy the Confidential Information disclosed by the other party solely for the Purpose.'
+}
+handleTextRun: {
+  content: 'Neither this Agreement nor the supply of any information grants the Recipient any licence, interest or right in respect of any intellectual property rights of the other party except the right to copy the Confidential Information disclosed by the other party solely for the Purpose.',
+  cursorIndex: 4
+}
+handleParagraph: cursorIndex after render child:  285
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '8'
+}
+Text style update: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: render child:  { content: undefined }
+handleTextRun: { content: '7', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '7'
+}
+handleTextRun: { content: '.', cursorIndex: 2 }
+textStyleUpdates.push: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: cursorIndex after render child:  3
+handleParagraph: render child:  { content: ' ' }
+handleTextRun: { content: ' ', cursorIndex: 3 }
+handleParagraph: cursorIndex after render child:  4
+handleParagraph: render child:  {
+  content: 'The Recipient will, on request from the other party, return all copies and records of the Confidential Information disclosed by the other party to the Recipient and will not retain any copies or records of the Confidential Information disclosed by the other party.'
+}
+handleTextRun: {
+  content: 'The Recipient will, on request from the other party, return all copies and records of the Confidential Information disclosed by the other party to the Recipient and will not retain any copies or records of the Confidential Information disclosed by the other party.',
+  cursorIndex: 4
+}
+handleParagraph: cursorIndex after render child:  268
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '7'
+}
+Text style update: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: render child:  { content: undefined }
+handleTextRun: { content: '6', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '6'
+}
+handleTextRun: { content: '.', cursorIndex: 2 }
+textStyleUpdates.push: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: cursorIndex after render child:  3
+handleParagraph: render child:  { content: ' ' }
+handleTextRun: { content: ' ', cursorIndex: 3 }
+handleParagraph: cursorIndex after render child:  4
+handleParagraph: render child:  {
+  content: 'Nothing in this Agreement will prevent the Recipient from making any disclosure of the Confidential Information required by law or by any competent authority.'
+}
+handleTextRun: {
+  content: 'Nothing in this Agreement will prevent the Recipient from making any disclosure of the Confidential Information required by law or by any competent authority.',
+  cursorIndex: 4
+}
+handleParagraph: cursorIndex after render child:  162
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '6'
+}
+Text style update: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: render child:  {
+  content: 'any information which is already known to the Recipient and which was not subject to any obligation of confidence before it was disclosed to the Recipient by the other party.'
+}
+handleTextRun: {
+  content: 'any information which is already known to the Recipient and which was not subject to any obligation of confidence before it was disclosed to the Recipient by the other party.',
+  cursorIndex: 1
+}
+handleParagraph: cursorIndex after render child:  175
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+handleParagraph: render child:  {
+  content: 'any information which is or in future comes into the public domain (unless as a result of the breach of this Agreement); or'
+}
+handleTextRun: {
+  content: 'any information which is or in future comes into the public domain (unless as a result of the breach of this Agreement); or',
+  cursorIndex: 1
+}
+handleParagraph: cursorIndex after render child:  124
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+handleParagraph: render child:  { content: undefined }
+handleTextRun: { content: '5', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '5'
+}
+handleTextRun: { content: '.', cursorIndex: 2 }
+textStyleUpdates.push: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: cursorIndex after render child:  3
+handleParagraph: render child:  { content: ' ' }
+handleTextRun: { content: ' ', cursorIndex: 3 }
+handleParagraph: cursorIndex after render child:  4
+handleParagraph: render child:  {
+  content: 'The undertakings in clauses 3 and 4 above apply to all of the information disclosed by each of the parties to the other, regardless of the way or form in which it is disclosed or recorded but they do not apply to:'
+}
+handleTextRun: {
+  content: 'The undertakings in clauses 3 and 4 above apply to all of the information disclosed by each of the parties to the other, regardless of the way or form in which it is disclosed or recorded but they do not apply to:',
+  cursorIndex: 4
+}
+handleParagraph: cursorIndex after render child:  217
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '5'
+}
+Text style update: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: render child:  { content: undefined }
+handleTextRun: { content: '4', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '4'
+}
+handleTextRun: { content: '.', cursorIndex: 2 }
+textStyleUpdates.push: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: cursorIndex after render child:  3
+handleParagraph: render child:  { content: ' ' }
+handleTextRun: { content: ' ', cursorIndex: 3 }
+handleParagraph: cursorIndex after render child:  4
+handleParagraph: render child:  {
+  content: 'The Recipient undertakes to keep the Confidential Information disclosed by the other party secure and not to disclose it to any third party except to its employees and professional advisers who need to know the same for the Purpose, who know they owe a duty of confidence to the other party and who are bound by obligations equivalent to those in clause 3 above and this clause 4.'
+}
+handleTextRun: {
+  content: 'The Recipient undertakes to keep the Confidential Information disclosed by the other party secure and not to disclose it to any third party except to its employees and professional advisers who need to know the same for the Purpose, who know they owe a duty of confidence to the other party and who are bound by obligations equivalent to those in clause 3 above and this clause 4.',
+  cursorIndex: 4
+}
+handleParagraph: cursorIndex after render child:  384
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '4'
+}
+Text style update: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: render child:  { content: undefined }
+handleTextRun: { content: '3', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '3'
+}
+handleTextRun: { content: '.', cursorIndex: 2 }
+textStyleUpdates.push: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: cursorIndex after render child:  3
+handleParagraph: render child:  { content: ' ' }
+handleTextRun: { content: ' ', cursorIndex: 3 }
+handleParagraph: cursorIndex after render child:  4
+handleParagraph: render child:  {
+  content: 'The Recipient undertakes not to use the Confidential Information disclosed by the other party for any purpose except the Purpose, without first obtaining the written agreement of the other party.'
+}
+handleTextRun: {
+  content: 'The Recipient undertakes not to use the Confidential Information disclosed by the other party for any purpose except the Purpose, without first obtaining the written agreement of the other party.',
+  cursorIndex: 4
+}
+handleParagraph: cursorIndex after render child:  199
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '3'
+}
+Text style update: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: render child:  { content: undefined }
+handleTextRun: { content: '2', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '2'
+}
+handleTextRun: { content: '.', cursorIndex: 2 }
+textStyleUpdates.push: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: cursorIndex after render child:  3
+handleParagraph: render child:  { content: ' ' }
+handleTextRun: { content: ' ', cursorIndex: 3 }
+handleParagraph: cursorIndex after render child:  4
+handleParagraph: render child:  { content: "Each party to this Agreement is referred to as 'the " }
+handleTextRun: {
+  content: "Each party to this Agreement is referred to as 'the ",
+  cursorIndex: 4
+}
+handleParagraph: cursorIndex after render child:  56
+handleParagraph: render child:  { content: 'Recipient' }
+handleTextRun: { content: 'Recipient', cursorIndex: 56 }
+textStyleUpdates.push: {
+  startIndex: 56,
+  endIndex: 65,
+  style: { bold: true, italic: true },
+  content: 'Recipient'
+}
+handleParagraph: cursorIndex after render child:  65
+handleParagraph: render child:  {
+  content: "' when it receives or uses the Confidential Information disclosed by the other party."
+}
+handleTextRun: {
+  content: "' when it receives or uses the Confidential Information disclosed by the other party.",
+  cursorIndex: 65
+}
+handleParagraph: cursorIndex after render child:  150
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '2'
+}
+Text style update: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+Text style update: {
+  startIndex: 56,
+  endIndex: 65,
+  style: { bold: true, italic: true },
+  content: 'Recipient'
+}
+handleParagraph: render child:  { content: undefined }
+handleTextRun: { content: '1', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '1'
+}
+handleTextRun: { content: '.', cursorIndex: 2 }
+textStyleUpdates.push: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+handleParagraph: cursorIndex after render child:  3
+handleParagraph: render child:  { content: ' ' }
+handleTextRun: { content: ' ', cursorIndex: 3 }
+handleParagraph: cursorIndex after render child:  4
+handleParagraph: render child:  {
+  content: 'Each of the parties to this Agreement intends to disclose information (the '
+}
+handleTextRun: {
+  content: 'Each of the parties to this Agreement intends to disclose information (the ',
+  cursorIndex: 4
+}
+handleParagraph: cursorIndex after render child:  79
+handleParagraph: render child:  { content: 'Confidential Information' }
+handleTextRun: { content: 'Confidential Information', cursorIndex: 79 }
+textStyleUpdates.push: {
+  startIndex: 79,
+  endIndex: 103,
+  style: { bold: true, italic: true },
+  content: 'Confidential Information'
+}
+handleParagraph: cursorIndex after render child:  103
+handleParagraph: render child:  { content: ') to the other party for the purpose of ' }
+handleTextRun: {
+  content: ') to the other party for the purpose of ',
+  cursorIndex: 103
+}
+handleParagraph: cursorIndex after render child:  143
+handleParagraph: render child:  {
+  content: 'discussing the possibility of the parties entering into a joint venture'
+}
+handleTextRun: {
+  content: 'discussing the possibility of the parties entering into a joint venture',
+  cursorIndex: 143
+}
+handleParagraph: cursorIndex after render child:  214
+handleParagraph: render child:  { content: ' (the ' }
+handleTextRun: { content: ' (the ', cursorIndex: 214 }
+handleParagraph: cursorIndex after render child:  220
+handleParagraph: render child:  { content: 'Purpose' }
+handleTextRun: { content: 'Purpose', cursorIndex: 220 }
+textStyleUpdates.push: {
+  startIndex: 220,
+  endIndex: 227,
+  style: { bold: true, italic: true },
+  content: 'Purpose'
+}
+handleParagraph: cursorIndex after render child:  227
+handleParagraph: render child:  { content: ').' }
+handleTextRun: { content: ').', cursorIndex: 227 }
+handleParagraph: cursorIndex after render child:  229
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 2,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '1'
+}
+Text style update: {
+  startIndex: 2,
+  endIndex: 3,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 16, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: '.'
+}
+Text style update: {
+  startIndex: 79,
+  endIndex: 103,
+  style: { bold: true, italic: true },
+  content: 'Confidential Information'
+}
+Text style update: {
+  startIndex: 220,
+  endIndex: 227,
+  style: { bold: true, italic: true },
+  content: 'Purpose'
+}
+handleParagraph: render child:  { content: 'Innovation Corp.' }
+handleTextRun: { content: 'Innovation Corp.', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 17,
+  style: { bold: true },
+  content: 'Innovation Corp.'
+}
+handleParagraph: cursorIndex after render child:  17
+handleParagraph: render child:  { content: ', a company registered in ' }
+handleTextRun: { content: ', a company registered in ', cursorIndex: 17 }
+handleParagraph: cursorIndex after render child:  43
+handleParagraph: render child:  { content: 'England' }
+handleTextRun: { content: 'England', cursorIndex: 43 }
+handleParagraph: cursorIndex after render child:  50
+handleParagraph: render child:  { content: ' under company number ' }
+handleTextRun: { content: ' under company number ', cursorIndex: 50 }
+handleParagraph: cursorIndex after render child:  72
+handleParagraph: render child:  { content: '87654321' }
+handleTextRun: { content: '87654321', cursorIndex: 72 }
+textStyleUpdates.push: {
+  startIndex: 72,
+  endIndex: 80,
+  style: { bold: true },
+  content: '87654321'
+}
+handleParagraph: cursorIndex after render child:  80
+handleParagraph: render child:  { content: ' whose registered office is at ' }
+handleTextRun: { content: ' whose registered office is at ', cursorIndex: 80 }
+handleParagraph: cursorIndex after render child:  111
+handleParagraph: render child:  { content: '456 Innovation Avenue, London, EC1A 1BB, United Kingdom' }
+handleTextRun: {
+  content: '456 Innovation Avenue, London, EC1A 1BB, United Kingdom',
+  cursorIndex: 111
+}
+handleParagraph: cursorIndex after render child:  166
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 24, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 17,
+  style: { bold: true },
+  content: 'Innovation Corp.'
+}
+Text style update: {
+  startIndex: 72,
+  endIndex: 80,
+  style: { bold: true },
+  content: '87654321'
+}
+handleParagraph: render child:  { content: 'and' }
+handleTextRun: { content: 'and', cursorIndex: 1 }
+handleParagraph: cursorIndex after render child:  4
+Effective style: {
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+handleParagraph: render child:  { content: 'Tech Solutions Ltd.' }
+handleTextRun: { content: 'Tech Solutions Ltd.', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 20,
+  style: { bold: true },
+  content: 'Tech Solutions Ltd.'
+}
+handleParagraph: cursorIndex after render child:  20
+handleParagraph: render child:  { content: ', a company registered in ' }
+handleTextRun: { content: ', a company registered in ', cursorIndex: 20 }
+handleParagraph: cursorIndex after render child:  46
+handleParagraph: render child:  { content: 'England' }
+handleTextRun: { content: 'England', cursorIndex: 46 }
+handleParagraph: cursorIndex after render child:  53
+handleParagraph: render child:  { content: ' under company number ' }
+handleTextRun: { content: ' under company number ', cursorIndex: 53 }
+handleParagraph: cursorIndex after render child:  75
+handleParagraph: render child:  { content: '12345678' }
+handleTextRun: { content: '12345678', cursorIndex: 75 }
+textStyleUpdates.push: {
+  startIndex: 75,
+  endIndex: 83,
+  style: { bold: true },
+  content: '12345678'
+}
+handleParagraph: cursorIndex after render child:  83
+handleParagraph: render child:  { content: ' whose registered office is at ' }
+handleTextRun: { content: ' whose registered office is at ', cursorIndex: 83 }
+handleParagraph: cursorIndex after render child:  114
+handleParagraph: render child:  { content: '123 Business Street, London, SW1A 1AA, United Kingdom' }
+handleTextRun: {
+  content: '123 Business Street, London, SW1A 1AA, United Kingdom',
+  cursorIndex: 114
+}
+handleParagraph: cursorIndex after render child:  167
+Effective style: {
+  alignment: 'JUSTIFIED',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 20,
+  style: { bold: true },
+  content: 'Tech Solutions Ltd.'
+}
+Text style update: {
+  startIndex: 75,
+  endIndex: 83,
+  style: { bold: true },
+  content: '12345678'
+}
+handleParagraph: render child:  { content: 'Parties:' }
+handleTextRun: { content: 'Parties:', cursorIndex: 1 }
+textStyleUpdates.push: {
+  startIndex: 1,
+  endIndex: 9,
+  style: { bold: true },
+  content: 'Parties:'
+}
+handleParagraph: cursorIndex after render child:  9
+Effective style: {
+  spaceBelow: { magnitude: 12, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 1,
+  endIndex: 9,
+  style: { bold: true },
+  content: 'Parties:'
+}
+handleParagraph: render child:  { content: 'Date:' }
+handleTextRun: { content: 'Date:', cursorIndex: 1 }
+textStyleUpdates.push: { startIndex: 1, endIndex: 6, style: { bold: true }, content: 'Date:' }
+handleParagraph: cursorIndex after render child:  6
+handleParagraph: render child:  { content: ' ' }
+handleTextRun: { content: ' ', cursorIndex: 6 }
+handleParagraph: cursorIndex after render child:  7
+handleParagraph: render child:  { content: '10 February 2026' }
+handleTextRun: { content: '10 February 2026', cursorIndex: 7 }
+handleParagraph: cursorIndex after render child:  23
+Effective style: {
+  alignment: 'CENTER',
+  spaceBelow: { magnitude: 24, unit: 'PT' },
+  namedStyleType: 'HEADING_3'
+}
+Text style update: { startIndex: 1, endIndex: 6, style: { bold: true }, content: 'Date:' }
+handleParagraph: render child:  { content: 'An Example of a ' }
+handleTextRun: { content: 'An Example of a ', cursorIndex: 1 }
+handleParagraph: cursorIndex after render child:  17
+handleParagraph: render child:  { content: '\x0B' }
+handleTextRun: { content: '\x0B', cursorIndex: 17 }
+handleParagraph: cursorIndex after render child:  18
+handleParagraph: render child:  { content: 'Mutual Non-Disclosure Agreement' }
+handleTextRun: { content: 'Mutual Non-Disclosure Agreement', cursorIndex: 18 }
+textStyleUpdates.push: {
+  startIndex: 18,
+  endIndex: 49,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 20, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: 'Mutual Non-Disclosure Agreement'
+}
+handleParagraph: cursorIndex after render child:  49
+Effective style: {
+  alignment: 'CENTER',
+  spaceBelow: { magnitude: 16, unit: 'PT' },
+  namedStyleType: 'HEADING_1'
+}
+Text style update: {
+  startIndex: 18,
+  endIndex: 49,
+  style: {
+    bold: true,
+    fontSize: { magnitude: 20, unit: 'PT' },
+    foregroundColor: { color: [Object] }
+  },
+  content: 'Mutual Non-Disclosure Agreement'
+}
+getDocument called
+Cell in doc structure: { cellStartIndex: 2958, cellEndIndex: 2960 }
+Node content: _____________________________Position
+handleParagraph: render child:  { content: '_____________________________' }
+handleTextRun: { content: '_____________________________', cursorIndex: 2959 }
+handleParagraph: cursorIndex after render child:  2988
+handleParagraph: render child:  { content: '\x0B' }
+handleTextRun: { content: '\x0B', cursorIndex: 2988 }
+handleParagraph: cursorIndex after render child:  2989
+handleParagraph: render child:  { content: 'Position' }
+handleTextRun: { content: 'Position', cursorIndex: 2989 }
+handleParagraph: cursorIndex after render child:  2997
+Effective style: {
+  spaceAbove: { magnitude: 24, unit: 'PT' },
+  spaceBelow: { magnitude: 8, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Applying tableCellStyle for cell: {
+  rowIndex: 3,
+  columnIndex: 1,
+  tableStartIndex: 2939,
+  tableCellStyle: {
+    borderTop: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderBottom: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderLeft: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderRight: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    paddingLeft: { magnitude: 24, unit: 'PT' },
+    paddingRight: { magnitude: 0, unit: 'PT' }
+  }
+}
+Cell in doc structure: { cellStartIndex: 2956, cellEndIndex: 2958 }
+Node content: _____________________________Position
+handleParagraph: render child:  { content: '_____________________________' }
+handleTextRun: { content: '_____________________________', cursorIndex: 2957 }
+handleParagraph: cursorIndex after render child:  2986
+handleParagraph: render child:  { content: '\x0B' }
+handleTextRun: { content: '\x0B', cursorIndex: 2986 }
+handleParagraph: cursorIndex after render child:  2987
+handleParagraph: render child:  { content: 'Position' }
+handleTextRun: { content: 'Position', cursorIndex: 2987 }
+handleParagraph: cursorIndex after render child:  2995
+Effective style: {
+  spaceAbove: { magnitude: 24, unit: 'PT' },
+  spaceBelow: { magnitude: 8, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Applying tableCellStyle for cell: {
+  rowIndex: 3,
+  columnIndex: 0,
+  tableStartIndex: 2939,
+  tableCellStyle: {
+    borderTop: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderBottom: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderLeft: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderRight: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    paddingLeft: { magnitude: 0, unit: 'PT' },
+    paddingRight: { magnitude: 24, unit: 'PT' }
+  }
+}
+Cell in doc structure: { cellStartIndex: 2953, cellEndIndex: 2955 }
+Node content: _____________________________Name
+handleParagraph: render child:  { content: '_____________________________' }
+handleTextRun: { content: '_____________________________', cursorIndex: 2954 }
+handleParagraph: cursorIndex after render child:  2983
+handleParagraph: render child:  { content: '\x0B' }
+handleTextRun: { content: '\x0B', cursorIndex: 2983 }
+handleParagraph: cursorIndex after render child:  2984
+handleParagraph: render child:  { content: 'Name' }
+handleTextRun: { content: 'Name', cursorIndex: 2984 }
+handleParagraph: cursorIndex after render child:  2988
+Effective style: {
+  spaceAbove: { magnitude: 24, unit: 'PT' },
+  spaceBelow: { magnitude: 8, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Applying tableCellStyle for cell: {
+  rowIndex: 2,
+  columnIndex: 1,
+  tableStartIndex: 2939,
+  tableCellStyle: {
+    borderTop: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderBottom: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderLeft: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderRight: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    paddingLeft: { magnitude: 24, unit: 'PT' },
+    paddingRight: { magnitude: 0, unit: 'PT' }
+  }
+}
+Cell in doc structure: { cellStartIndex: 2951, cellEndIndex: 2953 }
+Node content: _____________________________Name
+handleParagraph: render child:  { content: '_____________________________' }
+handleTextRun: { content: '_____________________________', cursorIndex: 2952 }
+handleParagraph: cursorIndex after render child:  2981
+handleParagraph: render child:  { content: '\x0B' }
+handleTextRun: { content: '\x0B', cursorIndex: 2981 }
+handleParagraph: cursorIndex after render child:  2982
+handleParagraph: render child:  { content: 'Name' }
+handleTextRun: { content: 'Name', cursorIndex: 2982 }
+handleParagraph: cursorIndex after render child:  2986
+Effective style: {
+  spaceAbove: { magnitude: 24, unit: 'PT' },
+  spaceBelow: { magnitude: 8, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Applying tableCellStyle for cell: {
+  rowIndex: 2,
+  columnIndex: 0,
+  tableStartIndex: 2939,
+  tableCellStyle: {
+    borderTop: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderBottom: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderLeft: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderRight: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    paddingLeft: { magnitude: 0, unit: 'PT' },
+    paddingRight: { magnitude: 24, unit: 'PT' }
+  }
+}
+Cell in doc structure: { cellStartIndex: 2948, cellEndIndex: 2950 }
+Node content: _____________________________Signature
+handleParagraph: render child:  { content: '_____________________________' }
+handleTextRun: { content: '_____________________________', cursorIndex: 2949 }
+handleParagraph: cursorIndex after render child:  2978
+handleParagraph: render child:  { content: '\x0B' }
+handleTextRun: { content: '\x0B', cursorIndex: 2978 }
+handleParagraph: cursorIndex after render child:  2979
+handleParagraph: render child:  { content: 'Signature' }
+handleTextRun: { content: 'Signature', cursorIndex: 2979 }
+handleParagraph: cursorIndex after render child:  2988
+Effective style: {
+  spaceAbove: { magnitude: 24, unit: 'PT' },
+  spaceBelow: { magnitude: 8, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Applying tableCellStyle for cell: {
+  rowIndex: 1,
+  columnIndex: 1,
+  tableStartIndex: 2939,
+  tableCellStyle: {
+    borderTop: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderBottom: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderLeft: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderRight: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    paddingLeft: { magnitude: 24, unit: 'PT' },
+    paddingRight: { magnitude: 0, unit: 'PT' }
+  }
+}
+Cell in doc structure: { cellStartIndex: 2946, cellEndIndex: 2948 }
+Node content: _____________________________Signature
+handleParagraph: render child:  { content: '_____________________________' }
+handleTextRun: { content: '_____________________________', cursorIndex: 2947 }
+handleParagraph: cursorIndex after render child:  2976
+handleParagraph: render child:  { content: '\x0B' }
+handleTextRun: { content: '\x0B', cursorIndex: 2976 }
+handleParagraph: cursorIndex after render child:  2977
+handleParagraph: render child:  { content: 'Signature' }
+handleTextRun: { content: 'Signature', cursorIndex: 2977 }
+handleParagraph: cursorIndex after render child:  2986
+Effective style: {
+  spaceAbove: { magnitude: 24, unit: 'PT' },
+  spaceBelow: { magnitude: 8, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Applying tableCellStyle for cell: {
+  rowIndex: 1,
+  columnIndex: 0,
+  tableStartIndex: 2939,
+  tableCellStyle: {
+    borderTop: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderBottom: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderLeft: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderRight: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    paddingLeft: { magnitude: 0, unit: 'PT' },
+    paddingRight: { magnitude: 24, unit: 'PT' }
+  }
+}
+Cell in doc structure: { cellStartIndex: 2943, cellEndIndex: 2945 }
+Node content: Signed on behalf of Innovation Corp. by its duly authorised representative:
+handleParagraph: render child:  { content: 'Signed on behalf of ' }
+handleTextRun: { content: 'Signed on behalf of ', cursorIndex: 2944 }
+handleParagraph: cursorIndex after render child:  2964
+handleParagraph: render child:  { content: 'Innovation Corp.' }
+handleTextRun: { content: 'Innovation Corp.', cursorIndex: 2964 }
+textStyleUpdates.push: {
+  startIndex: 2964,
+  endIndex: 2980,
+  style: { bold: true },
+  content: 'Innovation Corp.'
+}
+handleParagraph: cursorIndex after render child:  2980
+handleParagraph: render child:  { content: ' by its duly authorised representative:' }
+handleTextRun: {
+  content: ' by its duly authorised representative:',
+  cursorIndex: 2980
+}
+handleParagraph: cursorIndex after render child:  3019
+Effective style: {
+  spaceAbove: { magnitude: 24, unit: 'PT' },
+  spaceBelow: { magnitude: 12, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 2964,
+  endIndex: 2980,
+  style: { bold: true },
+  content: 'Innovation Corp.'
+}
+Applying tableCellStyle for cell: {
+  rowIndex: 0,
+  columnIndex: 1,
+  tableStartIndex: 2939,
+  tableCellStyle: {
+    borderTop: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderBottom: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderLeft: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderRight: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    paddingLeft: { magnitude: 24, unit: 'PT' },
+    paddingRight: { magnitude: 0, unit: 'PT' }
+  }
+}
+Cell in doc structure: { cellStartIndex: 2941, cellEndIndex: 2943 }
+Node content: Signed on behalf of Tech Solutions Ltd. by its duly authorised representative:
+handleParagraph: render child:  { content: 'Signed on behalf of ' }
+handleTextRun: { content: 'Signed on behalf of ', cursorIndex: 2942 }
+handleParagraph: cursorIndex after render child:  2962
+handleParagraph: render child:  { content: 'Tech Solutions Ltd.' }
+handleTextRun: { content: 'Tech Solutions Ltd.', cursorIndex: 2962 }
+textStyleUpdates.push: {
+  startIndex: 2962,
+  endIndex: 2981,
+  style: { bold: true },
+  content: 'Tech Solutions Ltd.'
+}
+handleParagraph: cursorIndex after render child:  2981
+handleParagraph: render child:  { content: ' by its duly authorised representative:' }
+handleTextRun: {
+  content: ' by its duly authorised representative:',
+  cursorIndex: 2981
+}
+handleParagraph: cursorIndex after render child:  3020
+Effective style: {
+  spaceAbove: { magnitude: 24, unit: 'PT' },
+  spaceBelow: { magnitude: 12, unit: 'PT' },
+  namedStyleType: 'NORMAL_TEXT'
+}
+Text style update: {
+  startIndex: 2962,
+  endIndex: 2981,
+  style: { bold: true },
+  content: 'Tech Solutions Ltd.'
+}
+Applying tableCellStyle for cell: {
+  rowIndex: 0,
+  columnIndex: 0,
+  tableStartIndex: 2939,
+  tableCellStyle: {
+    borderTop: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderBottom: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderLeft: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    borderRight: { width: [Object], dashStyle: 'SOLID', color: [Object] },
+    paddingLeft: { magnitude: 0, unit: 'PT' },
+    paddingRight: { magnitude: 24, unit: 'PT' }
+  }
+}
+Document updated successfully!
+View at: https://docs.google.com/document/d/1uSpaewnJp2dATLTKNjCqSruG1XY2y0hy6K7gZOeEQnU/edit

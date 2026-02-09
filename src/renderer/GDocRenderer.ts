@@ -4,6 +4,8 @@ import type { VirtualNode, VirtualNodeType } from './VirtualNode';
 import type { Request, Document } from '../components/primitives/types';
 import { docs_v1 } from 'googleapis';
 
+type WeightedFontFamily = docs_v1.Schema$WeightedFontFamily;
+type UpdateTextStyleRequest = docs_v1.Schema$UpdateTextStyleRequest;
 type TextStyle = docs_v1.Schema$TextStyle;
 type ParagraphStyle = docs_v1.Schema$ParagraphStyle;
 type TableCellStyle = docs_v1.Schema$TableCellStyle;
@@ -12,9 +14,14 @@ type GetDocumentFn = () => Promise<Document>;
 
 
 const KNOWN_VIRTUAL_NODE_TYPES: VirtualNodeType[] = [
-  'GTextRun', 'GParagraph', 'GList', 'GPageBreak', 'GColumnBreak', 'GHorizontalRule',
+  'GTextRun', 
+  'GParagraph', 'GList', 'GPageBreak', 'GColumnBreak', 'GHorizontalRule',
   'GFootnoteReference', 'GEquation', 'GInlineObject', 'GTable', 'GTableRow',
-  'GTableCell', 'GSectionBreak', 'GImage'
+  'GTableCell', 'GSectionBreak', 'GImage', 'GContainer'
+];
+
+const STRUCTURAL_NODE_TYPES: VirtualNodeType[] = [
+  'GParagraph', 'GList', 'GTable', 'GSectionBreak', 'GContainer', 'Fragment', 'GTableCell'
 ];
 
 interface TextStyleUpdate {
@@ -30,6 +37,8 @@ interface RenderContext {
   previousNodeWasParagraph: boolean;
   paragraphContext: ParagraphContext | null;
   isInList: boolean;
+  isInTableCell: boolean;
+  isInContainer: boolean;
   tableNodesReversed: VirtualNode[];
 }
 
@@ -67,19 +76,17 @@ export class GDocRenderer {
     }
   }
 
-  // --- Renderelés ---
   async render(element: React.ReactElement, startIndex: number = 1): Promise<void> {
     
-
     const node = this.jsxToVirtualNode(element);
     if (!node) return;
 
     this.debugLog('Virtual Node Tree:', JSON.stringify(node, null, 2));
 
-    await this.renderNode(node, startIndex);
+    await this.renderNodeWithTableContent(node, startIndex);
   }
 
-  private async renderNode(node: VirtualNode, startIndex: number): Promise<void> {
+  private async renderNodeWithTableContent(node: VirtualNode, startIndex: number): Promise<void> {
 
     const requestBuilder = new RequestBuilder();
 
@@ -95,11 +102,13 @@ export class GDocRenderer {
       previousNodeWasParagraph: false,
       paragraphContext: null,
       isInList: false,
+      isInTableCell: false,
+      isInContainer: false,
       tableNodesReversed: [],
     };
 
-    // 1. FÁZIS: Szövegek és üres táblázatok beszúrása
-    this.renderInsertPhase(node, renderContext);
+    // 1. FÁZIS: Minden elem beszúrása, de a táblázatok csak üresen
+    this.renderStructuralNode(node, renderContext);
     const initialRequests = requestBuilder.getAllRequests();
     if (initialRequests.length > 0) {
       await this.batchUpdate(initialRequests);
@@ -135,16 +144,15 @@ export class GDocRenderer {
     }
   }
 
-  private renderInsertPhase(node: VirtualNode, renderContext: RenderContext): number {
-    let length = 0;
+  private renderStructuralNode(node: VirtualNode, renderContext: RenderContext): number {
+    if (!STRUCTURAL_NODE_TYPES.includes(node.type)) {
+      throw new Error(`Invalid structural node type: ${node.type}`);
+    }
+
     let isParagraph = false;
+    let length = 0;
+    
     switch (node.type) {
-      case 'GTextRun':
-        length = this.handleTextRun(node, renderContext);
-        if (renderContext.paragraphContext) {
-          renderContext.paragraphContext.cursorIndex += length;
-        }
-        break;
       case 'GParagraph':
         length = this.handleParagraph(node, renderContext);
         isParagraph = true;
@@ -154,47 +162,60 @@ export class GDocRenderer {
         isParagraph = true;
         break;
       case 'GTable':
-        // Csak üres táblázatot szúrunk be, és elmentjük a node-ot a táblázatok listájába
-        const rows = node.children?.length || 1;
-        const cols = node.children?.[0]?.children?.length || 1;
-        renderContext.requestBuilder.addInsertTable(rows, cols, renderContext.startIndex);
-        renderContext.tableNodesReversed.push(node);
-        length = rows * cols;
+        length = this.handleTable(node, renderContext);
         break;
-      case 'GPageBreak':
-        renderContext.requestBuilder.addInsertPageBreak(renderContext.startIndex);
-        length = 1;
+      case 'GContainer':
+        length = this.handleContainer(node, renderContext);
         break;
-      case 'GColumnBreak':
-        renderContext.requestBuilder.addInsertColumnBreak(renderContext.startIndex);
-        length = 1;
-        break;
-      case 'GHorizontalRule':
-        renderContext.requestBuilder.addInsertHorizontalRule(renderContext.startIndex);
-        length = 1;
+      case 'GSectionBreak':
+        this.handleSectionBreak(node, renderContext);
         break;
       default:
         if (node.children) {
-          const children = renderContext.paragraphContext ? node.children : node.children.reverse();
+          const children = node.children.reverse();
           children.forEach(child => {
-            length += this.renderInsertPhase(child, renderContext);
+            const nodeLength = this.renderStructuralNode(child, renderContext);
+            if (isNaN(nodeLength) || isNaN(length)) {
+              length = NaN;
+            } else {
+              length += nodeLength;
+            }
           });
         }
         break;
     }
-    if (node.type !== 'Fragment') {
+    if (node.type !== 'Fragment' && node.type !== 'GContainer') {
       renderContext.previousNodeWasParagraph = isParagraph;
     }
     return length;
   }
 
+  handleContainer(node: VirtualNode, renderContext: RenderContext): number {
+    throw new Error('Method not implemented.');
+  }
+
+  private handleSectionBreak(node: VirtualNode, renderContext: RenderContext): number {
+    if (renderContext.paragraphContext) {
+      throw new Error('GSectionBreak cannot be inside a paragraph');
+    }
+    if (renderContext.isInList) {
+      throw new Error('GSectionBreak cannot be inside a list');
+    }
+    if (renderContext.isInContainer) {
+      throw new Error('GSectionBreak cannot be inside a container');
+    }
+    throw new Error('GSectionBreak is not implemented yet');
+  }
+
   private handleParagraph(node: VirtualNode, renderContext: RenderContext): number {
+    let length = 0;
     const { requestBuilder, startIndex, previousNodeWasParagraph } = renderContext;
     if (renderContext.paragraphContext) {
       throw new Error('Paragraphs cannot be nested');
     }
     if (previousNodeWasParagraph) {
-      requestBuilder.addInsertText('\n', renderContext.startIndex);
+      requestBuilder.addInsertText('\n', startIndex);
+      length += 1;
     }
     
     renderContext.paragraphContext = {
@@ -204,23 +225,27 @@ export class GDocRenderer {
     const paragraphContext = renderContext.paragraphContext;
     
     if (node.children) {
-      [...node.children].forEach(child => {
+      node.children.forEach(child => {
         this.debugLog('handleParagraph: render child: ', { content: child.props.content });
-        this.renderInsertPhase(child, renderContext);
+        this.handleParagraphElement(child, renderContext);
         this.debugLog('handleParagraph: cursorIndex after render child: ', paragraphContext.cursorIndex);
       });
     }
     
-    const rawStyle = (node.props.paragraphStyle || node.props.style) as ParagraphStyle | null | undefined;
+    const paragraphStyle = (node.props.paragraphStyle || {}) as ParagraphStyle;
+    const paragraphTextStyle = node.props.textStyle || {} as TextStyle;
 
-    const effectiveStyle: ParagraphStyle = rawStyle || {};
-    if (!effectiveStyle.namedStyleType) {
-      effectiveStyle.namedStyleType = 'NORMAL_TEXT';
+    if (!paragraphStyle.namedStyleType) {
+      paragraphStyle.namedStyleType = 'NORMAL_TEXT';
     }
 
-    this.debugLog('Effective style:', effectiveStyle);
-    requestBuilder.addUpdateParagraphStyle(startIndex, paragraphContext.cursorIndex, effectiveStyle);
+    this.debugLog('Effective style:', paragraphStyle);
+    requestBuilder.addUpdateParagraphStyle(startIndex, paragraphContext.cursorIndex, paragraphStyle);
     
+    if (Object.keys(paragraphTextStyle).length > 0) {
+      requestBuilder.addUpdateTextStyle(startIndex, paragraphContext.cursorIndex, paragraphTextStyle);
+    }
+
     for (const textStyleUpdate of paragraphContext.textStyleUpdates) {
       this.debugLog('Text style update:', textStyleUpdate);
       requestBuilder.addUpdateTextStyle(textStyleUpdate.startIndex, textStyleUpdate.endIndex, textStyleUpdate.style);
@@ -232,19 +257,39 @@ export class GDocRenderer {
         paragraphContext.cursorIndex
       );
     } else {
-      const listItemStyle = node.props.listItemStyle as { nestingLevel?: number; listId?: string } | undefined;
+      const listItemStyle = node.props.listItemStyle as { nestingLevel?: number } | undefined;
       if (listItemStyle?.nestingLevel) {
         const nestingLevel = listItemStyle.nestingLevel!;
         
         if (nestingLevel > 0) {
           requestBuilder.addInsertText('\t'.repeat(nestingLevel), startIndex);
+          // No need to add length here because these tabs will be removed by the 
+          // addCreateParagraphBullets request
         }
       }
     }
 
-    const length = renderContext.paragraphContext.cursorIndex - renderContext.startIndex;
     renderContext.paragraphContext = null;
+
+    length += paragraphContext.cursorIndex - startIndex;
     return length;
+  }
+
+  handleParagraphElement(node: VirtualNode, renderContext: RenderContext) {
+    switch (node.type) {
+      case 'GTextRun':
+        this.handleTextRun(node, renderContext);
+        break;
+      case 'Fragment':
+        if (node.children) {
+          node.children.forEach(child => {
+            this.handleParagraphElement(child, renderContext);
+          });
+        }
+        break;
+      default:
+        throw new Error(`${node.type} is not supported`);
+    }
   }
 
   private handleList(node: VirtualNode, renderContext: RenderContext): number {
@@ -263,15 +308,26 @@ export class GDocRenderer {
     let listEndIndex = listStartIndex;
 
     if (node.children) {
-      const childrenReversed = [...node.children].reverse();
+      const childrenReversed = node.children.reverse();
       childrenReversed.forEach(child => {
-        listEndIndex += this.renderInsertPhase(child, renderContext);
+        if (child.type !== 'GParagraph') {
+          throw new Error('Lists can only contain paragraphs');
+        }
+        listEndIndex += this.renderStructuralNode(child, renderContext);
       });
     }
 
     requestBuilder.addCreateParagraphBullets(startIndex, listEndIndex, bulletPreset);
     renderContext.isInList = false;
     return listEndIndex - listStartIndex;
+  }
+
+  private handleTable(node: VirtualNode, renderContext: RenderContext): number {
+    const rows = node.children?.length || 1;
+    const cols = node.children?.[0]?.children?.length || 1;
+    renderContext.requestBuilder.addInsertTable(rows, cols, renderContext.startIndex);
+    renderContext.tableNodesReversed.push(node);
+    return NaN; // table length is not known yet, it shouldn't be used for anything
   }
 
   private handleTextRun(node: VirtualNode, renderContext: RenderContext): number {
@@ -296,6 +352,7 @@ export class GDocRenderer {
       this.debugLog('textStyleUpdates.push:', textStyleUpdate);
       paragraphContext.textStyleUpdates.push(textStyleUpdate);
     }
+    paragraphContext.cursorIndex += content.length;
     return content.length;
   }
 
@@ -341,9 +398,11 @@ export class GDocRenderer {
           previousNodeWasParagraph: false,
           paragraphContext: null,
           isInList: false,
+          isInTableCell: true,
+          isInContainer: false,
           tableNodesReversed: [],
         };
-        this.renderInsertPhase(cellNode, renderContext);
+        this.renderStructuralNode(cellNode, renderContext);
 
         // Apply table cell style if present on the virtual node
         const tableCellStyle = cellNode.props.tableCellStyle as TableCellStyle | undefined;

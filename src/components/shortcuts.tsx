@@ -10,7 +10,7 @@ import { parseTextClasses, parseParagraphClasses, splitClasses } from '../utils/
 
 export interface PProps {
   className?: string;
-  style?: ParagraphStyle;
+  paragraphStyle?: ParagraphStyle;
   children?: React.ReactNode;
 }
 
@@ -18,14 +18,16 @@ export interface PProps {
  * Egyszerű bekezdés komponens - HTML-szerű szintaxis.
  * A GParagraph primitívet használja.
  */
-export const P: React.FC<PProps> = ({ className, style, children, ...props }) => {
+export const P: React.FC<PProps> = ({ className, paragraphStyle, children, ...props }) => {
   const { paragraphClasses, textClasses } = className ? splitClasses(className) : { paragraphClasses: '', textClasses: '' };
   const classStyle = paragraphClasses ? parseParagraphClasses(paragraphClasses) : {};
   
   const mergedStyle: ParagraphStyle = {
     ...classStyle,
-    ...style,
+    ...paragraphStyle,
   };
+
+  const textStyleFromClasses = textClasses ? parseTextClasses(textClasses) : {};
   
   const processedChildren = React.Children.map(children, (child) => {
     if (typeof child === 'string') {
@@ -60,7 +62,7 @@ export const P: React.FC<PProps> = ({ className, style, children, ...props }) =>
   });
 
   return (
-    <GParagraph {...props} style={mergedStyle} listItemStyle={{ nestingLevel: 0 }}>
+    <GParagraph {...props} paragraphStyle={mergedStyle} textStyle={textStyleFromClasses} listItemStyle={{ nestingLevel: 0 }}>
       {processedChildren}
     </GParagraph>
   );
@@ -168,18 +170,23 @@ export const Br: React.FC = () => {
   return <GTextRun content={'\u000b'} />;
 };
 
-export interface LiProps extends PProps {
+export interface LiProps {
+  className?: string;
+  paragraphStyle?: ParagraphStyle;
   nestingLevel?: number;
+  children?: React.ReactNode;
 }
 
-export const Li: React.FC<LiProps> = ({ className, style, children, nestingLevel = 0, ...props }) => {
+export const Li: React.FC<LiProps> = ({ className, paragraphStyle, children, nestingLevel = 0, ...props }) => {
   const { paragraphClasses, textClasses } = className ? splitClasses(className) : { paragraphClasses: '', textClasses: '' };
   const classStyle = paragraphClasses ? parseParagraphClasses(paragraphClasses) : {};
   
   const mergedStyle: ParagraphStyle = {
     ...classStyle,
-    ...style,
+    ...paragraphStyle,
   };
+
+  const textStyleFromClasses = textClasses ? parseTextClasses(textClasses) : {};
   
   const processedChildren = React.Children.map(children, (child) => {
     if (typeof child === 'string') {
@@ -214,7 +221,7 @@ export const Li: React.FC<LiProps> = ({ className, style, children, nestingLevel
   });
 
   return (
-    <GParagraph {...props} style={mergedStyle} listItemStyle={{ nestingLevel }}>
+    <GParagraph {...props} paragraphStyle={mergedStyle} textStyle={textStyleFromClasses} listItemStyle={{ nestingLevel }}>
       {processedChildren}
     </GParagraph>
   );
