@@ -1,6 +1,7 @@
 import React from 'react';
 import { GTable, GTableRow, GTableCell } from './primitives';
 import type { TableCellStyle, TableRowStyle } from './primitives/types';
+import { parseTableCellClasses } from '../utils/parseClasses';
 
 const mergeClassName = (parentClassName?: string, childClassName?: string): string | undefined => {
   if (!parentClassName && !childClassName) return undefined;
@@ -18,6 +19,11 @@ export interface TableProps {
 }
 
 export const Table: React.FC<TableProps> = ({ className, tableCellStyle, children, ...props }) => {
+  const parsedStyle = className ? parseTableCellClasses(className) : undefined;
+  const baseTableCellStyle: TableCellStyle | undefined = parsedStyle
+    ? { ...parsedStyle, ...(tableCellStyle || {}) }
+    : tableCellStyle;
+
   const processedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
       const childProps: any = child.props || {};
@@ -26,8 +32,8 @@ export const Table: React.FC<TableProps> = ({ className, tableCellStyle, childre
         ? mergeClassName(className, childProps.className)
         : childProps.className;
 
-      const mergedTableCellStyle: TableCellStyle | undefined = tableCellStyle
-        ? { ...tableCellStyle, ...(childProps.tableCellStyle || {}) }
+      const mergedTableCellStyle: TableCellStyle | undefined = baseTableCellStyle
+        ? { ...baseTableCellStyle, ...(childProps.tableCellStyle || {}) }
         : childProps.tableCellStyle;
 
       return React.cloneElement(child, {
@@ -54,6 +60,11 @@ export interface TRowProps {
 }
 
 export const TRow: React.FC<TRowProps> = ({ className, style, tableCellStyle, children }) => {
+  const parsedStyle = className ? parseTableCellClasses(className) : undefined;
+  const baseTableCellStyle: TableCellStyle | undefined = parsedStyle
+    ? { ...parsedStyle, ...(tableCellStyle || {}) }
+    : tableCellStyle;
+
   const processedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
       const childProps: any = child.props || {};
@@ -62,8 +73,8 @@ export const TRow: React.FC<TRowProps> = ({ className, style, tableCellStyle, ch
         ? mergeClassName(className, childProps.className)
         : childProps.className;
 
-      const mergedTableCellStyle: TableCellStyle | undefined = tableCellStyle
-        ? { ...tableCellStyle, ...(childProps.tableCellStyle || {}) }
+      const mergedTableCellStyle: TableCellStyle | undefined = baseTableCellStyle
+        ? { ...baseTableCellStyle, ...(childProps.tableCellStyle || {}) }
         : childProps.tableCellStyle;
 
       return React.cloneElement(child, {
@@ -91,6 +102,23 @@ export interface TCellProps {
   children?: React.ReactNode;
 }
 
+const deepMergeTableCellStyle = (base: TableCellStyle, override: TableCellStyle): TableCellStyle => {
+  const merged = { ...base };
+  
+  if (override.paddingTop !== undefined) merged.paddingTop = override.paddingTop;
+  if (override.paddingBottom !== undefined) merged.paddingBottom = override.paddingBottom;
+  if (override.paddingLeft !== undefined) merged.paddingLeft = override.paddingLeft;
+  if (override.paddingRight !== undefined) merged.paddingRight = override.paddingRight;
+  if (override.borderTop !== undefined) merged.borderTop = override.borderTop;
+  if (override.borderBottom !== undefined) merged.borderBottom = override.borderBottom;
+  if (override.borderLeft !== undefined) merged.borderLeft = override.borderLeft;
+  if (override.borderRight !== undefined) merged.borderRight = override.borderRight;
+  if (override.backgroundColor !== undefined) merged.backgroundColor = override.backgroundColor;
+  if (override.contentAlignment !== undefined) merged.contentAlignment = override.contentAlignment;
+  
+  return merged;
+};
+
 export const TCell: React.FC<TCellProps> = ({ className, tableCellStyle, children, ...props }) => {
   const processedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement(child) && className) {
@@ -102,8 +130,13 @@ export const TCell: React.FC<TCellProps> = ({ className, tableCellStyle, childre
     return child;
   });
 
+  const parsedStyle = className ? parseTableCellClasses(className) : undefined;
+  const mergedStyle: TableCellStyle | undefined = parsedStyle && tableCellStyle
+    ? deepMergeTableCellStyle(parsedStyle, tableCellStyle)
+    : parsedStyle || tableCellStyle;
+
   return (
-    <GTableCell {...props} tableCellStyle={tableCellStyle} className={className}>
+    <GTableCell {...props} tableCellStyle={mergedStyle} className={className}>
       {processedChildren}
     </GTableCell>
   );

@@ -50,13 +50,13 @@ export class GDocRenderer {
   ) {
     this.debug = debug;
     this.batchUpdate = async (requests: Request[]) => {
-      this.debugLog('batchUpdate called with requests:', JSON.stringify(requests, null, 2));
+      //this.debugLog('batchUpdate called with requests:', JSON.stringify(requests, null, 2));
       await batchUpdate(requests);
     };
     this.getDocument = async () => {
       this.debugLog('getDocument called');
       const doc = await getDocument();
-      this.debugLog('getDocument returned:', JSON.stringify(doc, null, 2));
+      //this.debugLog('getDocument returned:', JSON.stringify(doc, null, 2));
       return doc;
     };
   }
