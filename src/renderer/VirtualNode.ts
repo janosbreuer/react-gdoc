@@ -38,7 +38,7 @@ export type VirtualNodeType =
   | 'GHeading5'
   | 'GHeading6'
   | 'Fragment'
-  | 'GContainer';
+  | 'GDocument';
 
 export interface VirtualNode {
   type: VirtualNodeType;

@@ -4,8 +4,6 @@ import type { VirtualNode, VirtualNodeType } from './VirtualNode';
 import type { Request, Document } from '../components/primitives/types';
 import { docs_v1 } from 'googleapis';
 
-type WeightedFontFamily = docs_v1.Schema$WeightedFontFamily;
-type UpdateTextStyleRequest = docs_v1.Schema$UpdateTextStyleRequest;
 type TextStyle = docs_v1.Schema$TextStyle;
 type ParagraphStyle = docs_v1.Schema$ParagraphStyle;
 type TableCellStyle = docs_v1.Schema$TableCellStyle;
@@ -17,11 +15,11 @@ const KNOWN_VIRTUAL_NODE_TYPES: VirtualNodeType[] = [
   'GTextRun', 
   'GParagraph', 'GList', 'GPageBreak', 'GColumnBreak', 'GHorizontalRule',
   'GFootnoteReference', 'GEquation', 'GInlineObject', 'GTable', 'GTableRow',
-  'GTableCell', 'GSectionBreak', 'GImage', 'GContainer'
+  'GTableCell', 'GSectionBreak', 'GImage', 'GDocument'
 ];
 
 const STRUCTURAL_NODE_TYPES: VirtualNodeType[] = [
-  'GParagraph', 'GList', 'GTable', 'GSectionBreak', 'GContainer', 'Fragment', 'GTableCell'
+  'GParagraph', 'GList', 'GTable', 'GSectionBreak', 'Fragment', 'GTableCell'
 ];
 
 interface TextStyleUpdate {
@@ -47,10 +45,17 @@ interface ParagraphContext {
   cursorIndex: number;
 }
 
+interface NamedStyle {
+  namedStyleType: ParagraphStyle['namedStyleType'];
+  paragraphStyle?: ParagraphStyle;
+  textStyle?: TextStyle;
+}
+
 export class GDocRenderer {
   private debug: boolean;
   private batchUpdate: BatchUpdateFn;
   private getDocument: GetDocumentFn;
+  private namedStyles: Map<ParagraphStyle['namedStyleType'], NamedStyle> = new Map();
 
   constructor(
     batchUpdate: BatchUpdateFn,
@@ -76,7 +81,40 @@ export class GDocRenderer {
     }
   }
 
+  setNamedStyles(styles: NamedStyle[]): void {
+    this.namedStyles.clear();
+    for (const style of styles) {
+      if (style.namedStyleType) {
+        this.namedStyles.set(style.namedStyleType, style);
+      }
+    }
+  }
+
   async render(element: React.ReactElement, startIndex: number = 1): Promise<void> {
+    if (React.isValidElement(element)) {
+      const type = element.type as any;
+      const typeName = this.getComponentTypeName(type);
+      
+      if (typeName === 'GDocument') {
+        const props = (element.props || {}) as { namedStyles?: NamedStyle[]; children?: React.ReactNode };
+        const namedStyles = props.namedStyles;
+        
+        if (namedStyles && Array.isArray(namedStyles)) {
+          this.setNamedStyles(namedStyles);
+        }
+        
+        const children = React.Children.toArray(props.children);
+        if (children.length > 0) {
+          const fragment = React.createElement(React.Fragment, {}, ...children);
+          const node = this.jsxToVirtualNode(fragment);
+          if (node) {
+            this.debugLog('Virtual Node Tree:', JSON.stringify(node, null, 2));
+            await this.renderNodeWithTableContent(node, startIndex);
+          }
+        }
+        return;
+      }
+    }
     
     const node = this.jsxToVirtualNode(element);
     if (!node) return;
@@ -95,6 +133,7 @@ export class GDocRenderer {
     // Apparently, when a doc is cleared, the nesting level information is not cleared properly
     // so we need this for Google Docs server to reset the nesting level information properly.
     requestBuilder.addDeleteParagraphBullets(startIndex, startIndex + 1);
+
 
     const renderContext: RenderContext = {
       requestBuilder,
@@ -164,9 +203,6 @@ export class GDocRenderer {
       case 'GTable':
         length = this.handleTable(node, renderContext);
         break;
-      case 'GContainer':
-        length = this.handleContainer(node, renderContext);
-        break;
       case 'GSectionBreak':
         this.handleSectionBreak(node, renderContext);
         break;
@@ -184,14 +220,10 @@ export class GDocRenderer {
         }
         break;
     }
-    if (node.type !== 'Fragment' && node.type !== 'GContainer') {
+    if (node.type !== 'Fragment') {
       renderContext.previousNodeWasParagraph = isParagraph;
     }
     return length;
-  }
-
-  handleContainer(node: VirtualNode, renderContext: RenderContext): number {
-    throw new Error('Method not implemented.');
   }
 
   private handleSectionBreak(node: VirtualNode, renderContext: RenderContext): number {
@@ -232,11 +264,23 @@ export class GDocRenderer {
       });
     }
     
-    const paragraphStyle = (node.props.paragraphStyle || {}) as ParagraphStyle;
-    const paragraphTextStyle = node.props.textStyle || {} as TextStyle;
+    let paragraphStyle = (node.props.paragraphStyle || {}) as ParagraphStyle;
+    let paragraphTextStyle = node.props.textStyle || {} as TextStyle;
 
     if (!paragraphStyle.namedStyleType) {
       paragraphStyle.namedStyleType = 'NORMAL_TEXT';
+    }
+
+    const namedStyle = this.namedStyles.get(paragraphStyle.namedStyleType);
+    if (namedStyle) {
+      paragraphStyle = {
+        ...namedStyle.paragraphStyle,
+        ...paragraphStyle,
+      };
+      paragraphTextStyle = {
+        ...namedStyle.textStyle,
+        ...paragraphTextStyle,
+      };
     }
 
     this.debugLog('Effective style:', paragraphStyle);

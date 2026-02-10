@@ -1,8 +1,9 @@
 import React from 'react';
 import { Br, P, S, Ol, Li } from '@react-gdoc/shortcuts';
 import { Heading1, Heading2, Heading3 } from '@react-gdoc/headings';
-import { GList } from '@react-gdoc/primitives';
+import { GList, GDocument } from '@react-gdoc/primitives';
 import { Table, TRow, TCell } from '@react-gdoc/tables';
+import { NamedStyleConfig1 } from './namedStyles';
 
 interface PartyData {
   name: string;
@@ -98,7 +99,7 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
   })();
 
   return (
-    <>
+    <GDocument namedStyles={NamedStyleConfig1}>
       <Heading1 className="text-center mb-4">
         An Example of a <Br />
         <S className="font-bold text-2xl text-blue-600">Mutual Non-Disclosure Agreement</S>
@@ -108,7 +109,7 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
         <S className="font-bold">Date:</S> {date}
       </Heading3>
 
-      <P className="mb-3 font-bold">
+      <P className="mb-3">
         Parties:
       </P>
 
@@ -184,8 +185,6 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
         This Agreement is governed by, and is to be construed in accordance with, English law. The English Courts will have non-exclusive jurisdiction to deal with any dispute which has arisen or may arise out of, or in connection with, this Agreement.
       </Clause>
 
-      <P><S style={{ weightedFontFamily: { fontFamily: 'Times New Roman', weight: 400 } }}> </S></P>
-
       <Table className="mt-6 mb-4 border-0">
         <TRow>
           <TCell className="pl-0 pr-6">
@@ -245,7 +244,7 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
           </TCell>
         </TRow>
       </Table>
-    </>
+    </GDocument>
   );
 }
 
