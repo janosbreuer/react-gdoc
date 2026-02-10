@@ -1,5 +1,4 @@
 import type { Request, TextStyle, ParagraphStyle, TableCellStyle } from '../components/primitives/types';
-import type { FormatInfo } from './VirtualNode';
 import { docs_v1 } from 'googleapis';
 
 export class RequestBuilder {
