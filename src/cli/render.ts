@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { spawn } from 'child_process';
 import { authenticate } from '../google/auth.js';
 import { GoogleDocsClient } from '../google/client.js';
 import { GDocRenderer } from '../renderer/GDocRenderer.js';
@@ -13,9 +14,32 @@ interface ParsedArgs {
   file: string;
   documentId?: string;
   title?: string;
-  range?: { start: number; end: number };
   componentArgs: string[];
   debug: boolean;
+}
+
+function openInBrowser(url: string) {
+  const platform = process.platform;
+
+  let command: string;
+  let args: string[];
+
+  if (platform === 'win32') {
+    command = 'cmd';
+    args = ['/c', 'start', '', url];
+  } else if (platform === 'darwin') {
+    command = 'open';
+    args = [url];
+  } else {
+    command = 'xdg-open';
+    args = [url];
+  }
+
+  const child = spawn(command, args, { stdio: 'ignore', detached: true });
+  child.on('error', (err) => {
+    console.error('Failed to open browser:', err);
+  });
+  child.unref();
 }
 
 function stripQuotes(value: string): string {
@@ -47,27 +71,13 @@ function extractFlagValue(args: string[], i: number, flagName: string): { value:
   return null;
 }
 
-function parseRange(rangeStr: string): { start: number; end: number } {
-  const [startStr, endStr] = rangeStr.split(':');
-  const start = parseInt(startStr, 10);
-  const end = parseInt(endStr, 10);
-  
-  if (isNaN(start) || isNaN(end)) {
-    console.error(`Error: Invalid range format "${rangeStr}". Expected "start:end" (e.g., "100:200")`);
-    process.exit(1);
-  }
-  
-  return { start, end };
-}
-
 function printUsage(): never {
-  console.error('Usage: npm run render <path-to-tsx-file> [document-id] [--title=<title>] [--range=<start>:<end>] [--debug] [--args <arg1> <arg2> ...]');
+  console.error('Usage: npm run render <path-to-tsx-file> [document-id] [--title=<title>] [--debug] [--args <arg1> <arg2> ...]');
   console.error('');
   console.error('Arguments:');
   console.error('  <path-to-tsx-file>     Required: Path to the TSX file to render');
   console.error('  [document-id]           Optional: Google Docs document ID (if provided, document will be updated)');
   console.error('  --title=<title>         Optional: Document title (only used when creating new document)');
-  console.error('  --range=<start>:<end>   Optional: Character range to replace (e.g., "100:200", only works with document-id)');
   console.error('  --debug                 Optional: Enable debug logging');
   console.error('  --args <arg1> <arg2>    Optional: Component arguments (everything after --args is passed to the component)');
   console.error('');
@@ -75,10 +85,8 @@ function printUsage(): never {
   console.error('  npm run render src/legal/example-contract.tsx');
   console.error('  npm run render src/legal/example-contract.tsx DOC_ID');
   console.error('  npm run render src/legal/example-contract.tsx DOC_ID --title="My Document"');
-  console.error('  npm run render src/legal/example-contract.tsx DOC_ID --range=100:500');
   console.error('  npm run render src/legal/example-contract.tsx DOC_ID --debug');
   console.error('  npm run render src/legal/example-contract.tsx DOC_ID --args 2');
-  console.error('  npm run render src/legal/example-contract.tsx DOC_ID --range=100:500 --args 2');
   process.exit(1);
 }
 
@@ -109,13 +117,6 @@ function parseArgs(args: string[]): ParsedArgs {
       continue;
     }
     
-    const rangeResult = extractFlagValue(args, i, 'range');
-    if (rangeResult) {
-      parsed.range = parseRange(rangeResult.value);
-      i = rangeResult.nextIndex;
-      continue;
-    }
-    
     if (arg === '--args') {
       parsed.componentArgs = args.slice(i + 1);
       break;
@@ -135,7 +136,7 @@ function parseArgs(args: string[]): ParsedArgs {
   return parsed;
 }
 
-export async function runRenderFromArgs(args: ParsedArgs) {
+export async function runRenderFromArgs(args: ParsedArgs): Promise<string> {
   const tsxPath = resolve(process.cwd(), args.file);
   
   if (!tsxPath.endsWith('.tsx')) {
@@ -143,16 +144,10 @@ export async function runRenderFromArgs(args: ParsedArgs) {
     process.exit(1);
   }
 
-  if (args.range && !args.documentId) {
-    console.error('Error: --range can only be used with a document-id');
-    process.exit(1);
-  }
-
   console.log(`Parsed arguments:`);
   console.log(`  File: ${args.file}`);
   console.log(`  Document ID: ${args.documentId || '(not provided)'}`);
   console.log(`  Title: ${args.title || '(not provided)'}`);
-  console.log(`  Range: ${args.range ? `${args.range.start}:${args.range.end}` : '(not provided)'}`);
   console.log(`  Debug: ${args.debug}`);
   console.log(`  Component args: ${args.componentArgs.length > 0 ? JSON.stringify(args.componentArgs) : '(none)'}`);
   console.log(`Loading TSX file: ${tsxPath}`);
@@ -205,23 +200,19 @@ export async function runRenderFromArgs(args: ParsedArgs) {
 
     if (args.documentId) {
       console.log(`Updating existing document: ${args.documentId}`);
-      
-      if (!args.range) {
-        const document = await client.getDocument(args.documentId);
-        if (!document) {
-          console.error('Error: Document not found');
-          process.exit(1);
-        }
-        const endIndex = document.body?.content?.[document.body.content.length - 1]?.endIndex;
-        if (!endIndex) {
-          console.error('Error: End index not found');
-          process.exit(1);
-        }
-        replaceRange = { startIndex: 1, endIndex: endIndex - 1 };
-      } else {
-        replaceRange = { startIndex: args.range.start, endIndex: args.range.end };
+
+      const document = await client.getDocument(args.documentId);
+      if (!document) {
+        console.error('Error: Document not found');
+        process.exit(1);
       }
-      
+      const endIndex = document.body?.content?.[document.body.content.length - 1]?.endIndex;
+      if (!endIndex) {
+        console.error('Error: End index not found');
+        process.exit(1);
+      }
+      replaceRange = { startIndex: 1, endIndex: endIndex - 1 };
+
       finalDocumentId = args.documentId;
     } else {
       const title = args.title || `Document ${new Date().toISOString()}`;
@@ -246,15 +237,27 @@ export async function runRenderFromArgs(args: ParsedArgs) {
     const documentUrl = `https://docs.google.com/document/d/${finalDocumentId}/edit`;
     console.log(`Document ${args.documentId ? 'updated' : 'created'} successfully!`);
     console.log(`View at: ${documentUrl}`);
+
+    if (!args.documentId) {
+      console.log('Opening document in browser...');
+      openInBrowser(documentUrl);
+    }
+
+    return finalDocumentId;
   } catch (error) {
     console.error('Error rendering document:', error);
     process.exit(1);
   }
 }
 
-export async function runRenderFromRawArgs(rawArgs: string[]) {
+export async function runRenderFromRawArgs(rawArgs: string[], overrideDocumentId?: string): Promise<string> {
   const args = parseArgs(rawArgs);
-  await runRenderFromArgs(args);
+
+  if (overrideDocumentId && !args.documentId) {
+    args.documentId = overrideDocumentId;
+  }
+
+  return await runRenderFromArgs(args);
 }
 
 async function main() {

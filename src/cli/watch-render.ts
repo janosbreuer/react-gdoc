@@ -3,13 +3,12 @@ import { resolve } from 'path';
 import { runRenderFromRawArgs } from './render.js';
 
 function printUsage(): never {
-  console.error('Usage: npm run render:watch <path-to-tsx-file> [document-id] [--title=<title>] [--range=<start>:<end>] [--debug] [--args <arg1> <arg2> ...]');
+  console.error('Usage: npm run render:watch <path-to-tsx-file> [document-id] [--title=<title>] [--debug] [--args <arg1> <arg2> ...]');
   console.error('');
   console.error('Arguments:');
   console.error('  <path-to-tsx-file>     Required: Path to the TSX file to render and watch');
   console.error('  [document-id]           Optional: Google Docs document ID (if provided, document will be updated)');
   console.error('  --title=<title>         Optional: Document title (only used when creating new document)');
-  console.error('  --range=<start>:<end>   Optional: Character range to replace (e.g., "100:200", only works with document-id)');
   console.error('  --debug                 Optional: Enable debug logging');
   console.error('  --args <arg1> <arg2>    Optional: Component arguments (everything after --args is passed to the component)');
   console.error('');
@@ -29,8 +28,11 @@ async function main() {
   const tsxPath = resolve(process.cwd(), tsxFileArg);
 
   console.log(`Initial render for: ${tsxFileArg}`);
+
+  let currentDocumentId: string | undefined;
+
   try {
-    await runRenderFromRawArgs(rawArgs);
+    currentDocumentId = await runRenderFromRawArgs(rawArgs);
     console.log('Initial render finished.');
   } catch (error) {
     console.error('Initial render failed:', error);
@@ -52,7 +54,7 @@ async function main() {
 
     isRendering = true;
     try {
-      await runRenderFromRawArgs(rawArgs);
+      currentDocumentId = await runRenderFromRawArgs(rawArgs, currentDocumentId);
       console.log('Render finished.');
     } catch (error) {
       console.error('Render failed:', error);
