@@ -3,7 +3,7 @@ import { Br, P, S, Ol, Li } from '@react-gdoc/shortcuts';
 import { Heading1, Heading2, Heading3 } from '@react-gdoc/headings';
 import { GList, GDocument } from '@react-gdoc/primitives';
 import { Table, TRow, TCell } from '@react-gdoc/tables';
-import { NamedStyleConfig1 } from './namedStyles';
+import { NamedStyleConfig1, NamedStyleConfig2 } from './namedStyles';
 
 interface PartyData {
   name: string;
@@ -99,13 +99,13 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
   })();
 
   return (
-    <GDocument namedStyles={NamedStyleConfig1}>
+    <GDocument namedStyles={NamedStyleConfig2}>
       <Heading1 className="text-center mb-4">
         An Example of a <Br />
         <S className="font-bold text-blue-600">Mutual Non-Disclosure Agreement</S>
       </Heading1>
 
-      <Heading3 className="text-center mb-6">
+      <Heading3 className="text-center">
         <S className="font-bold">Date:</S> {date}
       </Heading3>
 
