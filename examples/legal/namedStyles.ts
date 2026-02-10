@@ -3,6 +3,9 @@ import type { NamedStyle } from '@react-gdoc/primitives';
 export const NamedStyleConfig1: NamedStyle[] = [
   {
     namedStyleType: 'NORMAL_TEXT',
+    paragraphStyle: {
+      alignment: 'JUSTIFIED'
+    },
     textStyle: {
       weightedFontFamily: { fontFamily: 'Times New Roman', weight: 400 }
     }

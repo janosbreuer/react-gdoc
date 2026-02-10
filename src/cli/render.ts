@@ -233,7 +233,12 @@ async function main() {
       args.debug
     );
 
+    console.log('Starting render...');
+    const renderStartTime = Date.now();
     await renderer.render(element);
+    const renderEndTime = Date.now();
+    const renderDuration = renderEndTime - renderStartTime;
+    console.log(`Render completed in ${renderDuration}ms (${(renderDuration / 1000).toFixed(2)}s)`);
 
     const documentUrl = `https://docs.google.com/document/d/${finalDocumentId}/edit`;
     console.log(`Document ${args.documentId ? 'updated' : 'created'} successfully!`);

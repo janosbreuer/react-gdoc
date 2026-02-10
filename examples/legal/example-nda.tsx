@@ -68,16 +68,16 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
     regCountry?: string;
     className?: string;
   }> = ({ name, address, isCompany, regNumber, regCountry, className }) => {
-    const combinedClassName = className ? `text-justify ${className}` : 'text-justify';
+    
     if (isCompany && regNumber && regCountry) {
       return (
-        <P className={combinedClassName}>
+        <P className={className}>
           <S className="font-bold">{name}</S>, a company registered in {regCountry} under company number <S className="font-bold">{regNumber}</S> whose registered office is at {address}
         </P>
       );
     }
     return (
-      <P className={combinedClassName}>
+      <P className={className}>
         <S className="font-bold">{name}</S> of {address}
       </P>
     );
@@ -91,7 +91,7 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
       const currentClauseNumber = clauseNumber;
 
       return (
-        <P className={className || 'text-justify mb-4'}>
+        <P className={className || 'mb-4'}>
           <S className="font-bold text-lg text-blue-600">{currentClauseNumber}.</S> {children}
         </P>
       );
@@ -102,7 +102,7 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
     <GDocument namedStyles={NamedStyleConfig1}>
       <Heading1 className="text-center mb-4">
         An Example of a <Br />
-        <S className="font-bold text-2xl text-blue-600">Mutual Non-Disclosure Agreement</S>
+        <S className="font-bold text-blue-600">Mutual Non-Disclosure Agreement</S>
       </Heading1>
 
       <Heading3 className="text-center mb-6">
@@ -156,11 +156,11 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
       </Clause>
 
       <GList bulletPreset="NUMBERED_UPPERALPHA_ALPHA_ROMAN">
-        <Li className="text-justify mb-4">
+        <Li className="mb-4">
           any information which is or in future comes into the public domain (unless as a result of the breach of this Agreement); or
         </Li>
 
-        <Li className='text-justify mb-4'>
+        <Li className='mb-4'>
           any information which is already known to the Recipient and which was not subject to any obligation of confidence before it was disclosed to the Recipient by the other party.
         </Li>
       </GList>
