@@ -1,6 +1,6 @@
 import React from 'react';
-import { GParagraphProps } from './primitives/GParagraph';
-import type { ParagraphStyle } from './primitives/types';
+import { GParagraphProps } from '@react-gdoc/primitives/GParagraph';
+import type { ParagraphStyle } from '@react-gdoc/primitives/types';
 import { P, PProps } from './shortcuts';
 
 export interface GHeadingProps extends Omit<GParagraphProps, 'paragraphStyle'> {

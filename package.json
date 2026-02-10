@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc",
     "render": "tsx src/cli/render.ts",
-    "debug-render": "tsx src/cli/debug-render.ts"
+    "debug-render": "tsx src/cli/debug-render.ts",
+    "render:watch": "tsx src/cli/watch-render.ts"
   },
   "keywords": [
     "google-docs",

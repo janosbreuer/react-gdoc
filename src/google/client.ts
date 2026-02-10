@@ -46,44 +46,5 @@ export class GoogleDocsClient {
 
     return response.data;
   }
-
-  async clearDocument(documentId: string): Promise<void> {
-    const doc = await this.getDocument(documentId);
-    const endIndex = doc.body?.content?.[doc.body.content.length - 1]?.endIndex;
-    
-    if (!endIndex || endIndex <= 1) {
-      return;
-    }
-
-    if (endIndex - 1 <= 1) {
-      return;
-    }
-
-    const startIndex = 1;
-    const deleteEndIndex = endIndex - 1;
-
-    if (deleteEndIndex <= startIndex) {
-      return;
-    }
-
-    await this.deleteRange(documentId, startIndex, deleteEndIndex);
-  }
-
-  async deleteRange(documentId: string, startIndex: number, endIndex: number): Promise<void> {
-    if (endIndex <= startIndex) {
-      return;
-    }
-
-    const deleteRequest: Request = {
-      deleteContentRange: {
-        range: {
-          startIndex: startIndex,
-          endIndex: endIndex,
-        },
-      },
-    } as any;
-
-    await this.batchUpdate(documentId, [deleteRequest]);
-  }
 }
 

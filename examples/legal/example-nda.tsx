@@ -87,7 +87,7 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
   const Clause: React.FC<{ className?: string; children: React.ReactNode }> = (() => {
     let clauseNumber = 0;
     return ({ className, children }) => {
-      clauseNumber += 1;
+      clauseNumber = clauseNumber + 1;
       const currentClauseNumber = clauseNumber;
 
       return (
@@ -99,9 +99,9 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
   })();
 
   return (
-    <GDocument namedStyles={NamedStyleConfig2}>
+    <GDocument namedStyles={NamedStyleConfig1}>
       <Heading1 className="text-center mb-4">
-        An Example of a <Br />
+        <S className="text-xs">An Example of a </S><Br />
         <S className="font-bold text-blue-600">Mutual Non-Disclosure Agreement</S>
       </Heading1>
 

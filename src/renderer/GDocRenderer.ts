@@ -90,50 +90,52 @@ export class GDocRenderer {
     }
   }
 
-  async render(element: React.ReactElement, startIndex: number = 1): Promise<void> {
-    if (React.isValidElement(element)) {
-      const type = element.type as any;
-      const typeName = this.getComponentTypeName(type);
+  async render(element: React.ReactElement, replaceRange: { startIndex: number, endIndex: number } | null = null): Promise<void> {
+    if (!React.isValidElement(element)) {
+      throw new Error('Invalid element');
+    }
+
+    let root = element;
+    
+    const type = element.type as any;
+    const typeName = this.getComponentTypeName(type);
+    
+    if (typeName === 'GDocument') {
+      const props = (element.props || {}) as { namedStyles?: NamedStyle[]; children?: React.ReactNode };
+      const namedStyles = props.namedStyles;
       
-      if (typeName === 'GDocument') {
-        const props = (element.props || {}) as { namedStyles?: NamedStyle[]; children?: React.ReactNode };
-        const namedStyles = props.namedStyles;
-        
-        if (namedStyles && Array.isArray(namedStyles)) {
-          this.setNamedStyles(namedStyles);
-        }
-        
-        const children = React.Children.toArray(props.children);
-        if (children.length > 0) {
-          const fragment = React.createElement(React.Fragment, {}, ...children);
-          const node = this.jsxToVirtualNode(fragment);
-          if (node) {
-            this.debugLog('Virtual Node Tree:', JSON.stringify(node, null, 2));
-            await this.renderNodeWithTableContent(node, startIndex);
-          }
-        }
-        return;
+      if (namedStyles && Array.isArray(namedStyles)) {
+        this.setNamedStyles(namedStyles);
       }
+      
+      const children = React.Children.toArray(props.children);
+      root = React.createElement(React.Fragment, {}, ...children);
     }
     
-    const node = this.jsxToVirtualNode(element);
+    const node = this.jsxToVirtualNode(root);
     if (!node) return;
 
     this.debugLog('Virtual Node Tree:', JSON.stringify(node, null, 2));
 
-    await this.renderNodeWithTableContent(node, startIndex);
+    await this.renderNodeWithTableContent(node, replaceRange);
   }
 
-  private async renderNodeWithTableContent(node: VirtualNode, startIndex: number): Promise<void> {
+  private async renderNodeWithTableContent(node: VirtualNode, replaceRange: { startIndex: number, endIndex: number } | null): Promise<void> {
 
     const requestBuilder = new RequestBuilder();
+
+    let startIndex = 1;
+    if (replaceRange) {
+      startIndex = replaceRange.startIndex;
+      this.debugLog('Deleting content range:', { startIndex, endIndex: replaceRange.endIndex });
+      requestBuilder.addDeleteContentRange(startIndex, replaceRange.endIndex);
+    }
 
     // IMPORTANT: This is a workaround for a bug in the Google Docs API:
     // Without this, bullet point nesting doesn't work correctly.
     // Apparently, when a doc is cleared, the nesting level information is not cleared properly
     // so we need this for Google Docs server to reset the nesting level information properly.
     requestBuilder.addDeleteParagraphBullets(startIndex, startIndex + 1);
-
 
     const renderContext: RenderContext = {
       requestBuilder,

@@ -1,6 +1,6 @@
 import React from 'react';
-import { GParagraph, GTextRun, GList } from './primitives';
-import type { ParagraphStyle, TextStyle } from './primitives/types';
+import { GParagraph, GTextRun, GList } from '@react-gdoc/primitives';
+import type { ParagraphStyle, TextStyle } from '@react-gdoc/primitives/types';
 import { parseTextClasses, parseParagraphClasses, splitClasses } from '../utils/parseClasses';
 
 /**

@@ -141,6 +141,17 @@ export class RequestBuilder {
     });
   }
 
+  addDeleteContentRange(startIndex: number, endIndex: number): void {
+    this.requests.push({
+      deleteContentRange: {
+        range: {
+          startIndex: startIndex,
+          endIndex: endIndex,
+        },
+      },
+    });
+  }
+
 
   addUpdateTableCellStyle(tableCellLocation: docs_v1.Schema$TableCellLocation, style: TableCellStyle): void {
     this.requests.push({

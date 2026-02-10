@@ -135,10 +135,7 @@ function parseArgs(args: string[]): ParsedArgs {
   return parsed;
 }
 
-async function main() {
-  const rawArgs = process.argv.slice(2);
-  const args = parseArgs(rawArgs);
-
+export async function runRenderFromArgs(args: ParsedArgs) {
   const tsxPath = resolve(process.cwd(), args.file);
   
   if (!tsxPath.endsWith('.tsx')) {
@@ -175,7 +172,8 @@ async function main() {
   console.log('Rendering JSX to Google Docs requests...');
   
   try {
-    const module = await import(`file://${tsxPath}`);
+    const moduleUrl = `file://${tsxPath}?t=${Date.now()}`;
+    const module = await import(moduleUrl);
     const DocumentComponent = module.default;
     
     if (!DocumentComponent) {
@@ -203,16 +201,25 @@ async function main() {
     }
 
     let finalDocumentId: string;
-    
+    let replaceRange: { startIndex: number, endIndex: number } | null = null;
+
     if (args.documentId) {
       console.log(`Updating existing document: ${args.documentId}`);
       
-      if (args.range) {
-        console.log(`Deleting range ${args.range.start}:${args.range.end}...`);
-        await client.deleteRange(args.documentId, args.range.start, args.range.end);
+      if (!args.range) {
+        const document = await client.getDocument(args.documentId);
+        if (!document) {
+          console.error('Error: Document not found');
+          process.exit(1);
+        }
+        const endIndex = document.body?.content?.[document.body.content.length - 1]?.endIndex;
+        if (!endIndex) {
+          console.error('Error: End index not found');
+          process.exit(1);
+        }
+        replaceRange = { startIndex: 1, endIndex: endIndex - 1 };
       } else {
-        console.log('Clearing document content...');
-        await client.clearDocument(args.documentId);
+        replaceRange = { startIndex: args.range.start, endIndex: args.range.end };
       }
       
       finalDocumentId = args.documentId;
@@ -224,18 +231,14 @@ async function main() {
     }
 
     const renderer = new GDocRenderer(
-      async (requests) => {
-        await client.batchUpdate(finalDocumentId, requests);
-      },
-      async () => {
-        return await client.getDocument(finalDocumentId);
-      },
+      async (requests) => { await client.batchUpdate(finalDocumentId, requests); },
+      async () => { return await client.getDocument(finalDocumentId); },
       args.debug
     );
 
     console.log('Starting render...');
     const renderStartTime = Date.now();
-    await renderer.render(element);
+    await renderer.render(element, replaceRange);
     const renderEndTime = Date.now();
     const renderDuration = renderEndTime - renderStartTime;
     console.log(`Render completed in ${renderDuration}ms (${(renderDuration / 1000).toFixed(2)}s)`);
@@ -249,5 +252,17 @@ async function main() {
   }
 }
 
-main().catch(console.error);
+export async function runRenderFromRawArgs(rawArgs: string[]) {
+  const args = parseArgs(rawArgs);
+  await runRenderFromArgs(args);
+}
+
+async function main() {
+  const rawArgs = process.argv.slice(2);
+  await runRenderFromRawArgs(rawArgs);
+}
+
+if (process.argv[1] === __filename) {
+  main().catch(console.error);
+}
 

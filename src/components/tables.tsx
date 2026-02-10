@@ -1,6 +1,6 @@
 import React from 'react';
-import { GTable, GTableRow, GTableCell } from './primitives';
-import type { TableCellStyle, TableRowStyle } from './primitives/types';
+import { GTable, GTableRow, GTableCell } from '@react-gdoc/primitives';
+import type { TableCellStyle, TableRowStyle } from '@react-gdoc/primitives/types';
 import { parseTableCellClasses } from '../utils/parseClasses';
 
 const mergeClassName = (parentClassName?: string, childClassName?: string): string | undefined => {
