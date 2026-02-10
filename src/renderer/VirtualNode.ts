@@ -37,25 +37,13 @@ export type VirtualNodeType =
   | 'GHeading4'
   | 'GHeading5'
   | 'GHeading6'
-  | 'Fragment';
+  | 'Fragment'
+  | 'GDocument';
 
 export interface VirtualNode {
   type: VirtualNodeType;
   props: Record<string, any>;
   children?: VirtualNode[];
-  startIndex?: number;
-  endIndex?: number;
 }
 
-import type { TextStyle, ParagraphStyle, TableCellStyle, TableRowStyle } from '../components/primitives/types';
-
-export interface FormatInfo {
-  node: VirtualNode;
-  startIndex: number;
-  endIndex: number;
-  textStyle?: TextStyle;
-  paragraphStyle?: ParagraphStyle;
-  tableCellStyle?: TableCellStyle;
-  tableRowStyle?: TableRowStyle;
-}
 

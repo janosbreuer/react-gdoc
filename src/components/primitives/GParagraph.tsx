@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ParagraphStyle } from './types';
+import type { ParagraphStyle, TextStyle } from './types';
 
 export interface ListItemStyle {
   ordered?: boolean;
@@ -8,12 +8,13 @@ export interface ListItemStyle {
 }
 
 export interface GParagraphProps {
-  style?: ParagraphStyle;
+  paragraphStyle?: ParagraphStyle;
+  textStyle?: TextStyle;
   listItemStyle?: ListItemStyle;
   children?: React.ReactNode;
 }
 
-export const GParagraph: React.FC<GParagraphProps> = ({ style, listItemStyle, children }) => {
+export const GParagraph: React.FC<GParagraphProps> = ({ paragraphStyle, listItemStyle, children }) => {
   return null;
 };
 

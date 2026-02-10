@@ -1,5 +1,4 @@
 import type { Request, TextStyle, ParagraphStyle, TableCellStyle } from '../components/primitives/types';
-import type { FormatInfo } from './VirtualNode';
 import { docs_v1 } from 'googleapis';
 
 export class RequestBuilder {
@@ -134,6 +133,17 @@ export class RequestBuilder {
   addDeleteParagraphBullets(startIndex: number, endIndex: number): void {
     this.requests.push({
       deleteParagraphBullets: {
+        range: {
+          startIndex: startIndex,
+          endIndex: endIndex,
+        },
+      },
+    });
+  }
+
+  addDeleteContentRange(startIndex: number, endIndex: number): void {
+    this.requests.push({
+      deleteContentRange: {
         range: {
           startIndex: startIndex,
           endIndex: endIndex,

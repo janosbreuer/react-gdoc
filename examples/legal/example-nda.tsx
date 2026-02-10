@@ -1,8 +1,9 @@
 import React from 'react';
 import { Br, P, S, Ol, Li } from '@react-gdoc/shortcuts';
 import { Heading1, Heading2, Heading3 } from '@react-gdoc/headings';
-import { GList } from '@react-gdoc/primitives';
+import { GList, GDocument } from '@react-gdoc/primitives';
 import { Table, TRow, TCell } from '@react-gdoc/tables';
+import { NamedStyleConfig1, NamedStyleConfig2 } from './namedStyles';
 
 interface PartyData {
   name: string;
@@ -67,16 +68,16 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
     regCountry?: string;
     className?: string;
   }> = ({ name, address, isCompany, regNumber, regCountry, className }) => {
-    const combinedClassName = className ? `text-justify ${className}` : 'text-justify';
+    
     if (isCompany && regNumber && regCountry) {
       return (
-        <P className={combinedClassName}>
+        <P className={className}>
           <S className="font-bold">{name}</S>, a company registered in {regCountry} under company number <S className="font-bold">{regNumber}</S> whose registered office is at {address}
         </P>
       );
     }
     return (
-      <P className={combinedClassName}>
+      <P className={className}>
         <S className="font-bold">{name}</S> of {address}
       </P>
     );
@@ -86,11 +87,11 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
   const Clause: React.FC<{ className?: string; children: React.ReactNode }> = (() => {
     let clauseNumber = 0;
     return ({ className, children }) => {
-      clauseNumber += 1;
+      clauseNumber = clauseNumber + 1;
       const currentClauseNumber = clauseNumber;
 
       return (
-        <P className={className || 'text-justify mb-4'}>
+        <P className={className || 'mb-4'}>
           <S className="font-bold text-lg text-blue-600">{currentClauseNumber}.</S> {children}
         </P>
       );
@@ -98,17 +99,17 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
   })();
 
   return (
-    <>
+    <GDocument namedStyles={NamedStyleConfig1}>
       <Heading1 className="text-center mb-4">
-        An Example of a <Br />
-        <S className="font-bold text-2xl text-blue-600">Mutual Non-Disclosure Agreement</S>
+        <S className="text-xs">An Example of a </S><Br />
+        <S className="font-bold text-blue-600">Mutual Non-Disclosure Agreement</S>
       </Heading1>
 
-      <Heading3 className="text-center mb-6">
+      <Heading3 className="text-center">
         <S className="font-bold">Date:</S> {date}
       </Heading3>
 
-      <P className="mb-3 font-bold">
+      <P className="mb-3">
         Parties:
       </P>
 
@@ -155,11 +156,11 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
       </Clause>
 
       <GList bulletPreset="NUMBERED_UPPERALPHA_ALPHA_ROMAN">
-        <Li className="text-justify mb-4">
+        <Li className="mb-4">
           any information which is or in future comes into the public domain (unless as a result of the breach of this Agreement); or
         </Li>
 
-        <Li className='text-justify mb-4'>
+        <Li className='mb-4'>
           any information which is already known to the Recipient and which was not subject to any obligation of confidence before it was disclosed to the Recipient by the other party.
         </Li>
       </GList>
@@ -243,7 +244,7 @@ export default function ExampleNDA({ args = [] }: NDAProps = {}) {
           </TCell>
         </TRow>
       </Table>
-    </>
+    </GDocument>
   );
 }
 

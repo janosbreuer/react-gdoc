@@ -75,6 +75,27 @@ export function parseTextClasses(classNames: string): TextStyle {
     if (FONT_SIZES[className]) {
       style.fontSize = FONT_SIZES[className];
     }
+    
+    const fontFamilyMatch = className.match(/^font-(.+)$/);
+    if (fontFamilyMatch) {
+      const fontKey = fontFamilyMatch[1];
+      const fontFamilyMap: Record<string, string> = {
+        'times': 'Times New Roman',
+        'times-new-roman': 'Times New Roman',
+        'arial': 'Arial',
+        'calibri': 'Calibri',
+        'courier': 'Courier New',
+        'georgia': 'Georgia',
+        'verdana': 'Verdana',
+      };
+      const fontFamily = fontFamilyMap[fontKey];
+      if (fontFamily) {
+        style.weightedFontFamily = {
+          fontFamily,
+          weight: 400,
+        };
+      }
+    }
   });
   
   return style;
@@ -153,6 +174,7 @@ const isTextClass = (className: string): boolean => {
   if (TEXT_CLASSES.includes(className)) return true;
   if (className.match(/^text-(.+)$/)) return true;
   if (className.match(/^bg-(.+)$/)) return true;
+  if (className.match(/^font-(.+)$/)) return true;
   return false;
 };
 
