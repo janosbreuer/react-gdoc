@@ -11,5 +11,5 @@ credentials.json
 
 .vscode/
 
-
-preview/.next/*
+preview/.preview-entry.tsx
+preview/node_modules/

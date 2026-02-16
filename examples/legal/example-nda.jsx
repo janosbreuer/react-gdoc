@@ -5,29 +5,7 @@ import { GList, GDocument } from '@react-gdoc/primitives';
 import { Table, TRow, TCell } from '@react-gdoc/tables';
 import { NamedStyleConfig1, NamedStyleConfig2 } from './namedStyles';
 
-interface PartyData {
-  name: string;
-  address: string;
-  isCompany?: boolean;
-  registrationNumber?: string;
-  registrationCountry?: string;
-}
-
-interface DurationData {
-  type: string;
-  years?: number;
-}
-
-interface NDAProps {
-  args?: string[];
-  party1?: PartyData;
-  party2?: PartyData;
-  date?: string;
-  purpose?: string;
-  duration?: DurationData;
-}
-
-const DEFAULT_PARTY_1: PartyData = {
+const DEFAULT_PARTY_1 = {
   name: 'Tech Solutions Ltd.',
   address: '123 Business Street, London, SW1A 1AA, United Kingdom',
   isCompany: true,
@@ -35,7 +13,7 @@ const DEFAULT_PARTY_1: PartyData = {
   registrationCountry: 'England'
 };
 
-const DEFAULT_PARTY_2: PartyData = {
+const DEFAULT_PARTY_2 = {
   name: 'Innovation Corp.',
   address: '456 Innovation Avenue, London, EC1A 1BB, United Kingdom',
   isCompany: true,
@@ -50,14 +28,14 @@ export default function ExampleNDA({
   date: propDate,
   purpose: propPurpose,
   duration: propDuration,
-}: NDAProps = {}) {
+} = {}) {
   const currentDate = new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
   const defaultDate = `${currentDate}`;
   const defaultPurpose = 'discussing the possibility of the parties entering into a joint venture';
   const defaultDuration = 'indefinitely';
   const defaultDurationYears = 5;
 
-  const party1: PartyData = propParty1 || {
+  const party1 = propParty1 || {
     name: args[0] || DEFAULT_PARTY_1.name,
     address: args[1] || DEFAULT_PARTY_1.address,
     isCompany: args[2] === 'false' ? false : (args[2] === 'true' ? true : DEFAULT_PARTY_1.isCompany),
@@ -65,7 +43,7 @@ export default function ExampleNDA({
     registrationCountry: args[4] || DEFAULT_PARTY_1.registrationCountry,
   };
 
-  const party2: PartyData = propParty2 || {
+  const party2 = propParty2 || {
     name: args[5] || DEFAULT_PARTY_2.name,
     address: args[6] || DEFAULT_PARTY_2.address,
     isCompany: args[7] === 'false' ? false : (args[7] === 'true' ? true : DEFAULT_PARTY_2.isCompany),
@@ -81,10 +59,7 @@ export default function ExampleNDA({
     ? 'indefinitely'
     : `for ${durationYears} years from the date of this Agreement`;
 
-  const Party: React.FC<{
-    data: PartyData;
-    className?: string;
-  }> = ({ data, className }) => {
+  const Party = ({ data, className }) => {
     if (data.isCompany && data.registrationNumber && data.registrationCountry) {
       return (
         <P className={className}>
@@ -100,7 +75,7 @@ export default function ExampleNDA({
   };
 
 
-  const Clause: React.FC<{ className?: string; children: React.ReactNode }> = (() => {
+  const Clause = (() => {
     let clauseNumber = 0;
     return ({ className, children }) => {
       clauseNumber = clauseNumber + 1;
