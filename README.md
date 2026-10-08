@@ -1,111 +1,66 @@
-# React-GDoc (RGD) Framework
+# react-gdoc
 
-A React-GDoc egy absztrakciós réteg a Google Docs REST API felett. A React mentális modelljét (komponens-alapú építkezés, props-vezérelt logika) használja dokumentumok generálására.
+Write a Google Doc as React/JSX. A renderer walks the component tree and sends Google Docs `batchUpdate` requests, including the index bookkeeping the API requires.
 
-## Telepítés
+This repo is a local tool. Clone it and run the CLI. It is not published as an npm package. Sample contracts under `examples/legal/` use fictional parties and are not legal advice.
+
+## Setup
 
 ```bash
 npm install
 ```
 
-## Google API Beállítás
+1. In [Google Cloud Console](https://console.cloud.google.com/), enable the **Google Docs API** and the **Google Drive API**.
+2. Create an OAuth client of type **Desktop app**.
+3. Download the client JSON, save it as `credentials.json` in the repo root. Shape: [`credentials.example.json`](credentials.example.json). The file needs `client_id` and `client_secret` under `installed` or `web`.
 
-A projekt használatához szükséged lesz Google API hitelesítő adatokra:
+`credentials.json` and `token.json` are gitignored. Do not commit them.
 
-1. Menj a [Google Cloud Console](https://console.cloud.google.com/) oldalra
-2. Hozz létre egy új projektet vagy válassz egy meglévőt
-3. Engedélyezd a **Google Docs API** és **Google Drive API** szolgáltatásokat
-4. Menj az **API-k és szolgáltatások > Hitelesítő adatok** menüpontra
-5. Kattints a **Hitelesítő adatok létrehozása > OAuth ügyfél azonosító** gombra
-6. Válaszd az **Asztali alkalmazás** típust
-7. **Fontos:** A **Authorized redirect URIs** mezőben add hozzá: `urn:ietf:wg:oauth:2.0:oob`
-8. Töltsd le a JSON fájlt és nevezd át `credentials.json`-ra
-9. Helyezd a `credentials.json` fájlt a projekt gyökerébe
+The login flow hardcodes the out-of-band redirect `urn:ietf:wg:oauth:2.0:oob`. Google rejects that redirect on OAuth clients created after the deprecation. If the consent screen fails, this repo cannot finish login until the flow is switched to a loopback redirect.
 
-A `credentials.json` fájlnak így kell kinéznie:
-
-```json
-{
-  "installed": {
-    "client_id": "your-client-id.apps.googleusercontent.com",
-    "project_id": "your-project-id",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_secret": "your-client-secret",
-    "redirect_uris": ["http://localhost"]
-  }
-}
-```
-
-vagy web alkalmazáshoz:
-
-```json
-{
-  "web": {
-    "client_id": "your-client-id.apps.googleusercontent.com",
-    "project_id": "your-project-id",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_secret": "your-client-secret",
-    "redirect_uris": ["http://localhost:3000/oauth2callback"]
-  }
-}
-```
-
-## Használat
+## Render
 
 ```bash
-npm run render docsrc/example.tsx
+npm run render examples/example.tsx --title="Example"
+npm run render examples/legal/example-contract.tsx DOC_ID
+npm run render examples/legal/example-nda.tsx DOC_ID --args "Acme Ltd" "1 Main St"
+npm run render:watch examples/example.tsx DOC_ID
 ```
 
-vagy egyedi címmel:
+The first run opens a browser. Paste the auth code into the terminal. The token is stored in `token.json`.
 
-```bash
-npm run render docsrc/example.tsx "My Document Title"
-```
+Pass a document id to replace that doc's body. Omit it to create a new Doc in your Drive. `--title` applies only when creating. Everything after `--args` is forwarded to the default-exported component as `args`.
 
-Ez létrehoz egy Google Docs dokumentumot a megadott TSX fájlból a Google Drive fiókodban.
+`npm run preview examples/example.tsx` serves a local HTML approximation. It does not call the Docs API.
 
-**Első futtatáskor:**
-1. A böngésző automatikusan megnyílik az OAuth2 bejelentkezéshez
-2. Engedélyezd a hozzáférést az alkalmazáshoz
-3. Másold ki az engedélyezési kódot
-4. Illeszd be a terminálba
-5. A token el lesz mentve `token.json` fájlba a következő futtatásokhoz
+## What renders
 
-## Projekt Struktúra
+Shortcuts (preferred in examples):
 
-- `src/primitives/` - Google Docs API primitív komponensek
-- `src/renderer/` - JSX to Google Docs batchUpdate konverter
-- `src/google/` - Google API integráció
-- `src/cli/` - CLI tool dokumentum generáláshoz
-- `docsrc/` - TSX dokumentum példák
+- `P`, `S`, `Br` — paragraph, styled span, line break
+- `Heading1`–`Heading6`
+- `Ul`, `Ol`, `Li`
+- `Table`, `TRow`, `TCell`
+- `GDocument` — optional root; `namedStyles` overrides heading and normal-text styles
 
-## Elérhető Komponensek
+`className` maps a Tailwind-like subset onto Docs styles: `font-bold`, `italic`, `underline`, `line-through`, `text-red-500`, `bg-yellow-200`, `text-lg`, `font-arial`, `text-center`, `mt-2`, `indent-4`. Unknown classes are ignored.
 
-### Szöveg komponensek
-- `<GTextRun>` - Szöveg futtatás formázással
-- `<GParagraph>` - Bekezdés
+Primitives underneath: `GParagraph`, `GTextRun`, `GList`, `GTable`, `GTableRow`, `GTableCell`.
 
-### Strukturális komponensek
-- `<GTable>`, `<GTableRow>`, `<GTableCell>` - Táblázatok
-- `<GPageBreak>` - Oldaltörés
-- `<GColumnBreak>` - Oszloptörés
-- `<GHorizontalRule>` - Vízszintes vonal
-- `<GSectionBreak>` - Szakasztörés
+## Declared, not wired
 
-### Lista és címsor komponensek
-- `<GListItem>` - Lista elem
-- `<GHeading1>` - `<GHeading6>` - Címsorok
+These components exist and `RequestBuilder` has matching request helpers, but `GDocRenderer` does not emit them. Using one throws or drops the node.
 
-### Egyéb komponensek
-- `<GImage>` - Kép beszúrása
-- `<GEquation>` - Matematikai egyenlet
-- `<GFootnoteReference>` - Lábjegyzet hivatkozás
-- `<GInlineObject>` - Soron belüli objektum
+`GPageBreak`, `GColumnBreak`, `GHorizontalRule`, `GSectionBreak`, `GImage`, `GEquation`, `GFootnoteReference`, `GInlineObject`.
 
-## Példa
+`GSectionBreak` throws `not implemented yet`.
 
-Lásd: `docsrc/example.tsx`
+## Layout
+
+- `src/components/` — primitives, shortcuts, headings, tables
+- `src/renderer/` — JSX tree to `batchUpdate`
+- `src/google/` — OAuth and Docs client
+- `src/cli/` — `render`, `render:watch`, `preview`, `debug-render`
+- `examples/` — documents, including `examples/legal/`
+- `docs/SPEC.md` — design notes, not a user guide
+- `preview/` — local HTML preview of the same JSX

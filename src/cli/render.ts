@@ -82,11 +82,11 @@ function printUsage(): never {
   console.error('  --args <arg1> <arg2>    Optional: Component arguments (everything after --args is passed to the component)');
   console.error('');
   console.error('Examples:');
-  console.error('  npm run render src/legal/example-contract.tsx');
-  console.error('  npm run render src/legal/example-contract.tsx DOC_ID');
-  console.error('  npm run render src/legal/example-contract.tsx DOC_ID --title="My Document"');
-  console.error('  npm run render src/legal/example-contract.tsx DOC_ID --debug');
-  console.error('  npm run render src/legal/example-contract.tsx DOC_ID --args 2');
+  console.error('  npm run render examples/legal/example-contract.tsx');
+  console.error('  npm run render examples/legal/example-contract.tsx DOC_ID');
+  console.error('  npm run render examples/legal/example-contract.tsx DOC_ID --title="My Document"');
+  console.error('  npm run render examples/legal/example-contract.tsx DOC_ID --debug');
+  console.error('  npm run render examples/legal/example-contract.tsx DOC_ID --args 2');
   process.exit(1);
 }
 
