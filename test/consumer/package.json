@@ -16,7 +16,7 @@
   "dependencies": {
     "googleapis": "^128.0.0",
     "react": "^18.2.0",
-    "react-gdoc": "github:janosbreuer/react-gdoc#PENDING_PUSH"
+    "react-gdoc": "github:janosbreuer/react-gdoc#2471ec27a074016fb2341db9379ac711ac2cc9fb"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
