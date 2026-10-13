@@ -1,5 +1,5 @@
 import React from 'react';
-import { P, S } from '@react-gdoc/shortcuts';
+import { Br, P, S } from '@react-gdoc/shortcuts';
 import { Heading1, Heading2, Heading3, Heading4 } from '@react-gdoc/headings';
 
 interface PartyData {
@@ -231,12 +231,12 @@ export default function ExampleContract({ args = [] }: ExampleContractProps = {}
         <S className="font-bold">Aláírások:</S>
       </P>
       <P className="text-center mb-4">
-        Kovács János<br />
+        Kovács János<Br />
         Ügyvezető igazgató, ABC Kft.
       </P>
       {parties.map((p, idx) => (
         <P key={idx} className="text-center mb-4">
-          Név{idx + 1} Péter<br />
+          Név{idx + 1} Péter<Br />
           Ügyvezető igazgató, {p.name}
         </P>
       ))}

@@ -1,16 +1,8 @@
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
 import { authenticate } from '../google/auth.js';
 import { GoogleDocsClient } from '../google/client.js';
-import React from 'react';
-import { docs_v1 } from 'googleapis';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 async function main() {
-  const rawArgs = process.argv.slice(2);
-  const documentId = rawArgs[0];
+  const documentId = process.argv[2];
   if (!documentId) {
     console.error('Error: Document ID is required');
     process.exit(1);
@@ -22,44 +14,29 @@ async function main() {
 
   try {
     console.log(`Updating document: ${documentId}`);
-
-    console.log('Clearing document content...');
-    await client.clearDocument(documentId);
-
-    let requests: docs_v1.Schema$Request[] = [
-      {
-        updateTextStyle: {
+    const document = await client.getDocument(documentId);
+    const endIndex = document.body?.content?.[document.body.content.length - 1]?.endIndex;
+    if (endIndex && endIndex > 2) {
+      console.log('Clearing document content...');
+      await client.batchUpdate(documentId, [{
+        deleteContentRange: {
           range: {
             startIndex: 1,
-            endIndex: 2,
-          },
-          textStyle: {
-            weightedFontFamily: {
-              fontFamily: 'Times New Roman',
-              weight: 400,
-            },
-          },
-          fields: 'weightedFontFamily',
-        },
-      },
-      {
-        insertText: {
-          text: 'Hello, world!',
-          location: {
-            index: 1,
+            endIndex: endIndex - 1,
           },
         },
+      }]);
+    }
+
+    await client.batchUpdate(documentId, [{
+      insertText: {
+        text: 'Hello, world!',
+        location: { index: 1 },
       },
-    ];
-
-    console.log(`Applying ${requests.length} requests...`);
-    await client.batchUpdate(documentId, requests);
-
-    console.log('Fetching document...');
-    const document = await client.getDocument(documentId);
+    }]);
 
     const documentUrl = `https://docs.google.com/document/d/${documentId}/edit`;
-    console.log(`\nDocument updated successfully!`);
+    console.log('Document updated successfully!');
     console.log(`View at: ${documentUrl}`);
   } catch (error) {
     console.error('Error rendering document:', error);
@@ -67,4 +44,7 @@ async function main() {
   }
 }
 
-main().catch(console.error);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

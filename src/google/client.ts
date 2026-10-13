@@ -1,13 +1,19 @@
 import { google, Auth } from 'googleapis';
-import type { BatchUpdateRequest, Request, Document } from '../components/primitives/types';
+import type { BatchUpdateRequest, Request, Document } from '../components/primitives/types.js';
 
-export class GoogleDocsClient {
+export type GoogleDocsAuth = Auth.OAuth2Client | Auth.GoogleAuth;
+
+export interface DocsClient {
+  createDocument(title: string): Promise<string>;
+  batchUpdate(documentId: string, requests: Request[]): Promise<void>;
+  getDocument(documentId: string): Promise<Document>;
+}
+
+export class GoogleDocsClient implements DocsClient {
   private docs: ReturnType<typeof google.docs>;
-  private drive: ReturnType<typeof google.drive>;
 
-  constructor(auth: Auth.OAuth2Client) {
+  constructor(auth: GoogleDocsAuth) {
     this.docs = google.docs({ version: 'v1', auth });
-    this.drive = google.drive({ version: 'v3', auth });
   }
 
   async createDocument(title: string): Promise<string> {
@@ -48,3 +54,6 @@ export class GoogleDocsClient {
   }
 }
 
+export function createDocsClient(auth: GoogleDocsAuth): GoogleDocsClient {
+  return new GoogleDocsClient(auth);
+}

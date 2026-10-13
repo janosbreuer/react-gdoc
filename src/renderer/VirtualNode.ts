@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Request } from '../components/primitives/types';
+import type { Request } from '../components/primitives/types.js';
 import type {
   GTextRunProps,
   GPageBreakProps,
@@ -14,7 +14,7 @@ import type {
   GTableCellProps,
   GSectionBreakProps,
   GImageProps,
-} from '../components/primitives';
+} from '../components/primitives/index.js';
 
 export type VirtualNodeType =
   | 'GTextRun'

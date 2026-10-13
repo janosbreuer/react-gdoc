@@ -1,7 +1,7 @@
 import React from 'react';
-import { RequestBuilder } from './RequestBuilder';
-import type { VirtualNode, VirtualNodeType } from './VirtualNode';
-import type { Request, Document } from '../components/primitives/types';
+import { RequestBuilder } from './RequestBuilder.js';
+import type { VirtualNode, VirtualNodeType } from './VirtualNode.js';
+import type { Request, Document } from '../components/primitives/types.js';
 import { docs_v1 } from 'googleapis';
 
 type TextStyle = docs_v1.Schema$TextStyle;

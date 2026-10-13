@@ -1,7 +1,7 @@
 import React from 'react';
-import { GParagraph, GTextRun, GList } from '@react-gdoc/primitives';
-import type { ParagraphStyle, TextStyle } from '@react-gdoc/primitives/types';
-import { parseTextClasses, parseParagraphClasses, splitClasses } from '../utils/parseClasses';
+import { GParagraph, GTextRun, GList } from './primitives/index.js';
+import type { ParagraphStyle, TextStyle } from './primitives/types.js';
+import { parseTextClasses, parseParagraphClasses, splitClasses } from '../utils/parseClasses.js';
 
 /**
  * HTML-szerű shortcut komponensek az egyszerűbb szintaxisért.

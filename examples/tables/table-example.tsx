@@ -96,7 +96,7 @@ export default function TableExample() {
               <S className="font-bold">Kiadás</S>
             </P>
           </TCell>
-          <TCell style={{ contentAlignment: 'CENTER' }}>
+          <TCell tableCellStyle={{ contentAlignment: 'CENTER' }}>
             <P className="text-center">
               <S className="font-bold">Nyereség</S>
             </P>
@@ -166,17 +166,17 @@ export default function TableExample() {
 
       <Table>
         <TRow>
-          <TCell style={{ contentAlignment: 'CENTER' }}>
+          <TCell tableCellStyle={{ contentAlignment: 'CENTER' }}>
             <P className="text-center">
               <S className="font-bold">Projekt</S>
             </P>
           </TCell>
-          <TCell style={{ contentAlignment: 'CENTER' }}>
+          <TCell tableCellStyle={{ contentAlignment: 'CENTER' }}>
             <P className="text-center">
               <S className="font-bold">Státusz</S>
             </P>
           </TCell>
-          <TCell style={{ contentAlignment: 'CENTER' }}>
+          <TCell tableCellStyle={{ contentAlignment: 'CENTER' }}>
             <P className="text-center">
               <S className="font-bold">Felelős</S>
             </P>

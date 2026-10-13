@@ -4,8 +4,6 @@
     "module": "ESNext",
     "lib": ["ES2022"],
     "moduleResolution": "node",
-    "rootDir": "./src",
-    "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
       "@react-gdoc/*": ["src/components/*"]
@@ -17,11 +15,8 @@
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true
+    "noEmit": true
   },
-  "include": ["src/**/*", "examples/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src", "examples", "test"],
+  "exclude": ["test/consumer"]
 }
-

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  GPageBreak,
   Heading1,
   Heading2,
   Heading3,
@@ -17,8 +16,6 @@ export default function AdvancedExample() {
       <P>
         This document demonstrates various formatting options, headers, lists, and custom styles.
       </P>
-
-      <GPageBreak />
 
       <Heading2>
         Text Formatting
@@ -93,15 +90,15 @@ export default function AdvancedExample() {
         Named Styles
       </Heading2>
 
-      <P style={{ namedStyleType: 'TITLE' }}>
+      <P paragraphStyle={{ namedStyleType: 'TITLE' }}>
         This paragraph uses the TITLE named style.
       </P>
 
-      <P style={{ namedStyleType: 'SUBTITLE' }}>
+      <P paragraphStyle={{ namedStyleType: 'SUBTITLE' }}>
         This paragraph uses the SUBTITLE named style.
       </P>
 
-      <P style={{ namedStyleType: 'HEADING_1' }}>
+      <P paragraphStyle={{ namedStyleType: 'HEADING_1' }}>
         This paragraph uses HEADING_1 named style (alternative to GHeading1).
       </P>
 
@@ -208,11 +205,11 @@ export default function AdvancedExample() {
         Paragraph Spacing
       </Heading2>
 
-      <P style={{ spaceAbove: { magnitude: 12, unit: 'PT' } }}>
+      <P paragraphStyle={{ spaceAbove: { magnitude: 12, unit: 'PT' } }}>
         This paragraph has extra space above.
       </P>
 
-      <P style={{ spaceBelow: { magnitude: 12, unit: 'PT' } }}>
+      <P paragraphStyle={{ spaceBelow: { magnitude: 12, unit: 'PT' } }}>
         This paragraph has extra space below.
       </P>
 

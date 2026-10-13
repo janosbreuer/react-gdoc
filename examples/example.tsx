@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  GImage,
-  GPageBreak,
   Heading1,
   Heading2,
 } from '@react-gdoc/primitives';
@@ -74,16 +72,6 @@ export default function ExampleDocument() {
           </TCell>
         </TRow>
       </Table>
-
-      <GPageBreak />
-
-      <Heading2>
-        Page Break Example
-      </Heading2>
-
-      <P>
-        The previous page break should have created a new page.
-      </P>
     </>
   );
 }

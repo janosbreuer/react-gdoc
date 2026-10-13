@@ -1,5 +1,5 @@
 import React from 'react';
-import type { SectionStyle } from './types';
+import type { SectionStyle } from './types.js';
 
 export interface GSectionBreakProps {
   sectionStyle?: SectionStyle;

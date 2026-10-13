@@ -1,0 +1,26 @@
+{
+  "name": "react-gdoc-consumer",
+  "private": true,
+  "version": "0.0.0",
+  "description": "External consumer of react-gdoc. The GitHub pin is PENDING_PUSH until a pushed commit SHA is set with node pin.mjs.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json",
+    "mock": "npm run build && node dist/mock.js",
+    "render": "npm run build && node dist/cli.js"
+  },
+  "dependencies": {
+    "googleapis": "^128.0.0",
+    "react": "^18.2.0",
+    "react-gdoc": "github:janosbreuer/react-gdoc#PENDING_PUSH"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.45",
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { TextStyle } from './types';
+import type { TextStyle } from './types.js';
 
 export interface GTextRunProps {
   content: string;

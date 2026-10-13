@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import { spawn } from 'child_process';
 import { authenticate } from '../google/auth.js';
 import { GoogleDocsClient } from '../google/client.js';
-import { GDocRenderer } from '../renderer/GDocRenderer.js';
+import { renderDocument } from '../api/renderDocument.js';
 import React from 'react';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -160,13 +160,12 @@ export async function runRenderFromArgs(args: ParsedArgs): Promise<string> {
     process.exit(1);
   }
 
-  console.log('Authenticating with Google...');
-  const auth = await authenticate();
-  const client = new GoogleDocsClient(auth);
-
   console.log('Rendering JSX to Google Docs requests...');
-  
+
   try {
+    console.log('Authenticating with Google...');
+    const auth = await authenticate();
+    const client = new GoogleDocsClient(auth);
     const moduleUrl = `file://${tsxPath}?t=${Date.now()}`;
     const module = await import(moduleUrl);
     const DocumentComponent = module.default;
@@ -195,44 +194,26 @@ export async function runRenderFromArgs(args: ParsedArgs): Promise<string> {
       throw new Error('Default export must be a React component or element');
     }
 
-    let finalDocumentId: string;
-    let replaceRange: { startIndex: number, endIndex: number } | null = null;
-
+    const title = args.title || `Document ${new Date().toISOString()}`;
     if (args.documentId) {
       console.log(`Updating existing document: ${args.documentId}`);
-
-      const document = await client.getDocument(args.documentId);
-      if (!document) {
-        console.error('Error: Document not found');
-        process.exit(1);
-      }
-      const endIndex = document.body?.content?.[document.body.content.length - 1]?.endIndex;
-      if (!endIndex) {
-        console.error('Error: End index not found');
-        process.exit(1);
-      }
-      replaceRange = { startIndex: 1, endIndex: endIndex - 1 };
-
-      finalDocumentId = args.documentId;
     } else {
-      const title = args.title || `Document ${new Date().toISOString()}`;
       console.log(`Creating new document: ${title}`);
-      finalDocumentId = await client.createDocument(title);
-      console.log(`Document created with ID: ${finalDocumentId}`);
     }
-
-    const renderer = new GDocRenderer(
-      async (requests) => { await client.batchUpdate(finalDocumentId, requests); },
-      async () => { return await client.getDocument(finalDocumentId); },
-      args.debug
-    );
 
     console.log('Starting render...');
     const renderStartTime = Date.now();
-    await renderer.render(element, replaceRange);
-    const renderEndTime = Date.now();
-    const renderDuration = renderEndTime - renderStartTime;
+    const { documentId: finalDocumentId } = await renderDocument(element, {
+      client,
+      documentId: args.documentId,
+      title,
+      debug: args.debug,
+    });
+    const renderDuration = Date.now() - renderStartTime;
     console.log(`Render completed in ${renderDuration}ms (${(renderDuration / 1000).toFixed(2)}s)`);
+    if (!args.documentId) {
+      console.log(`Document created with ID: ${finalDocumentId}`);
+    }
 
     const documentUrl = `https://docs.google.com/document/d/${finalDocumentId}/edit`;
     console.log(`Document ${args.documentId ? 'updated' : 'created'} successfully!`);
@@ -266,6 +247,9 @@ async function main() {
 }
 
 if (process.argv[1] === __filename) {
-  main().catch(console.error);
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
 }
 

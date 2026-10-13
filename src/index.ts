@@ -1,7 +1,16 @@
-export * from './components/primitives';
-export * from './components/shortcuts';
-export * from './components/tables';
-export * from './renderer/GDocRenderer';
-export * from './google/client';
-export * from './google/auth';
-
+export { GDocument } from './components/primitives/GDocument.js';
+export type { NamedStyle, GDocumentProps } from './components/primitives/GDocument.js';
+export { GParagraph } from './components/primitives/GParagraph.js';
+export { GTextRun } from './components/primitives/GTextRun.js';
+export { GList } from './components/primitives/GList.js';
+export { GTable } from './components/primitives/GTable.js';
+export { GTableRow } from './components/primitives/GTableRow.js';
+export { GTableCell } from './components/primitives/GTableCell.js';
+export { Heading1, Heading2, Heading3, Heading4, Heading5, Heading6 } from './components/headings.js';
+export { P, S, Br, Li, Ul, Ol } from './components/shortcuts.js';
+export { Table, TRow, TCell } from './components/tables.js';
+export type { TextStyle, ParagraphStyle, TableCellStyle, Document, Request } from './components/primitives/types.js';
+export { renderDocument } from './api/renderDocument.js';
+export type { RenderDocumentOptions, RenderDocumentResult } from './api/renderDocument.js';
+export { GoogleDocsClient, createDocsClient } from './google/client.js';
+export type { DocsClient, GoogleDocsAuth } from './google/client.js';

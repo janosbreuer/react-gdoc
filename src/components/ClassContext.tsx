@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import type { TextStyle, ParagraphStyle } from './primitives/types';
+import type { TextStyle, ParagraphStyle } from './primitives/types.js';
 
 interface ClassContextValue {
   textClasses?: string;

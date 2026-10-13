@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ParagraphStyle, TextStyle } from './types';
+import type { ParagraphStyle, TextStyle } from './types.js';
 
 export interface NamedStyle {
   namedStyleType: ParagraphStyle['namedStyleType'];

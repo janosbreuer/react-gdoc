@@ -1,66 +1,128 @@
 # react-gdoc
 
-Write a Google Doc as React/JSX. A renderer walks the component tree and sends Google Docs `batchUpdate` requests, including the index bookkeeping the API requires.
+![react-gdoc turns JSX into an editable Google Doc](docs/assets/react-gdoc-hero.png)
 
-This repo is a local tool. Clone it and run the CLI. It is not published as an npm package. Sample contracts under `examples/legal/` use fictional parties and are not legal advice.
+Write an editable Google Doc in JSX.
 
-## Setup
+react-gdoc walks a React component tree and sends the Google Docs `batchUpdate` requests for you, including the index bookkeeping the API requires.
+
+## Examples
+
+### Rich text
+
+![A short project update with a bold phrase and a blue date](docs/assets/rich-text-example.png)
+
+```tsx
+<Heading1 className="mb-2">Project update</Heading1>
+<P className="mb-6 text-slate-600">Lumen Market · 13 October 2026</P>
+
+<Heading2>This week</Heading2>
+<P className="mb-4">
+  Discovery is complete. Design is <S className="font-bold">in progress</S>, and the
+  next review is <S className="text-blue-800">Thursday, 16 October</S>.
+</P>
+```
+
+Source: [`examples/readme/rich-text.tsx`](examples/readme/rich-text.tsx)
+
+### Document logic
+
+![An offer letter whose probation sentence comes from a TypeScript condition](docs/assets/document-logic-example.png)
+
+```tsx
+const probationMonths = 3;
+const onProbation = probationMonths > 0;
+
+{onProbation ? (
+  <P>
+    The first <S className="font-bold">{probationMonths} months</S> are a probationary period.
+    During that time, either party may end the employment with one week of notice.
+  </P>
+) : (
+  <P>
+    This offer includes no probationary period. Notice follows the employment agreement.
+  </P>
+)}
+```
+
+Source: [`examples/readme/offer.tsx`](examples/readme/offer.tsx)
+
+### Tables from data
+
+![A fee schedule generated from an array](docs/assets/table-example.png)
+
+```tsx
+const lines = [
+  ['Discovery', 3, 2400],
+  ['Design', 8, 6400],
+  ['Handoff', 2, 1600],
+] as const;
+
+{lines.map(([work, days, fee]) => (
+  <TRow key={work}>
+    <TCell><P>{work}</P></TCell>
+    <TCell><P className="text-right">{days}</P></TCell>
+    <TCell><P className="text-right">{usd(fee)}</P></TCell>
+  </TRow>
+))}
+```
+
+Source: [`examples/readme/fee-schedule.tsx`](examples/readme/fee-schedule.tsx)
+
+## Quickstart
+
+Install the library from GitHub. Your application supplies Google authentication. react-gdoc does not open a browser or read a credentials file.
+
+```bash
+npm install github:janosbreuer/react-gdoc
+```
+
+```tsx
+import { google } from 'googleapis';
+import { Heading1, P, S, renderDocument } from 'react-gdoc';
+
+const auth = new google.auth.OAuth2(clientId, clientSecret);
+auth.setCredentials({ access_token: accessToken, refresh_token: refreshToken });
+
+const { documentId } = await renderDocument(
+  <>
+    <Heading1>Project update</Heading1>
+    <P>
+      Design is <S className="font-bold">in progress</S>.
+    </P>
+  </>,
+  { auth, title: 'Project update' }
+);
+```
+
+Pass `documentId` instead of `title` to replace the body of a document that already exists.
+
+To try the command-line renderer, clone this repository, add a Desktop OAuth client as `credentials.json`, and run:
 
 ```bash
 npm install
+npm run render -- examples/readme/rich-text.tsx --title="Project update"
 ```
 
-1. In [Google Cloud Console](https://console.cloud.google.com/), enable the **Google Docs API** and the **Google Drive API**.
-2. Create an OAuth client of type **Desktop app**.
-3. Download the client JSON, save it as `credentials.json` in the repo root. Shape: [`credentials.example.json`](credentials.example.json). The file needs `client_id` and `client_secret` under `installed` or `web`.
+Authentication, components, and styling are documented in [docs/USAGE.md](docs/USAGE.md).
 
-`credentials.json` and `token.json` are gitignored. Do not commit them.
+## What you can render
 
-The login flow hardcodes the out-of-band redirect `urn:ietf:wg:oauth:2.0:oob`. Google rejects that redirect on OAuth clients created after the deprecation. If the consent screen fails, this repo cannot finish login until the flow is switched to a loopback redirect.
+- Headings, paragraphs, and inline text
+- Bold, italic, underline, strike, color, font, size, and alignment through a small Tailwind-like `className` set
+- Ordered and unordered lists, including `nestingLevel`
+- Tables built from components or from `.map()`, including cell background and alignment
+- Named styles passed to `GDocument`, applied as direct formatting
+- A new Google Doc, or a full replacement of an existing body
 
-## Render
+## Limitations
 
-```bash
-npm run render examples/example.tsx --title="Example"
-npm run render examples/legal/example-contract.tsx DOC_ID
-npm run render examples/legal/example-nda.tsx DOC_ID --args "Acme Ltd" "1 Main St"
-npm run render:watch examples/example.tsx DOC_ID
-```
+Page breaks, images, equations, footnotes, horizontal rules, and section breaks have component files, but the renderer does not emit them. Use `<Br />` for a line break. `className` covers a subset of utilities, and unknown classes are ignored.
 
-The first run opens a browser. Paste the auth code into the terminal. The token is stored in `token.json`.
+The HTML preview (`npm run preview`) is a local approximation. It does not call the Docs API.
 
-Pass a document id to replace that doc's body. Omit it to create a new Doc in your Drive. `--title` applies only when creating. Everything after `--args` is forwarded to the default-exported component as `args`.
+The examples under `examples/legal/` use fictional parties and are not legal advice.
 
-`npm run preview examples/example.tsx` serves a local HTML approximation. It does not call the Docs API.
+## License
 
-## What renders
-
-Shortcuts (preferred in examples):
-
-- `P`, `S`, `Br` — paragraph, styled span, line break
-- `Heading1`–`Heading6`
-- `Ul`, `Ol`, `Li`
-- `Table`, `TRow`, `TCell`
-- `GDocument` — optional root; `namedStyles` overrides heading and normal-text styles
-
-`className` maps a Tailwind-like subset onto Docs styles: `font-bold`, `italic`, `underline`, `line-through`, `text-red-500`, `bg-yellow-200`, `text-lg`, `font-arial`, `text-center`, `mt-2`, `indent-4`. Unknown classes are ignored.
-
-Primitives underneath: `GParagraph`, `GTextRun`, `GList`, `GTable`, `GTableRow`, `GTableCell`.
-
-## Declared, not wired
-
-These components exist and `RequestBuilder` has matching request helpers, but `GDocRenderer` does not emit them. Using one throws or drops the node.
-
-`GPageBreak`, `GColumnBreak`, `GHorizontalRule`, `GSectionBreak`, `GImage`, `GEquation`, `GFootnoteReference`, `GInlineObject`.
-
-`GSectionBreak` throws `not implemented yet`.
-
-## Layout
-
-- `src/components/` — primitives, shortcuts, headings, tables
-- `src/renderer/` — JSX tree to `batchUpdate`
-- `src/google/` — OAuth and Docs client
-- `src/cli/` — `render`, `render:watch`, `preview`, `debug-render`
-- `examples/` — documents, including `examples/legal/`
-- `docs/SPEC.md` — design notes, not a user guide
-- `preview/` — local HTML preview of the same JSX
+MIT. Copyright Janos Breuer.

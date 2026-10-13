@@ -1,15 +1,35 @@
 {
   "name": "react-gdoc",
   "version": "0.1.0",
-  "description": "React-GDoc Framework - JSX to Google Docs converter",
-  "main": "dist/index.js",
+  "description": "Write editable Google Docs with React and JSX.",
   "type": "module",
-  "scripts": {
-    "build": "tsc",
-    "render": "tsx src/cli/render.ts",
-    "debug-render": "tsx src/cli/debug-render.ts",
-    "render:watch": "tsx src/cli/watch-render.ts",
-    "preview": "tsx src/cli/preview.ts"
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "docs/USAGE.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janosbreuer/react-gdoc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/janosbreuer/react-gdoc/issues"
+  },
+  "homepage": "https://github.com/janosbreuer/react-gdoc#readme",
+  "author": "Janos Breuer",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
   },
   "keywords": [
     "google-docs",
@@ -17,10 +37,22 @@
     "jsx",
     "document-generation"
   ],
-  "author": "",
-  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepare": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test test/loopback.test.ts test/renderer.test.tsx test/api.test.tsx test/nda.test.tsx",
+    "render": "tsx src/cli/render.ts",
+    "debug-render": "tsx src/cli/debug-render.ts",
+    "render:watch": "tsx src/cli/watch-render.ts",
+    "preview": "tsx src/cli/preview.ts"
+  },
   "dependencies": {
+    "@types/node": "^20.10.0",
     "googleapis": "^128.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=18"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
@@ -36,4 +68,3 @@
     "vite": "^5.0.0"
   }
 }
-

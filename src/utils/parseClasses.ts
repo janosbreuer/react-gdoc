@@ -1,5 +1,5 @@
-import type { TextStyle, ParagraphStyle, TableCellStyle } from '../components/primitives/types';
-import { getTailwindColor } from './tailwindColors';
+import type { TextStyle, ParagraphStyle, TableCellStyle } from '../components/primitives/types.js';
+import { getTailwindColor } from './tailwindColors.js';
 
 const FONT_SIZES: Record<string, { magnitude: number; unit: 'PT' }> = {
   'text-xs': { magnitude: 10, unit: 'PT' },
