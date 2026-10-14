@@ -97,7 +97,13 @@ npm run preview -- examples/readme/rich-text.tsx
 Install from GitHub (Node.js 20+, React 18+):
 
 ```bash
-npm install github:janosbreuer/react-gdoc#release/v0.1.0-rc
+npm install github:janosbreuer/react-gdoc
+```
+
+`v0.1.0` pins this release:
+
+```bash
+npm install github:janosbreuer/react-gdoc#v0.1.0
 ```
 
 Pass your application's Google authentication to `renderDocument()`:

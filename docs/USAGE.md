@@ -10,7 +10,7 @@ npm install github:janosbreuer/react-gdoc
 
 The package builds from TypeScript when npm installs it from Git. React 18 or newer is a peer dependency. `googleapis` is included.
 
-A version tag can pin a release once one exists:
+`v0.1.0` pins this release:
 
 ```bash
 npm install github:janosbreuer/react-gdoc#v0.1.0
