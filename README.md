@@ -2,13 +2,22 @@
 
 ![react-gdoc turns JSX into an editable Google Doc](docs/assets/react-gdoc-hero.png)
 
-Write an editable Google Doc in JSX.
+**Generate editable Google Docs with React and TypeScript.**
 
-react-gdoc walks a React component tree and sends the Google Docs `batchUpdate` requests for you, including the index bookkeeping the API requires.
+Build documents with JSX components, Tailwind-like styling, conditional logic, and data-driven tables. react-gdoc handles the Google Docs API `batchUpdate` requests, including the indexes and table offsets, so you don't have to.  
+
+## Who is it for
+Use it when your application needs **editable Google Docs**, not PDFs or static exports:
+
+- **Document automation:** Generate reports, project updates, proposals, contracts, or schedules from application data.
+- **Reusable templates:** Keep document layouts in React components, with TypeScript conditions for variations such as offers and agreements.
+- **AI-agent workflows:** Use react-gdoc as the rendering layer while your application handles authentication and document delivery.
 
 ## Examples
 
 ### Rich text
+
+**Style documents using familiar JSX and Tailwind-like classes.** Create project updates, reports, and other editable documents with headings, text formatting, colors, and spacing—without building Google Docs API requests by hand. The Tailwind-like syntax is familiar to AI coding agents, too.
 
 ![A short project update with a bold phrase and a blue date](docs/assets/rich-text-example.png)
 
@@ -23,9 +32,11 @@ react-gdoc walks a React component tree and sends the Google Docs `batchUpdate` 
 </P>
 ```
 
-Source: [`examples/readme/rich-text.tsx`](examples/readme/rich-text.tsx)
+[View full example](examples/readme/rich-text.tsx)
 
 ### Document logic
+
+**Use TypeScript to adapt a document to your data.** Build reusable templates for offer letters, agreements, or policies. JavaScript expressions and conditionals determine which sections appear in the resulting Google Doc.
 
 ![An offer letter whose probation sentence comes from a TypeScript condition](docs/assets/document-logic-example.png)
 
@@ -45,9 +56,11 @@ const onProbation = probationMonths > 0;
 )}
 ```
 
-Source: [`examples/readme/offer.tsx`](examples/readme/offer.tsx)
+[View full example](examples/readme/offer.tsx)
 
 ### Tables from data
+
+**Turn application data into editable Google Docs tables.** Generate schedules, estimates, and table reports from arrays with `.map()`. Format values and align cells while react-gdoc takes care of Google Docs table indexes.
 
 ![A fee schedule generated from an array](docs/assets/table-example.png)
 
@@ -67,61 +80,57 @@ const lines = [
 ))}
 ```
 
-Source: [`examples/readme/fee-schedule.tsx`](examples/readme/fee-schedule.tsx)
+[View full example](examples/readme/fee-schedule.tsx)
+
+### Live preview: iterate without Google Docs API calls
+
+In the cloned repository, preview your TSX in the browser with Vite hot reload. Iterate quickly without calling the Google Docs API.
+
+```bash
+npm run preview -- examples/readme/rich-text.tsx
+```
+
+
 
 ## Quickstart
 
-Install the library from GitHub. Your application supplies Google authentication. react-gdoc does not open a browser or read a credentials file.
+Install from GitHub (Node.js 20+, React 18+):
 
 ```bash
-npm install github:janosbreuer/react-gdoc
+npm install github:janosbreuer/react-gdoc#release/v0.1.0-rc
 ```
 
+Pass your application's Google authentication to `renderDocument()`:
+
 ```tsx
-import { google } from 'googleapis';
-import { Heading1, P, S, renderDocument } from 'react-gdoc';
+import { Heading1, P, renderDocument } from 'react-gdoc';
 
-const auth = new google.auth.OAuth2(clientId, clientSecret);
-auth.setCredentials({ access_token: accessToken, refresh_token: refreshToken });
-
+// `auth` is a Google OAuth2 or GoogleAuth client provided by your application.
 const { documentId } = await renderDocument(
   <>
     <Heading1>Project update</Heading1>
-    <P>
-      Design is <S className="font-bold">in progress</S>.
-    </P>
+    <P>Design is in progress.</P>
   </>,
   { auth, title: 'Project update' }
 );
 ```
 
-Pass `documentId` instead of `title` to replace the body of a document that already exists.
+Pass `documentId` instead of `title` to replace an existing document's body. You can also supply a compatible Docs `client` instead of `auth`.
 
-To try the command-line renderer, clone this repository, add a Desktop OAuth client as `credentials.json`, and run:
+**Want to try the examples first?** Clone the repository, install dependencies, and run its CLI:
 
 ```bash
 npm install
 npm run render -- examples/readme/rich-text.tsx --title="Project update"
 ```
 
-Authentication, components, and styling are documented in [docs/USAGE.md](docs/USAGE.md).
+The CLI signs in through Google Desktop OAuth. Save your Google OAuth client as `credentials.json` in the directory where you run the command; the CLI stores its session in `token.json`. This file-based CLI sign-in is separate from the library API.
 
-## What you can render
+See the [Usage guide](docs/USAGE.md) for Google Cloud setup, supported components, styling, and authentication options.
 
-- Headings, paragraphs, and inline text
-- Bold, italic, underline, strike, color, font, size, and alignment through a small Tailwind-like `className` set
-- Ordered and unordered lists, including `nestingLevel`
-- Tables built from components or from `.map()`, including cell background and alignment
-- Named styles passed to `GDocument`, applied as direct formatting
-- A new Google Doc, or a full replacement of an existing body
+## What works today
 
-## Limitations
-
-Page breaks, images, equations, footnotes, horizontal rules, and section breaks have component files, but the renderer does not emit them. Use `<Br />` for a line break. `className` covers a subset of utilities, and unknown classes are ignored.
-
-The HTML preview (`npm run preview`) is a local approximation. It does not call the Docs API.
-
-The examples under `examples/legal/` use fictional parties and are not legal advice.
+Headings, paragraphs, inline formatting, lists, tables, named styles, and a supported subset of Tailwind-like classes. Create new Google Docs or replace an existing document's body.
 
 ## License
 
