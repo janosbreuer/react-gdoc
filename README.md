@@ -141,3 +141,9 @@ Headings, paragraphs, inline formatting, lists, tables, named styles, and a supp
 ## License
 
 MIT. Copyright Janos Breuer.
+
+## About the Author
+
+Created by [Janos Breuer](https://github.com/janosbreuer), an AI engineer and software architect building AI-powered applications, agentic systems, and business automation.
+
+Learn more about my work at [HyperMacro](https://hypermacro.com).
