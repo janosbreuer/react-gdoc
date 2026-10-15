@@ -138,12 +138,8 @@ See the [Usage guide](docs/USAGE.md) for Google Cloud setup, supported component
 
 Headings, paragraphs, inline formatting, lists, tables, named styles, and a supported subset of Tailwind-like classes. Create new Google Docs or replace an existing document's body.
 
-## License
-
-MIT. Copyright Janos Breuer.
-
 ## About the Author
 
-Created by [Janos Breuer](https://github.com/janosbreuer), an AI engineer and software architect building AI-powered applications, agentic systems, and business automation.
+Created by Janos Breuer, an AI engineer and software architect building AI-powered applications, agentic systems, and business automation.
 
-Learn more about my work at [HyperMacro](https://hypermacro.com).
+Learn more about my work at [HyperMacro.com](https://hypermacro.com).
